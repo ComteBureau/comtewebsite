@@ -1,0 +1,26 @@
+{
+  "name": "comtewebsite",
+  "version": "0.0.1",
+  "description": "Comte Bureau's website",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ComteBureau/comtewebsite.git"
+  },
+  "keywords": [
+    "comte",
+    "website"
+  ],
+  "author": "Thomas Viktil <mandarin@mandarin.no> (http://mandarin.no/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ComteBureau/comtewebsite/issues"
+  },
+  "homepage": "https://github.com/ComteBureau/comtewebsite",
+  "engines": {
+    "node": "0.10.35"
+  }
+}
