@@ -1,0 +1,20 @@
+{
+    "construction":     false,
+    "cache": {
+        "static_files": 7776000
+    },
+    "url": {
+        "base":         "http://www.comte.no"
+    },
+    "dir": {
+        "public":       "/public",
+        "layout":       "/app/views/layouts",
+        "partials":     "/app/views/partials",
+        "views":        "/app/views"
+    },
+    "routes": {
+        "home":       "/",
+        "process":    "/process/:how",
+        "work":       "/work/:slug/:id"
+    }
+}

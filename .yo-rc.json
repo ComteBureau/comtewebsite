@@ -1,0 +1,13 @@
+{
+  "generator-prismic-website": {
+    "projectname": "comtewebsite",
+    "projectdesc": "Comte Bureau's website",
+    "author": "Thomas Viktil <mandarin@mandarin.no> (http://mandarin.no)",
+    "gitrepo": "https://github.com/ComteBureau/comtewebsite",
+    "license": "MIT",
+    "apiendpoint": "not yet",
+    "accesstoken": "coming soon",
+    "clientid": "coming too",
+    "clientsecret": "yep"
+  }
+}

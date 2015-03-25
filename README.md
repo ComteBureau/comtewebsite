@@ -1,2 +1,5 @@
 # comtewebsite
-Comte's website
+Comte Bureau's website
+
+Author: Thomas Viktil <mandarin@mandarin.no> (http://mandarin.no)
+License: MIT
