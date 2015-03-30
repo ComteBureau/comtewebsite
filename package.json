@@ -5,7 +5,10 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nf -j Procfile_dev -p 5000 start"
+    "build:js": "node browserify.js > ./public/js/comte.js",
+    "watch:js": "node watch.js build:js",
+    "watch:server": "nf -j Procfile_dev -p 5000 start",
+    "dev": "parallelshell 'npm run watch:js' 'npm run watch:server'"
   },
   "repository": {
     "type": "git",
@@ -14,10 +17,16 @@
   "author": "Thomas Viktil <mandarin@mandarin.no> (http://mandarin.no)",
   "license": "MIT",
   "dependencies": {
-    "prismic-website": "0.0.2"
+    "handlebars": "^2.0.0",
+    "prismic-website": "0.0.5",
+    "promise": "^6.1.0"
   },
   "devDependencies": {
-    "nodemon": "^1.3.7"
+    "browserify": "^6.0.0",
+    "chokidar": "^1.0.0-rc4",
+    "nodemon": "^1.3.7",
+    "parallelshell": "^1.1.1",
+    "remapify": "^1.3.0"
   },
   "engines": {
     "node": "0.10.35"

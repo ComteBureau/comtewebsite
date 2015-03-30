@@ -1,1 +1,18 @@
-<h1>Comte</h1>
+<div id="intro_wrapper">
+    <canvas id="intro"></canvas>
+</div>
+
+<h1>{{home.company.name}}</h1>
+<span>{{home.company.tagline}}</span>
+<ul>
+    <li>{{email home.company.email}}</li>
+    <li>{{home.company.telephone}}</li>
+    <li>{{ashtml home.company.visiting_address}}</li>
+    <li>{{home.company.location}}</li>
+</ul>
+
+<div style="background-color: {{color home.about.background_color}};">
+    <h1>{{home.about.title}}</h1>
+    <p>{{ashtml home.about.description}}</p>
+    <img src="{{home.about.photo.small}}">
+</div>
