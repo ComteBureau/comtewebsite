@@ -11,12 +11,43 @@ module.exports.latest = function latest_works(app, res, options) {
     options.limit = 10;
     options.sort = 'published desc';
 
-    return new Promise(function (resolve, reject) {
-        get(app, res, options, resolve, reject);
+    return query(app, res.locals.ctx, options, function(results) {
+        res.content.works = results;
+        return res.content.works;
     });
 }
 
-function get(app, res, options, resolve, reject) {
+module.exports.single = function single_work(app, id, res, options) {
+    res.content = res.content || {};
+    res.content.work = {};
+
+    options = options || {};
+    options.id = id;
+
+    return query(app, res.locals.ctx, options, function(results) {
+        res.content.work = results[0];
+        return res.content.work;
+    });
+}
+
+function query(app, ctx, options, success) {
+    return new Promise(function (resolve, reject) {
+        get(app, ctx, options,
+            function(err, results) {
+                if (err) {
+                    return reject(err);
+                }
+
+                if (typeof success === 'undefined') {
+                    resolve(results);
+                } else {
+                    resolve(success(results));
+                }
+            });
+    });
+}
+
+function get(app, ctx, options, cb) {
     options = options || {};
     if (!options.id) {
         options.type = 'work';
@@ -26,21 +57,18 @@ function get(app, res, options, resolve, reject) {
                    '[my.work.'+options.sort+']' :
                    undefined;
 
-    app.query(res.locals.ctx, options)
+    app.query(ctx, options)
     .then(function(works) {
-
-        get_works(works.results, res.content.works, app);
-        resolve(res.content.works);
+        cb(null, get_works(works.results, app));
 
     }, function(reason) {
-        reject(reason);
+        cb(reason);
     });
 };
 
-function get_works(list, content, app) {
-    list.forEach(function(work, i) {
-
-        content.push({
+function get_works(list, app) {
+    return list.map(function(work, i) {
+        return {
             i:                  i,
             id:                 work.id,
             link:               app.linkresolver.document('work', work),
@@ -68,6 +96,6 @@ function get_works(list, content, app) {
                     photo:      app.utils.getImage(photo.get('photo'))
                 }
             })
-        });
+        };
     });
 }

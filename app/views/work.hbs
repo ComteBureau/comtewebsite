@@ -1,0 +1,24 @@
+<div style="background-color: {{color background_color}};">
+    <div>Num: {{work.i}}</div>
+    <div>ID: {{work.id}}</div>
+    <a href="{{work.link}}">{{work.link}}</a>
+    <div>Date: {{work.date}}</div>
+    <h1>{{work.title}}</h1>
+    {{ashtml work.description}}
+    <img src="{{work.logo.small}}">
+    <img src="{{work.main_photo.small}}">
+    {{#if work.links}}
+    <ul>
+        {{#each work.links}}
+        <li><a href="{{link}}">{{link}}</a></li>
+        {{/each}}
+    </ul>
+    {{/if}}
+    {{#if work.photos}}
+    <ul>
+        {{#each work.photos}}
+        <li><img src="{{photo.small}}"></li>
+        {{/each}}
+    </ul>
+    {{/if}}
+</div

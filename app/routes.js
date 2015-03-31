@@ -19,6 +19,22 @@ module.exports = function(app) {
             res.send('Home error');
         });
 
+    });
+
+    app.events.on('work', function(req, res, next) {
+
+        Promise.all([
+            // options for specifying what parts of home to get?
+            // home(app, res),
+            works.single(app, req.params.id, res)
+        ])
+        .then(function (results) {
+
+            app.templates.render(res, 'main', 'work');
+
+        }, function() {
+            res.send('Work error');
+        });
 
     });
 }
