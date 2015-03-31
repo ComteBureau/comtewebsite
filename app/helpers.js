@@ -2,18 +2,21 @@ var Handlebars = require('handlebars');
 
 module.exports.color = function(context, options) {
     var colors = {
-        'Green':    '#00ff00',
-        'Blue':     '#0000ff',
-        'Orange':   '#ff9900',
-        'Teal':     '#008080',
+        'Green':    '#6CE0A2',
+        'Blue':     '#82CDFF',
+        'Orange':   '#FFE494',
+        'Teal':     '#64D8DE',
         'Salmon':   '#fa8072',
         'Gray':     '#cccccc',
         'White':    '#ffffff'
     };
 
-    var col = colors[context];
-    if (typeof col === 'undefined') {
+    var col;
+    if (typeof context === 'undefined' ||
+        typeof colors[context] === 'undefined') {
         col = colors.White;
+    } else {
+        col = colors[context];
     }
 
     return new Handlebars.SafeString(col);

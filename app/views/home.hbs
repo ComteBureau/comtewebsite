@@ -16,3 +16,85 @@
     <p>{{ashtml home.about.description}}</p>
     <img src="{{home.about.photo.small}}">
 </div>
+
+<div style="background-color: {{color home.office.background_color}};">
+    <h1>{{home.office.title}}</h1>
+    <p>{{ashtml home.office.description}}</p>
+    <img src="{{home.office.photo.small}}">
+</div>
+
+<div style="background-color: {{color home.clients.background_color}};">
+    <h1>{{home.clients.title}}</h1>
+    <p>{{ashtml home.clients.description}}</p>
+    <img src="{{home.clients.photo.small}}">
+
+    {{#if works}}
+    <ul style="background-color: {{color background_color}};">
+    {{#each works}}
+        <li>
+            <div>Num: {{i}}</div>
+            <div>ID: {{id}}</div>
+            <a href="{{link}}">{{link}}</a>
+            <div>Date: {{date}}</div>
+            <h1>{{title}}</h1>
+            {{ashtml description}}
+            <img src="{{logo.small}}">
+            <img src="{{main_photo.small}}">
+            {{#if links}}
+            <ul>
+                {{#each links}}
+                <li><a href="{{link}}">{{link}}</a></li>
+                {{/each}}
+            </ul>
+            {{/if}}
+            {{#if photos}}
+            <ul>
+                {{#each photos}}
+                <li><img src="{{photo.small}}"></li>
+                {{/each}}
+            </ul>
+            {{/if}}
+        </li>
+    {{/each}}
+    </ul>
+    {{/if}}
+</div>
+
+<div style="background-color: {{color home.process.background_color}};">
+    <h1>{{home.process.title}}</h1>
+    <p>{{ashtml home.process.description}}</p>
+    <img src="{{home.process.photo.small}}">
+
+    {{#if home.process.steps}}
+    <ul>
+        {{#each home.process.steps}}
+        <li>
+            <img src="{{icon.small}}">
+            <h3>{{title}}</h3>
+            {{ashtml description}}
+        </li>
+        {{/each}}
+    </ul>
+    {{/if}}
+</div>
+
+<div style="background-color: {{color home.people.background_color}};">
+    <h1>{{home.people.title}}</h1>
+    <p>{{ashtml home.people.description}}</p>
+    <img src="{{home.people.photo.small}}">
+
+    {{#if home.people.list}}
+    <ul>
+        {{#each home.people.list}}
+        <li>
+            <h3>{{name}}</h3>
+            <p>{{title}}</p>
+            <p>{{email email}}</p>
+            <p>{{telephone}}</p>
+            {{ashtml about}}
+            <img src="{{photo.small}}">
+        </li>
+        {{/each}}
+    </ul>
+    {{/if}}
+</div>
