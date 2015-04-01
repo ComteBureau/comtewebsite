@@ -1,3 +1,30 @@
+<section class="color_salmon">
+    <div class="tbl">
+    <div class="cell">
+        <h1>Heading</h1>
+        <p>Services are a critical part of the end game for many industry players. Google was always fascinating to me because they are a services company first who worked their way backwards into software, and now hardware with Motorola. Apple came from it the other direction starting with hardware and software and now investing heavily in services.</p>
+    </div>
+    </div>
+</section>
+
+{{#if home.about.background_color}}
+<section class="color_{{lowercase home.about.background_color}}">
+{{else}}
+<section>
+{{/if}}
+    <img class="bg" src="{{home.about.photo.medium}}">
+    <div class="tbl">
+    <div class="cell">
+        <h1>{{home.about.title}}</h1>
+        {{ashtml home.about.description}}
+        {{ashtml home.about.description}}
+        {{ashtml home.about.description}}
+    </div>
+    </div>
+</section>
+
+
+<!--
 <div id="intro_wrapper">
     <canvas id="intro"></canvas>
 </div>
@@ -98,3 +125,4 @@
     </ul>
     {{/if}}
 </div>
+-->
