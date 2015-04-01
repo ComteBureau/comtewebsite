@@ -21,3 +21,7 @@ module.exports.color = function(context, options) {
 
     return new Handlebars.SafeString(col);
 }
+
+module.exports.lowercase = function(context, options) {
+    return new Handlebars.SafeString(context.toLowerCase());
+}
