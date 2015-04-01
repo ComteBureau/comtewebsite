@@ -50,7 +50,7 @@
         {{ashtml home.process.description}}
 
         {{#if home.process.steps}}
-        <ul>
+        <ul id="col-4">
             {{#each home.process.steps}}
             <li>
                 <img src="{{icon.small}}">
@@ -66,34 +66,7 @@
 
 {{#if works}}
 <section>
-    <ul>
-    {{#each works}}
-        <li>
-            <div>Num: {{i}}</div>
-            <div>ID: {{id}}</div>
-            <a href="{{link}}">{{link}}</a>
-            <div>Date: {{date}}</div>
-            <h1>{{title}}</h1>
-            {{ashtml description}}
-            <img src="{{logo.small}}">
-            <img src="{{main_photo.small}}">
-            {{#if links}}
-            <ul>
-                {{#each links}}
-                <li><a href="{{link}}">{{link}}</a></li>
-                {{/each}}
-            </ul>
-            {{/if}}
-            {{#if photos}}
-            <ul>
-                {{#each photos}}
-                <li><img src="{{photo.small}}"></li>
-                {{/each}}
-            </ul>
-            {{/if}}
-        </li>
-    {{/each}}
-    </ul>
+    {{workslist works}}
 </section>
 {{/if}}
 
@@ -107,34 +80,13 @@
 {{/if}}
     <div>
         <h1>{{home.clients.title}}</h1>
-        <p>{{ashtml home.clients.description}}</p>
+        {{ashtml home.clients.description}}
 
         {{#if works}}
         <ul>
         {{#each works}}
             <li>
-                <div>Num: {{i}}</div>
-                <div>ID: {{id}}</div>
-                <a href="{{link}}">{{link}}</a>
-                <div>Date: {{date}}</div>
-                <h1>{{title}}</h1>
-                {{ashtml description}}
                 <img src="{{logo.small}}">
-                <img src="{{main_photo.small}}">
-                {{#if links}}
-                <ul>
-                    {{#each links}}
-                    <li><a href="{{link}}">{{link}}</a></li>
-                    {{/each}}
-                </ul>
-                {{/if}}
-                {{#if photos}}
-                <ul>
-                    {{#each photos}}
-                    <li><img src="{{photo.small}}"></li>
-                    {{/each}}
-                </ul>
-                {{/if}}
             </li>
         {{/each}}
         </ul>
@@ -153,7 +105,7 @@
     <div>
 
         <h1>{{home.office.title}}</h1>
-        <p>{{ashtml home.office.description}}</p>
+        {{ashtml home.office.description}}
 
     </div>
 </section>
@@ -169,18 +121,18 @@
     <div>
 
         <h1>{{home.people.title}}</h1>
-        <p>{{ashtml home.people.description}}</p>
+        {{ashtml home.people.description}}
 
         {{#if home.people.list}}
-        <ul>
+        <ul id="people">
             {{#each home.people.list}}
             <li>
+                <img src="{{photo.small}}">
                 <h3>{{name}}</h3>
                 <p>{{title}}</p>
                 <p>{{email email}}</p>
                 <p>{{telephone}}</p>
                 {{ashtml about}}
-                <img src="{{photo.small}}">
             </li>
             {{/each}}
         </ul>
@@ -196,6 +148,7 @@
         <li>{{email home.company.email}}</li>
         <li>{{home.company.telephone}}</li>
         <li>{{ashtml home.company.visiting_address}}</li>
-        <li>{{home.company.location}}</li>
+        <li>Latitude: {{home.company.location.latitude}}</li>
+        <li>Longitude: {{home.company.location.longitude}}</li>
     </ul>
 </footer>

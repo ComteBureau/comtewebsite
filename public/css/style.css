@@ -34,6 +34,7 @@ section p {
     padding-top: 1rem;
     position: relative;
     display: block;
+    margin: auto 10%;
 }
 
 section {
@@ -49,8 +50,33 @@ section {
 section > div {
     display: table-cell;
     position: relative;
-    padding: 2rem 15%;
+    padding: 2rem 2rem;
     vertical-align: middle;
+}
+
+section ul {
+    list-style: none;
+}
+
+section li {
+    float: left;
+    display: inline-block;
+}
+
+section li img {
+    width: 100%;
+}
+
+section ul#col-4 li {
+    width: 25%;
+}
+
+section ul#people li {
+    width: 33%;
+}
+
+section ul#people img {
+    border-radius: 9999px;
 }
 
 .color_salmon {
