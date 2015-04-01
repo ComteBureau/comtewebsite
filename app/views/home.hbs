@@ -105,39 +105,41 @@
         <section class="color_{{lowercase home.clients.background_color}}">
     {{/if}}
 {{/if}}
-    <h1>{{home.clients.title}}</h1>
-    <p>{{ashtml home.clients.description}}</p>
+    <div>
+        <h1>{{home.clients.title}}</h1>
+        <p>{{ashtml home.clients.description}}</p>
 
-    {{#if works}}
-    <ul>
-    {{#each works}}
-        <li>
-            <div>Num: {{i}}</div>
-            <div>ID: {{id}}</div>
-            <a href="{{link}}">{{link}}</a>
-            <div>Date: {{date}}</div>
-            <h1>{{title}}</h1>
-            {{ashtml description}}
-            <img src="{{logo.small}}">
-            <img src="{{main_photo.small}}">
-            {{#if links}}
-            <ul>
-                {{#each links}}
-                <li><a href="{{link}}">{{link}}</a></li>
-                {{/each}}
-            </ul>
-            {{/if}}
-            {{#if photos}}
-            <ul>
-                {{#each photos}}
-                <li><img src="{{photo.small}}"></li>
-                {{/each}}
-            </ul>
-            {{/if}}
-        </li>
-    {{/each}}
-    </ul>
-    {{/if}}
+        {{#if works}}
+        <ul>
+        {{#each works}}
+            <li>
+                <div>Num: {{i}}</div>
+                <div>ID: {{id}}</div>
+                <a href="{{link}}">{{link}}</a>
+                <div>Date: {{date}}</div>
+                <h1>{{title}}</h1>
+                {{ashtml description}}
+                <img src="{{logo.small}}">
+                <img src="{{main_photo.small}}">
+                {{#if links}}
+                <ul>
+                    {{#each links}}
+                    <li><a href="{{link}}">{{link}}</a></li>
+                    {{/each}}
+                </ul>
+                {{/if}}
+                {{#if photos}}
+                <ul>
+                    {{#each photos}}
+                    <li><img src="{{photo.small}}"></li>
+                    {{/each}}
+                </ul>
+                {{/if}}
+            </li>
+        {{/each}}
+        </ul>
+        {{/if}}
+    </div>
 </section>
 
 {{#if home.office.photo}}
@@ -148,10 +150,12 @@
         <section class="color_{{lowercase home.office.background_color}}">
     {{/if}}
 {{/if}}
+    <div>
 
-    <h1>{{home.office.title}}</h1>
-    <p>{{ashtml home.office.description}}</p>
+        <h1>{{home.office.title}}</h1>
+        <p>{{ashtml home.office.description}}</p>
 
+    </div>
 </section>
 
 {{#if home.people.photo}}
@@ -162,25 +166,27 @@
         <section class="color_{{lowercase home.people.background_color}}">
     {{/if}}
 {{/if}}
+    <div>
 
-    <h1>{{home.people.title}}</h1>
-    <p>{{ashtml home.people.description}}</p>
+        <h1>{{home.people.title}}</h1>
+        <p>{{ashtml home.people.description}}</p>
 
-    {{#if home.people.list}}
-    <ul>
-        {{#each home.people.list}}
-        <li>
-            <h3>{{name}}</h3>
-            <p>{{title}}</p>
-            <p>{{email email}}</p>
-            <p>{{telephone}}</p>
-            {{ashtml about}}
-            <img src="{{photo.small}}">
-        </li>
-        {{/each}}
-    </ul>
-    {{/if}}
+        {{#if home.people.list}}
+        <ul>
+            {{#each home.people.list}}
+            <li>
+                <h3>{{name}}</h3>
+                <p>{{title}}</p>
+                <p>{{email email}}</p>
+                <p>{{telephone}}</p>
+                {{ashtml about}}
+                <img src="{{photo.small}}">
+            </li>
+            {{/each}}
+        </ul>
+        {{/if}}
 
+    </div>
 </section>
 
 <footer>
