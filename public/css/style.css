@@ -53,33 +53,6 @@ section > div {
     vertical-align: middle;
 }
 
-/*
-section .bg {
-    position: absolute;
-    display: block;
-    top: 50%;
-    width: 102%;
-    -webkit-transform: translate(0%, -50%);
-    -moz-transform: translate(0%, -50%);
-    -ms-transform: translate(0%, -50%);
-    -o-transform: translate(0%, -50%);
-    z-index: -1;
-}
-*/
-/*
-.tbl {
-    display: table;
-    min-height: 16rem;
-    width: 100%;
-}
-
-.cell {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 4rem 15%;
-    text-align: center;
-}
-*/
 .color_salmon {
     background-color: salmon;
 }
@@ -91,3 +64,20 @@ section .bg {
 .color_blue {
     background-color: #82CDFF;
 }
+
+.color_green {
+    background-color: #6CE0A2;
+}
+
+.color_orange {
+    background-color: #FFE494;
+}
+
+.color_gray {
+    background-color: #cccccc;
+}
+
+.color_white {
+    background-color: #ffffff;
+}
+

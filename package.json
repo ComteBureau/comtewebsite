@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "handlebars": "^2.0.0",
-    "prismic-website": "^0.1.0",
+    "prismic-website": "^0.1.1",
     "promise": "^6.1.0"
   },
   "devDependencies": {
