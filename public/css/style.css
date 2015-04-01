@@ -37,39 +37,36 @@ section p {
 }
 
 section {
+    background-size: cover;
     position: relative;
-    display: block;
+    display: table;
     width: 100%;
-    /*text-align: center;*/
+    text-align: center;
     box-sizing: border-box;
-    /*min-height: 16rem;*/
-    overflow: hidden;
-    z-index: 1;
+    min-height: 16rem;
+}
+
+section > div {
+    display: table-cell;
+    position: relative;
+    padding: 2rem 15%;
+    vertical-align: middle;
 }
 
 /*
-section > div {
-    display: inline-block;
-    position: relative;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    width: 75%;
-}
-*/
-
 section .bg {
     position: absolute;
     display: block;
     top: 50%;
-    /*max-width: 102%;*/
-    max-height: 102%;
+    width: 102%;
     -webkit-transform: translate(0%, -50%);
     -moz-transform: translate(0%, -50%);
     -ms-transform: translate(0%, -50%);
     -o-transform: translate(0%, -50%);
     z-index: -1;
 }
-
+*/
+/*
 .tbl {
     display: table;
     min-height: 16rem;
@@ -82,7 +79,7 @@ section .bg {
     padding: 4rem 15%;
     text-align: center;
 }
-
+*/
 .color_salmon {
     background-color: salmon;
 }

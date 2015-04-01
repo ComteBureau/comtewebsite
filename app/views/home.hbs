@@ -1,62 +1,115 @@
-<section class="color_salmon">
-    <div class="tbl">
-    <div class="cell">
-        <h1>Heading</h1>
-        <p>Services are a critical part of the end game for many industry players. Google was always fascinating to me because they are a services company first who worked their way backwards into software, and now hardware with Motorola. Apple came from it the other direction starting with hardware and software and now investing heavily in services.</p>
-    </div>
-    </div>
-</section>
+<div id="size"></div>
 
-{{#if home.about.background_color}}
-<section class="color_{{lowercase home.about.background_color}}">
-{{else}}
-<section>
-{{/if}}
-    <img class="bg" src="{{home.about.photo.medium}}">
-    <div class="tbl">
-    <div class="cell">
-        <h1>{{home.about.title}}</h1>
-        {{ashtml home.about.description}}
-        {{ashtml home.about.description}}
-        {{ashtml home.about.description}}
-    </div>
-    </div>
-</section>
+<script type="text/javascript">
+    window.onresize = resize;
+    resize();
 
+    function resize(event) {
+        var rect = document.documentElement.getBoundingClientRect();
+        document.getElementById('size').innerHTML = rect.width;
+    }
+</script>
 
 <!--
+    (min-width: 960px)
+    (max-width: 960px)
+    (max-width: 700px)
+    (max-width: 550px)
+    (max-width: 400px)
+-->
+<!-- 2880, 1440, 720, 360 -->
+
 <div id="intro_wrapper">
     <canvas id="intro"></canvas>
 </div>
 
-<h1>{{home.company.name}}</h1>
-<span>{{home.company.tagline}}</span>
-<ul>
-    <li>{{email home.company.email}}</li>
-    <li>{{home.company.telephone}}</li>
-    <li>{{ashtml home.company.visiting_address}}</li>
-    <li>{{home.company.location}}</li>
-</ul>
+{{#if home.about.photo}}
+    {{imagestyle "about" home.about.photo}}
+    <section id="section_about">
+{{else}}
+    {{#if home.about.background_color}}
+        <section class="color_{{lowercase home.about.background_color}}">
+    {{/if}}
+{{/if}}
+    <div>
+        <h1>{{home.about.title}}</h1>
+        {{ashtml home.about.description}}
+    </div>
+</section>
 
-<div style="background-color: {{color home.about.background_color}};">
-    <h1>{{home.about.title}}</h1>
-    <p>{{ashtml home.about.description}}</p>
-    <img src="{{home.about.photo.small}}">
-</div>
+{{#if home.process.photo}}
+    {{imagestyle "process" home.process.photo}}
+    <section id="section_process">
+{{else}}
+    {{#if home.process.background_color}}
+        <section class="color_{{lowercase home.process.background_color}}">
+    {{/if}}
+{{/if}}
+    <div>
+        <h1>{{home.process.title}}</h1>
+        {{ashtml home.process.description}}
 
-<div style="background-color: {{color home.office.background_color}};">
-    <h1>{{home.office.title}}</h1>
-    <p>{{ashtml home.office.description}}</p>
-    <img src="{{home.office.photo.small}}">
-</div>
+        {{#if home.process.steps}}
+        <ul>
+            {{#each home.process.steps}}
+            <li>
+                <img src="{{icon.small}}">
+                <h3>{{title}}</h3>
+                {{ashtml description}}
+            </li>
+            {{/each}}
+        </ul>
+        {{/if}}
 
-<div style="background-color: {{color home.clients.background_color}};">
+    </div>
+</section>
+
+{{#if works}}
+<section>
+    <ul>
+    {{#each works}}
+        <li>
+            <div>Num: {{i}}</div>
+            <div>ID: {{id}}</div>
+            <a href="{{link}}">{{link}}</a>
+            <div>Date: {{date}}</div>
+            <h1>{{title}}</h1>
+            {{ashtml description}}
+            <img src="{{logo.small}}">
+            <img src="{{main_photo.small}}">
+            {{#if links}}
+            <ul>
+                {{#each links}}
+                <li><a href="{{link}}">{{link}}</a></li>
+                {{/each}}
+            </ul>
+            {{/if}}
+            {{#if photos}}
+            <ul>
+                {{#each photos}}
+                <li><img src="{{photo.small}}"></li>
+                {{/each}}
+            </ul>
+            {{/if}}
+        </li>
+    {{/each}}
+    </ul>
+</section>
+{{/if}}
+
+{{#if home.clients.photo}}
+    {{imagestyle "clients" home.clients.photo}}
+    <section id="section_clients">
+{{else}}
+    {{#if home.clients.background_color}}
+        <section class="color_{{lowercase home.clients.background_color}}">
+    {{/if}}
+{{/if}}
     <h1>{{home.clients.title}}</h1>
     <p>{{ashtml home.clients.description}}</p>
-    <img src="{{home.clients.photo.small}}">
 
     {{#if works}}
-    <ul style="background-color: {{color background_color}};">
+    <ul>
     {{#each works}}
         <li>
             <div>Num: {{i}}</div>
@@ -85,30 +138,33 @@
     {{/each}}
     </ul>
     {{/if}}
-</div>
+</section>
 
-<div style="background-color: {{color home.process.background_color}};">
-    <h1>{{home.process.title}}</h1>
-    <p>{{ashtml home.process.description}}</p>
-    <img src="{{home.process.photo.small}}">
-
-    {{#if home.process.steps}}
-    <ul>
-        {{#each home.process.steps}}
-        <li>
-            <img src="{{icon.small}}">
-            <h3>{{title}}</h3>
-            {{ashtml description}}
-        </li>
-        {{/each}}
-    </ul>
+{{#if home.office.photo}}
+    {{imagestyle "office" home.office.photo}}
+    <section id="section_office">
+{{else}}
+    {{#if home.office.background_color}}
+        <section class="color_{{lowercase home.office.background_color}}">
     {{/if}}
-</div>
+{{/if}}
 
-<div style="background-color: {{color home.people.background_color}};">
+    <h1>{{home.office.title}}</h1>
+    <p>{{ashtml home.office.description}}</p>
+
+</section>
+
+{{#if home.people.photo}}
+    {{imagestyle "people" home.people.photo}}
+    <section id="section_people">
+{{else}}
+    {{#if home.people.background_color}}
+        <section class="color_{{lowercase home.people.background_color}}">
+    {{/if}}
+{{/if}}
+
     <h1>{{home.people.title}}</h1>
     <p>{{ashtml home.people.description}}</p>
-    <img src="{{home.people.photo.small}}">
 
     {{#if home.people.list}}
     <ul>
@@ -124,5 +180,16 @@
         {{/each}}
     </ul>
     {{/if}}
-</div>
--->
+
+</section>
+
+<footer>
+    <h1>{{home.company.name}}</h1>
+    <span>{{home.company.tagline}}</span>
+    <ul>
+        <li>{{email home.company.email}}</li>
+        <li>{{home.company.telephone}}</li>
+        <li>{{ashtml home.company.visiting_address}}</li>
+        <li>{{home.company.location}}</li>
+    </ul>
+</footer>
