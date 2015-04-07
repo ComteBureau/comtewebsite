@@ -10,7 +10,8 @@ if (typeof script === 'undefined') {
 }
 
 // TODO: Could pass dir as param
-var watcher = chokidar.watch('./app/js/', {
+var watcher = chokidar.watch('./client/js/', {
+// var watcher = chokidar.watch('./app/js/', {
     ignored: /[\/\\]\./,
     persistent: true
 });
