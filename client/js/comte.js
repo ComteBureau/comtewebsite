@@ -14,6 +14,7 @@ module.exports = function comte() {
     tab.visibility(function(is_visible) {
         if (is_visible) {
             experiment.play();
+            run();
         } else {
             experiment.pause();
         }
@@ -24,17 +25,22 @@ module.exports = function comte() {
     viewport.visibility(canvas, function(is_visible) {
         if (is_visible) {
             experiment.play();
+            run();
         } else {
             experiment.pause();
         }
-       document.body.style.background = is_visible ? '#ccc' : '#f00';
+       // document.body.style.background = is_visible ? '#ccc' : '#f00';
     });
 
-    window.requestAnimationFrame(update);
+    run();
 }
 
 function update() {
     if (experiment.update()) {
-        window.requestAnimationFrame(update);
+        run();
     }
+}
+
+function run() {
+    window.requestAnimationFrame(update);
 }
