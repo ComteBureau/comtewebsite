@@ -17,6 +17,6 @@ function _boot() {
 
         // var extensions = require('utils/extensions');
         var comte = require('comte');
-        // comte();
+        comte();
     }
 };
