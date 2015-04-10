@@ -16,8 +16,8 @@ var particle = {
     acceleration: null,
 
     speed:      0,
-    max_speed:  4,
-    max_force:  0.1,
+    max_speed:  Math.round((Math.random() * 50) + 50),
+    max_force:  200,
     alive:      true,
 
     init: function(pos) {
@@ -36,8 +36,8 @@ var particle = {
         this.position.add(this.velocity);
         this.acceleration.multiply(0);
 
-        if (tmp.desired_mag <= 0.2 &&
-            this.velocity.magnitude() <= 0.1) {
+        if (tmp.desired_mag <= 10 &&
+            this.velocity.magnitude() <= 1) {
             this.position.set(this.target.x, this.target.y);
             this.velocity.set(0, 0);
             this.alive = false;
@@ -52,8 +52,8 @@ var particle = {
         tmp.desired = vector.subtract(this.target, this.position);
         tmp.desired_mag = tmp.desired.magnitude();
 
-        this.speed = tmp.desired_mag < 10 ?
-            utils.map(tmp.desired_mag, 0, 10, 0, this.max_speed) :
+        this.speed = tmp.desired_mag < 100 ?
+            utils.map(tmp.desired_mag, 0, 100, 0, this.max_speed) :
             this.max_speed;
 
         tmp.desired
