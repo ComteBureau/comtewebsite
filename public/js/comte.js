@@ -39,6 +39,7 @@ module.exports = function comte() {
     tab.visibility(function(is_visible) {
         if (is_visible) {
             experiment.play();
+            run();
         } else {
             experiment.pause();
         }
@@ -49,19 +50,24 @@ module.exports = function comte() {
     viewport.visibility(canvas, function(is_visible) {
         if (is_visible) {
             experiment.play();
+            run();
         } else {
             experiment.pause();
         }
-       document.body.style.background = is_visible ? '#ccc' : '#f00';
+       // document.body.style.background = is_visible ? '#ccc' : '#f00';
     });
 
-    window.requestAnimationFrame(update);
+    run();
 }
 
 function update() {
     if (experiment.update()) {
-        window.requestAnimationFrame(update);
+        run();
     }
+}
+
+function run() {
+    window.requestAnimationFrame(update);
 }
 
 },{"./dom.js":3,"./experiments/text_attract.js":5,"./tab.js":11,"./viewport.js":15}],3:[function(require,module,exports){
@@ -317,8 +323,8 @@ var particle = {
     acceleration: null,
 
     speed:      0,
-    max_speed:  4,
-    max_force:  0.1,
+    max_speed:  Math.round((Math.random() * 50) + 50),
+    max_force:  200,
     alive:      true,
 
     init: function(pos) {
@@ -337,8 +343,8 @@ var particle = {
         this.position.add(this.velocity);
         this.acceleration.multiply(0);
 
-        if (tmp.desired_mag <= 0.2 &&
-            this.velocity.magnitude() <= 0.1) {
+        if (tmp.desired_mag <= 10 &&
+            this.velocity.magnitude() <= 1) {
             this.position.set(this.target.x, this.target.y);
             this.velocity.set(0, 0);
             this.alive = false;
@@ -353,8 +359,8 @@ var particle = {
         tmp.desired = vector.subtract(this.target, this.position);
         tmp.desired_mag = tmp.desired.magnitude();
 
-        this.speed = tmp.desired_mag < 10 ?
-            utils.map(tmp.desired_mag, 0, 10, 0, this.max_speed) :
+        this.speed = tmp.desired_mag < 100 ?
+            utils.map(tmp.desired_mag, 0, 100, 0, this.max_speed) :
             this.max_speed;
 
         tmp.desired
@@ -693,7 +699,7 @@ var Vector = {
     },
 
     magnitude: function() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+        return this.x * this.x + this.y * this.y;
     },
 
     divide: function(f) {
