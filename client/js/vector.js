@@ -32,7 +32,7 @@ var Vector = {
     },
 
     magnitude: function() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+        return this.x * this.x + this.y * this.y;
     },
 
     divide: function(f) {
