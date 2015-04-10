@@ -7,17 +7,19 @@ var Promise     = require('promise');
 module.exports = function(app) {
     app.events.on('home', function(req, res, next) {
 
-        Promise.all([
-            home(app, res),
-            works.latest(app, res)
-        ])
-        .then(function (results) {
+        app.templates.render(res, 'main', 'dots');
 
-            app.templates.render(res, 'main', 'home');
+        // Promise.all([
+        //     home(app, res),
+        //     works.latest(app, res)
+        // ])
+        // .then(function (results) {
 
-        }, function() {
-            res.send('Home error');
-        });
+        //     app.templates.render(res, 'main', 'home');
+
+        // }, function() {
+        //     res.send('Home error');
+        // });
 
     });
 
