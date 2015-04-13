@@ -4,12 +4,20 @@ var dom             = require('dom');
 var viewport        = require('viewport');
 var tab             = require('tab');
 var experiment      = require('experiments/text_attract');
+var StatsJs         = require('stats.js');
+
+var stats;
 
 module.exports = function comte() {
 
-    var canvas = dom.id('intro');
+    stats = new StatsJs();
+    stats.setMode(0); // 0: fps, 1: ms
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '100px';
+    stats.domElement.style.top = '0px';
+    document.body.appendChild(stats.domElement);
 
-    experiment.init(canvas);
+    var canvas = experiment.init(dom.id('intro_wrapper'));
 
     tab.visibility(function(is_visible) {
         if (is_visible) {
@@ -36,9 +44,11 @@ module.exports = function comte() {
 }
 
 function update() {
+    stats.begin();
     if (experiment.update()) {
         run();
     }
+    stats.end();
 }
 
 function run() {

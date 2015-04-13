@@ -1,7 +1,8 @@
 "use strict";
 
-var vector  = require('vector');
-var utils   = require('utils');
+var vector          = require('vector');
+var utils           = require('utils');
+var PIXI            = require('pixi.js');
 
 var tmp = {
     desired: null,
@@ -16,14 +17,21 @@ var particle = {
     acceleration: null,
 
     speed:      0,
-    max_speed:  Math.round((Math.random() * 50) + 50),
+    max_speed:  Math.round((Math.random() * 150) + 150),
     max_force:  200,
     alive:      true,
 
-    init: function(pos) {
+    init: function(container, gfx, pos) {
         this.position = vector.create(pos.x, pos.y);
         this.velocity = vector.create();
         this.acceleration = vector.create();
+
+        this.sprite = new PIXI.Sprite(gfx.generateTexture());
+        this.sprite.anchor.x = 0.5;
+        this.sprite.anchor.y = 0.5;
+        this.sprite.alpha = 0.2;
+
+        container.addChild(this.sprite);
     },
 
     update: function() {
@@ -42,6 +50,8 @@ var particle = {
             this.velocity.set(0, 0);
             this.alive = false;
         }
+
+        this.sprite.position = this.position;
     },
 
     applyForce: function(force) {
@@ -67,22 +77,15 @@ var particle = {
         this.applyForce(tmp.steer);
     },
 
-    draw: function(ctx) {
-        ctx.drawImage(this.sprite.canvas, this.position.x, this.position.y);
-    }
 };
 
-module.exports.create = function create(sprite, options) {
+module.exports.create = function create(container, gfx, options) {
     var instance = Object.create(particle, {
-        sprite: {
-            writable:   false,
-            value:      sprite
-        },
         target: {
             value:      options.target
         }
     });
 
-    instance.init(options.pos);
+    instance.init(container, gfx, options.pos);
     return instance;
 }

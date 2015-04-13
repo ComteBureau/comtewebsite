@@ -26,9 +26,7 @@ module.exports.create = function(options) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#000';
-    ctx.fillText(options.text,
-                 canvas.width / (2 * options.ratio),
-                 canvas.height / (2 * options.ratio));
+    ctx.fillText(options.text, canvas.width / 2, canvas.height / 2);
 
     var pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
     var blacks = [];

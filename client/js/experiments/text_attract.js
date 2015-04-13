@@ -1,93 +1,96 @@
 'use strict';
 
-var sprite          = require('sprite');
+var gfx             = require('gfx');
 var pixelratio      = require('pixelratio');
 var text            = require('text');
 var particle        = require('particle');
 var spawnpoints     = require('spawnpoints');
 var lookuptables    = require('lookuptables');
+var PIXI            = require('pixi.js');
 
 var target_coords = [];
 var particles = [];
 var dead_particles = [];
-var canvas;
-var ctx;
+var canvas_size = {
+    width:  0,
+    height: 0
+};
+var stage;
+var renderer;
 var paused = false;
 var dead_count = 0;
 
-var canvas_color = '#fff';
+var canvas_color = 0xFFFFFF;
 var num_spawnpoints = 8;
 var num_particles = 1000;
 
 var experiment = {
-    init: function(a_canvas) {
+    init: function(wrapper_el) {
 
-        canvas = a_canvas;
-        ctx = canvas.getContext('2d');
-        canvas.width = document.documentElement.clientWidth;
-        canvas.height = canvas.width * 0.5625;
-        pixelratio(canvas);
+        // TODO: Create a module for setting up a renderer. Handle hidpi stuff there
+        canvas_size.width = document.documentElement.clientWidth;
+        canvas_size.height = canvas_size.width * 0.5625;
 
-        clear_canvas();
+        stage = new PIXI.Stage(canvas_color);
+        renderer = PIXI.autoDetectRenderer(canvas_size.width,
+                                           canvas_size.height);
 
-        var circle = sprite.circle({
-            width:  2,
-            height: 2,
-            color:  'rgba(0, 0, 0, 0.2)'
+        var ratio = pixelratio.get_ratio(renderer.view);
+        renderer.resize(canvas_size.width * ratio,
+                        canvas_size.height *ratio);
+
+        wrapper_el.appendChild(renderer.view);
+
+        renderer.view.style.width = canvas_size.width + 'px';
+        renderer.view.style.height = canvas_size.height + 'px';
+
+        var circle_gfx = gfx.circle({
+            radius: 2,
+            color:  0x000000,
+            alpha:  1
         });
 
         target_coords = text.create({
-            width:          canvas.width,
-            height:         canvas.height,
+            width:          canvas_size.width,
+            height:         canvas_size.height,
             min_font_size:  12,
             max_font_size:  40,
             font:           'Helvetica',
             text:           'Think people',
-            ratio:          pixelratio.ratio,
             debug:          false
         });
 
-        var s_points = spawnpoints.create(canvas.width, canvas.height, num_spawnpoints);
-        var particle_i = 0;
+        var s_points = spawnpoints.create(canvas_size.width * ratio,
+                                          canvas_size.height * ratio,
+                                          num_spawnpoints);
+        // var particle_i = 0;
         var amount = 0;
 
         s_points.forEach(function(sp) {
-            // ctx.drawImage(circle.canvas,
-            //                 (sp.x - (circle.canvas.width / 2)) / pixelratio.ratio,
-            //                 (sp.y - (circle.canvas.height / 2)) / pixelratio.ratio);
-
-            amount = num_particles * sp.weight;
+            amount = Math.round(num_particles * sp.weight);
 
             for (var i=0; i<amount; i++) {
                 var deg = Math.floor(Math.random() * 360);
                 var radius = Math.random() * sp.size * 0.5 * (4 + sp.weight);
                 var coord = lookuptables.get_coord(deg, radius);
+                var target = target_coords[Math.floor(Math.random() * target_coords.length)];
 
-                // ctx.drawImage(circle.canvas,
-                //               (sp.x / pixelratio.ratio) + coord.x,
-                //               (sp.y / pixelratio.ratio) + coord.y,
-                //               circle.canvas.width,
-                //               circle.canvas.height);
+                // particle_i++;
 
-                particle_i++;
-
-                // ctx.drawImage(circle.canvas,
-                //               target.x,
-                //               target.y,
-                //               circle.canvas.width,
-                //               circle.canvas.height);
-
-                particles.push(particle.create(circle, {
-                    target: target_coords[Math.floor(Math.random() * target_coords.length)],
-                    pos:    {
-                        x:  (sp.x / pixelratio.ratio) + coord.x,
-                        y:  (sp.y / pixelratio.ratio) + coord.y
+                particles.push(particle.create(stage, circle_gfx, {
+                    target: {
+                        x: target.x * ratio,
+                        y: target.y * ratio
+                    },
+                    pos: {
+                        x: sp.x + coord.x,
+                        y: sp.y + coord.y
                     }
                 }));
-
             }
         });
 
+        return renderer.view;
     },
 
     update: function() {
@@ -95,35 +98,19 @@ var experiment = {
             return false;
         }
 
-        clear_canvas();
         dead_count = 0;
-
-        // if (dead_particles.length > 0) {
-        //     var dead = dead_particles[0];
-        //     for (var d=0; d<particles.length; d++) {
-        //         if (particles[d] === dead) {
-        //             break;
-        //         }
-        //     }
-        //     particles.splice(d, 1);
-        //     dead_particles.splice(0, 1);
-        // }
-
-        // if (particles.length === 0) {
-        //     paused = true;
-        // }
 
         particles.forEach(function(particle) {
             if (particle.alive) {
                 particle.update();
             } else {
                 ++dead_count;
-                // kill(particle);
             }
-            particle.draw(ctx);
         });
 
-        label(dead_count + '/' + particles.length, 10, 20);
+        renderer.render(stage);
+
+        // label(dead_count + '/' + particles.length, 10, 20);
 
         if (dead_count === particles.length) {
             console.log('particles dead');
@@ -141,11 +128,6 @@ var experiment = {
         paused = false;
     }
 };
-
-function clear_canvas() {
-    ctx.fillStyle = canvas_color;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
 
 function label(caption, x, y) {
     ctx.font = '12 px Helvetica';
