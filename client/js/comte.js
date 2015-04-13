@@ -10,12 +10,19 @@ var stats;
 
 module.exports = function comte() {
 
-    stats = new StatsJs();
-    stats.setMode(0); // 0: fps, 1: ms
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.left = '100px';
-    stats.domElement.style.top = '0px';
-    document.body.appendChild(stats.domElement);
+    if (typeof StatsJs !== 'undefined') {
+        stats = new StatsJs();
+        stats.setMode(0); // 0: fps, 1: ms
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '100px';
+        stats.domElement.style.top = '0px';
+        document.body.appendChild(stats.domElement);
+    } else {
+        stats = {
+            begin: function() {},
+            end: function() {}
+        };
+    }
 
     var canvas = experiment.init(dom.id('intro_wrapper'));
 
