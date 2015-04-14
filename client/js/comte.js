@@ -5,6 +5,7 @@ var viewport        = require('viewport');
 var tab             = require('tab');
 var experiment      = require('experiments/text_attract');
 var StatsJs         = require('stats.js');
+var resize          = require('resize');
 
 var stats;
 
@@ -45,6 +46,10 @@ module.exports = function comte() {
             experiment.pause();
         }
        // document.body.style.background = is_visible ? '#ccc' : '#f00';
+    });
+
+    resize(function(scale) {
+        experiment.scale(scale.change_width, scale.change_height);
     });
 
     run();
