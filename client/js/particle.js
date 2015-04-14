@@ -29,9 +29,17 @@ var particle = {
         this.sprite = new PIXI.Sprite(gfx.generateTexture());
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
-        this.sprite.alpha = 0.2;
+        this.sprite.alpha = 0.8;
 
         container.addChild(this.sprite);
+    },
+
+    offset: function(change_width, change_height) {
+        this.position.x *= change_width;
+        this.position.y *= change_height;
+
+        this.target.x *= change_width;
+        this.target.y *= change_height;
     },
 
     update: function() {

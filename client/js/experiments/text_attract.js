@@ -19,10 +19,11 @@ var stage;
 var renderer;
 var paused = false;
 var dead_count = 0;
+var ratio;
 
 var canvas_color = 0xFFFFFF;
 var num_spawnpoints = 8;
-var num_particles = 1000;
+var num_particles = 200;
 
 var experiment = {
     init: function(wrapper_el) {
@@ -35,9 +36,9 @@ var experiment = {
         renderer = PIXI.autoDetectRenderer(canvas_size.width,
                                            canvas_size.height);
 
-        var ratio = pixelratio.get_ratio(renderer.view);
+        ratio = pixelratio.get_ratio(renderer.view);
         renderer.resize(canvas_size.width * ratio,
-                        canvas_size.height *ratio);
+                        canvas_size.height * ratio);
 
         wrapper_el.appendChild(renderer.view);
 
@@ -126,6 +127,21 @@ var experiment = {
 
     play: function() {
         paused = false;
+    },
+
+    scale: function(width_change, height_change) {
+        canvas_size.width *= width_change;
+        canvas_size.height *= height_change;
+
+        renderer.resize(canvas_size.width * ratio,
+                        canvas_size.height * ratio);
+
+        renderer.view.style.width = canvas_size.width + 'px';
+        renderer.view.style.height = canvas_size.height + 'px';
+
+        particles.forEach(function(particle) {
+            particle.offset(width_change, height_change);
+        });
     }
 };
 

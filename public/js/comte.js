@@ -30,17 +30,25 @@ var viewport        = require('./viewport.js');
 var tab             = require('./tab.js');
 var experiment      = require('./experiments/text_attract.js');
 var StatsJs         = require('stats.js');
+var resize          = require('./resize.js');
 
 var stats;
 
 module.exports = function comte() {
 
-    stats = new StatsJs();
-    stats.setMode(0); // 0: fps, 1: ms
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.left = '100px';
-    stats.domElement.style.top = '0px';
-    document.body.appendChild(stats.domElement);
+    if (typeof StatsJs !== 'undefined') {
+        stats = new StatsJs();
+        stats.setMode(0); // 0: fps, 1: ms
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '100px';
+        stats.domElement.style.top = '0px';
+        document.body.appendChild(stats.domElement);
+    } else {
+        stats = {
+            begin: function() {},
+            end: function() {}
+        };
+    }
 
     var canvas = experiment.init(dom.id('intro_wrapper'));
 
@@ -65,6 +73,10 @@ module.exports = function comte() {
        // document.body.style.background = is_visible ? '#ccc' : '#f00';
     });
 
+    resize(function(scale) {
+        experiment.scale(scale.change_width, scale.change_height);
+    });
+
     run();
 }
 
@@ -80,7 +92,7 @@ function run() {
     window.requestAnimationFrame(update);
 }
 
-},{"./dom.js":3,"./experiments/text_attract.js":5,"./tab.js":11,"./viewport.js":15,"stats.js":17}],3:[function(require,module,exports){
+},{"./dom.js":3,"./experiments/text_attract.js":5,"./resize.js":10,"./tab.js":12,"./viewport.js":16,"stats.js":18}],3:[function(require,module,exports){
 "use strict";
 
 var dom = {
@@ -137,10 +149,11 @@ var stage;
 var renderer;
 var paused = false;
 var dead_count = 0;
+var ratio;
 
 var canvas_color = 0xFFFFFF;
 var num_spawnpoints = 8;
-var num_particles = 1000;
+var num_particles = 200;
 
 var experiment = {
     init: function(wrapper_el) {
@@ -153,9 +166,9 @@ var experiment = {
         renderer = PIXI.autoDetectRenderer(canvas_size.width,
                                            canvas_size.height);
 
-        var ratio = pixelratio.get_ratio(renderer.view);
+        ratio = pixelratio.get_ratio(renderer.view);
         renderer.resize(canvas_size.width * ratio,
-                        canvas_size.height *ratio);
+                        canvas_size.height * ratio);
 
         wrapper_el.appendChild(renderer.view);
 
@@ -244,6 +257,21 @@ var experiment = {
 
     play: function() {
         paused = false;
+    },
+
+    scale: function(width_change, height_change) {
+        canvas_size.width *= width_change;
+        canvas_size.height *= height_change;
+
+        renderer.resize(canvas_size.width * ratio,
+                        canvas_size.height * ratio);
+
+        renderer.view.style.width = canvas_size.width + 'px';
+        renderer.view.style.height = canvas_size.height + 'px';
+
+        particles.forEach(function(particle) {
+            particle.offset(width_change, height_change);
+        });
     }
 };
 
@@ -272,7 +300,7 @@ function kill(particle) {
 module.exports = experiment;
 
 
-},{"./../gfx.js":6,"./../lookuptables.js":7,"./../particle.js":8,"./../pixelratio.js":9,"./../spawnpoints.js":10,"./../text.js":12,"pixi.js":16}],6:[function(require,module,exports){
+},{"./../gfx.js":6,"./../lookuptables.js":7,"./../particle.js":8,"./../pixelratio.js":9,"./../spawnpoints.js":11,"./../text.js":13,"pixi.js":17}],6:[function(require,module,exports){
 'use strict';
 
 var pixelratio      = require('./pixelratio.js');
@@ -293,7 +321,7 @@ module.exports.circle = function(options) {
     return circle_gfx;
 }
 
-},{"./pixelratio.js":9,"pixi.js":16}],7:[function(require,module,exports){
+},{"./pixelratio.js":9,"pixi.js":17}],7:[function(require,module,exports){
 'use strict';
 
 var radians = [];
@@ -353,9 +381,17 @@ var particle = {
         this.sprite = new PIXI.Sprite(gfx.generateTexture());
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
-        this.sprite.alpha = 0.2;
+        this.sprite.alpha = 0.8;
 
         container.addChild(this.sprite);
+    },
+
+    offset: function(change_width, change_height) {
+        this.position.x *= change_width;
+        this.position.y *= change_height;
+
+        this.target.x *= change_width;
+        this.target.y *= change_height;
     },
 
     update: function() {
@@ -414,7 +450,7 @@ module.exports.create = function create(container, gfx, options) {
     return instance;
 }
 
-},{"./utils.js":13,"./vector.js":14,"pixi.js":16}],9:[function(require,module,exports){
+},{"./utils.js":14,"./vector.js":15,"pixi.js":17}],9:[function(require,module,exports){
 'use strict';
 
 var width;
@@ -476,6 +512,54 @@ Object.defineProperty(PixelRatio, 'ratio', {
 });
 
 },{}],10:[function(require,module,exports){
+'use strict';
+
+var eventlistener   = require('./eventlistener.js');
+
+var scale = {
+    current_width: 0,
+    current_height: 0,
+    new_width: 0,
+    new_height: 0,
+    change_width: 0,
+    change_height: 0
+};
+var cooldown_time = 200; // ms
+var event_time = 0;
+var timer;
+
+module.exports = function(cb) {
+    scale.current_width = document.documentElement.clientWidth;
+    scale.current_height = document.documentElement.clientHeight;
+
+    eventlistener.add(window, 'resize', function(event) {
+        event_time = Date.now();
+
+        scale.new_width = event.currentTarget.document.documentElement.clientWidth;
+        scale.new_height = event.currentTarget.document.documentElement.clientHeight;
+
+        if (typeof timer === 'undefined') {
+            timer = window.setInterval(resize_handler.bind(cb), 100);
+        }
+    }, 'on');
+}
+
+function resize_handler() {
+    if (Date.now() - event_time >= cooldown_time) {
+        window.clearInterval(timer);
+        timer = undefined;
+
+        scale.change_width = scale.new_width / scale.current_width;
+        scale.change_height = scale.new_height / scale.current_height;
+
+        this(scale);
+
+        scale.current_width = document.documentElement.clientWidth;
+        scale.current_height = document.documentElement.clientHeight;
+    }
+}
+
+},{"./eventlistener.js":4}],11:[function(require,module,exports){
 'use strick';
 
 var spawnpoints = [];
@@ -546,7 +630,7 @@ Object.defineProperty(module.exports, 'list', {
     }
 });
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var eventlistener = require('./eventlistener.js');
@@ -581,7 +665,7 @@ module.exports.visibility = function(callback) {
     }
 }
 
-},{"./eventlistener.js":4}],12:[function(require,module,exports){
+},{"./eventlistener.js":4}],13:[function(require,module,exports){
 'use strict';
 
 module.exports.create = function(options) {
@@ -631,7 +715,7 @@ module.exports.create = function(options) {
     return blacks;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var Utils = {
@@ -650,7 +734,7 @@ var Utils = {
 
 module.exports = Utils;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var Vector = {
@@ -745,7 +829,7 @@ var tmp = {
 
 module.exports = Vectors;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 
 var eventlistener = require('./eventlistener.js');
@@ -774,7 +858,7 @@ function isElementInViewport(el) {
            (rect.bottom <= dh && rect.bottom >= 0);
 }
 
-},{"./eventlistener.js":4}],16:[function(require,module,exports){
+},{"./eventlistener.js":4}],17:[function(require,module,exports){
 /**
  * @license
  * pixi.js - v2.2.9
@@ -21153,7 +21237,7 @@ Object.defineProperty(PIXI.RGBSplitFilter.prototype, 'blue', {
         root.PIXI = PIXI;
     }
 }).call(this);
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * @author mrdoob / http://mrdoob.com/
  */
