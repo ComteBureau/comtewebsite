@@ -73,18 +73,23 @@ module.exports = function comte() {
        // document.body.style.background = is_visible ? '#ccc' : '#f00';
     });
 
-    resize(function(scale) {
-        experiment.scale(scale.change_width, scale.change_height);
-    });
-
+    resize.init();
     run();
 }
 
 function update() {
     stats.begin();
-    if (experiment.update()) {
-        run();
+
+    if (!resize.is_resizing) {
+        if (resize.has_resized) {
+            experiment.scale(resize.scale.change);
+            resize.has_resized = false;
+        } else {
+            experiment.update();
+        }
     }
+
+    run();
     stats.end();
 }
 
@@ -92,7 +97,7 @@ function run() {
     window.requestAnimationFrame(update);
 }
 
-},{"./dom.js":3,"./experiments/text_attract.js":5,"./resize.js":10,"./tab.js":12,"./viewport.js":16,"stats.js":18}],3:[function(require,module,exports){
+},{"./dom.js":3,"./experiments/text_attract.js":5,"./resize.js":11,"./tab.js":13,"./viewport.js":17,"stats.js":19}],3:[function(require,module,exports){
 "use strict";
 
 var dom = {
@@ -137,19 +142,14 @@ var particle        = require('./../particle.js');
 var spawnpoints     = require('./../spawnpoints.js');
 var lookuptables    = require('./../lookuptables.js');
 var PIXI            = require('pixi.js');
+var renderer_setup  = require('./../renderer.js');
 
 var target_coords = [];
 var particles = [];
 var dead_particles = [];
-var canvas_size = {
-    width:  0,
-    height: 0
-};
-var stage;
-var renderer;
+var renderer = {};
 var paused = false;
 var dead_count = 0;
-var ratio;
 
 var canvas_color = 0xFFFFFF;
 var num_spawnpoints = 8;
@@ -158,22 +158,7 @@ var num_particles = 200;
 var experiment = {
     init: function(wrapper_el) {
 
-        // TODO: Create a module for setting up a renderer. Handle hidpi stuff there
-        canvas_size.width = document.documentElement.clientWidth;
-        canvas_size.height = canvas_size.width * 0.5625;
-
-        stage = new PIXI.Stage(canvas_color);
-        renderer = PIXI.autoDetectRenderer(canvas_size.width,
-                                           canvas_size.height);
-
-        ratio = pixelratio.get_ratio(renderer.view);
-        renderer.resize(canvas_size.width * ratio,
-                        canvas_size.height * ratio);
-
-        wrapper_el.appendChild(renderer.view);
-
-        renderer.view.style.width = canvas_size.width + 'px';
-        renderer.view.style.height = canvas_size.height + 'px';
+        renderer = renderer_setup(canvas_color, wrapper_el);
 
         var circle_gfx = gfx.circle({
             radius: 2,
@@ -182,8 +167,8 @@ var experiment = {
         });
 
         target_coords = text.create({
-            width:          canvas_size.width,
-            height:         canvas_size.height,
+            width:          renderer.width,
+            height:         renderer.height,
             min_font_size:  12,
             max_font_size:  40,
             font:           'Helvetica',
@@ -191,10 +176,9 @@ var experiment = {
             debug:          false
         });
 
-        var s_points = spawnpoints.create(canvas_size.width * ratio,
-                                          canvas_size.height * ratio,
+        var s_points = spawnpoints.create(renderer.width * renderer.ratio,
+                                          renderer.height * renderer.ratio,
                                           num_spawnpoints);
-        // var particle_i = 0;
         var amount = 0;
 
         s_points.forEach(function(sp) {
@@ -206,12 +190,10 @@ var experiment = {
                 var coord = lookuptables.get_coord(deg, radius);
                 var target = target_coords[Math.floor(Math.random() * target_coords.length)];
 
-                // particle_i++;
-
-                particles.push(particle.create(stage, circle_gfx, {
+                particles.push(particle.create(renderer.stage, circle_gfx, {
                     target: {
-                        x: target.x * ratio,
-                        y: target.y * ratio
+                        x: target.x * renderer.ratio,
+                        y: target.y * renderer.ratio
                     },
                     pos: {
                         x: sp.x + coord.x,
@@ -221,7 +203,7 @@ var experiment = {
             }
         });
 
-        return renderer.view;
+        return renderer.renderer.view;
     },
 
     update: function() {
@@ -239,16 +221,14 @@ var experiment = {
             }
         });
 
-        renderer.render(stage);
-
-        // label(dead_count + '/' + particles.length, 10, 20);
+        renderer.renderer.render(renderer.stage);
 
         if (dead_count === particles.length) {
             console.log('particles dead');
             paused = true;
         }
 
-        return true;
+        return this;
     },
 
     pause: function() {
@@ -259,29 +239,23 @@ var experiment = {
         paused = false;
     },
 
-    scale: function(width_change, height_change) {
-        canvas_size.width *= width_change;
-        canvas_size.height *= height_change;
+    scale: function(change) {
+        renderer.width *= change;
+        renderer.height *= change;
 
-        renderer.resize(canvas_size.width * ratio,
-                        canvas_size.height * ratio);
+        renderer.renderer.resize(renderer.width * renderer.ratio,
+                                 renderer.height * renderer.ratio);
 
-        renderer.view.style.width = canvas_size.width + 'px';
-        renderer.view.style.height = canvas_size.height + 'px';
+        renderer.renderer.view.style.width = renderer.width + 'px';
+        renderer.renderer.view.style.height = renderer.height + 'px';
 
         particles.forEach(function(particle) {
-            particle.offset(width_change, height_change);
+            particle.offset(change);
         });
+
+        return this;
     }
 };
-
-function label(caption, x, y) {
-    ctx.font = '12 px Helvetica';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'bottom';
-    ctx.fillStyle = '#000';
-    ctx.fillText(caption, x, y);
-}
 
 function kill(particle) {
     var exists = false;
@@ -300,7 +274,7 @@ function kill(particle) {
 module.exports = experiment;
 
 
-},{"./../gfx.js":6,"./../lookuptables.js":7,"./../particle.js":8,"./../pixelratio.js":9,"./../spawnpoints.js":11,"./../text.js":13,"pixi.js":17}],6:[function(require,module,exports){
+},{"./../gfx.js":6,"./../lookuptables.js":7,"./../particle.js":8,"./../pixelratio.js":9,"./../renderer.js":10,"./../spawnpoints.js":12,"./../text.js":14,"pixi.js":18}],6:[function(require,module,exports){
 'use strict';
 
 var pixelratio      = require('./pixelratio.js');
@@ -321,7 +295,7 @@ module.exports.circle = function(options) {
     return circle_gfx;
 }
 
-},{"./pixelratio.js":9,"pixi.js":17}],7:[function(require,module,exports){
+},{"./pixelratio.js":9,"pixi.js":18}],7:[function(require,module,exports){
 'use strict';
 
 var radians = [];
@@ -386,12 +360,14 @@ var particle = {
         container.addChild(this.sprite);
     },
 
-    offset: function(change_width, change_height) {
-        this.position.x *= change_width;
-        this.position.y *= change_height;
+    offset: function(change) {
+        this.position.x *= change;
+        this.position.y *= change;
 
-        this.target.x *= change_width;
-        this.target.y *= change_height;
+        this.target.x *= change;
+        this.target.y *= change;
+
+        this.max_speed *= change;
     },
 
     update: function() {
@@ -450,7 +426,7 @@ module.exports.create = function create(container, gfx, options) {
     return instance;
 }
 
-},{"./utils.js":14,"./vector.js":15,"pixi.js":17}],9:[function(require,module,exports){
+},{"./utils.js":15,"./vector.js":16,"pixi.js":18}],9:[function(require,module,exports){
 'use strict';
 
 var width;
@@ -514,6 +490,32 @@ Object.defineProperty(PixelRatio, 'ratio', {
 },{}],10:[function(require,module,exports){
 'use strict';
 
+var PIXI            = require('pixi.js');
+var pixelratio      = require('./pixelratio.js');
+
+var r = {};
+
+module.exports = function(color, container) {
+    r.width = document.documentElement.clientWidth;
+    r.height = r.width * 0.5625;
+
+    r.stage = new PIXI.Stage(color);
+    r.renderer = PIXI.autoDetectRenderer(r.width, r.height);
+
+    r.ratio = pixelratio.get_ratio(r.renderer.view);
+    r.renderer.resize(r.width * r.ratio, r.height * r.ratio);
+
+    container.appendChild(r.renderer.view);
+
+    r.renderer.view.style.width = r.width + 'px';
+    r.renderer.view.style.height = r.height + 'px';
+
+    return r;
+}
+
+},{"./pixelratio.js":9,"pixi.js":18}],11:[function(require,module,exports){
+'use strict';
+
 var eventlistener   = require('./eventlistener.js');
 
 var scale = {
@@ -521,45 +523,69 @@ var scale = {
     current_height: 0,
     new_width: 0,
     new_height: 0,
-    change_width: 0,
-    change_height: 0
+    change: 0
 };
-var cooldown_time = 200; // ms
+var cooldown_time = 300; // ms
 var event_time = 0;
 var timer;
+var ar = 0.5625;
+var is_resizing = false;
+var has_resized = false;
 
-module.exports = function(cb) {
+module.exports.init = function() {
     scale.current_width = document.documentElement.clientWidth;
-    scale.current_height = document.documentElement.clientHeight;
+    scale.current_height = scale.current_width * ar;
 
     eventlistener.add(window, 'resize', function(event) {
+        is_resizing = true;
         event_time = Date.now();
 
         scale.new_width = event.currentTarget.document.documentElement.clientWidth;
-        scale.new_height = event.currentTarget.document.documentElement.clientHeight;
+        scale.new_height = scale.new_width * ar;
 
         if (typeof timer === 'undefined') {
-            timer = window.setInterval(resize_handler.bind(cb), 100);
+            timer = window.setInterval(resize_handler, 100);
         }
     }, 'on');
 }
+
+Object.defineProperty(module.exports, 'is_resizing', {
+    get: function() {
+        return is_resizing;
+    }
+});
+
+Object.defineProperty(module.exports, 'scale', {
+    get: function() {
+        return scale;
+    }
+});
+
+Object.defineProperty(module.exports, 'has_resized', {
+    get: function() {
+        return has_resized;
+    },
+    set: function(value) {
+        has_resized = value;
+    }
+});
 
 function resize_handler() {
     if (Date.now() - event_time >= cooldown_time) {
         window.clearInterval(timer);
         timer = undefined;
 
-        scale.change_width = scale.new_width / scale.current_width;
-        scale.change_height = scale.new_height / scale.current_height;
+        scale.change = scale.new_width / scale.current_width;
 
-        this(scale);
+        is_resizing = false;
+        has_resized = true;
 
         scale.current_width = document.documentElement.clientWidth;
-        scale.current_height = document.documentElement.clientHeight;
+        scale.current_height = scale.current_width * ar;
     }
 }
 
-},{"./eventlistener.js":4}],11:[function(require,module,exports){
+},{"./eventlistener.js":4}],12:[function(require,module,exports){
 'use strick';
 
 var spawnpoints = [];
@@ -630,7 +656,7 @@ Object.defineProperty(module.exports, 'list', {
     }
 });
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 var eventlistener = require('./eventlistener.js');
@@ -665,7 +691,7 @@ module.exports.visibility = function(callback) {
     }
 }
 
-},{"./eventlistener.js":4}],13:[function(require,module,exports){
+},{"./eventlistener.js":4}],14:[function(require,module,exports){
 'use strict';
 
 module.exports.create = function(options) {
@@ -715,7 +741,7 @@ module.exports.create = function(options) {
     return blacks;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var Utils = {
@@ -734,7 +760,7 @@ var Utils = {
 
 module.exports = Utils;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var Vector = {
@@ -829,7 +855,7 @@ var tmp = {
 
 module.exports = Vectors;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 var eventlistener = require('./eventlistener.js');
@@ -858,7 +884,7 @@ function isElementInViewport(el) {
            (rect.bottom <= dh && rect.bottom >= 0);
 }
 
-},{"./eventlistener.js":4}],17:[function(require,module,exports){
+},{"./eventlistener.js":4}],18:[function(require,module,exports){
 /**
  * @license
  * pixi.js - v2.2.9
@@ -21237,7 +21263,7 @@ Object.defineProperty(PIXI.RGBSplitFilter.prototype, 'blue', {
         root.PIXI = PIXI;
     }
 }).call(this);
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * @author mrdoob / http://mrdoob.com/
  */

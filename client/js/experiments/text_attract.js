@@ -7,19 +7,14 @@ var particle        = require('particle');
 var spawnpoints     = require('spawnpoints');
 var lookuptables    = require('lookuptables');
 var PIXI            = require('pixi.js');
+var renderer_setup  = require('renderer');
 
 var target_coords = [];
 var particles = [];
 var dead_particles = [];
-var canvas_size = {
-    width:  0,
-    height: 0
-};
-var stage;
-var renderer;
+var renderer = {};
 var paused = false;
 var dead_count = 0;
-var ratio;
 
 var canvas_color = 0xFFFFFF;
 var num_spawnpoints = 8;
@@ -28,22 +23,7 @@ var num_particles = 200;
 var experiment = {
     init: function(wrapper_el) {
 
-        // TODO: Create a module for setting up a renderer. Handle hidpi stuff there
-        canvas_size.width = document.documentElement.clientWidth;
-        canvas_size.height = canvas_size.width * 0.5625;
-
-        stage = new PIXI.Stage(canvas_color);
-        renderer = PIXI.autoDetectRenderer(canvas_size.width,
-                                           canvas_size.height);
-
-        ratio = pixelratio.get_ratio(renderer.view);
-        renderer.resize(canvas_size.width * ratio,
-                        canvas_size.height * ratio);
-
-        wrapper_el.appendChild(renderer.view);
-
-        renderer.view.style.width = canvas_size.width + 'px';
-        renderer.view.style.height = canvas_size.height + 'px';
+        renderer = renderer_setup(canvas_color, wrapper_el);
 
         var circle_gfx = gfx.circle({
             radius: 2,
@@ -52,8 +32,8 @@ var experiment = {
         });
 
         target_coords = text.create({
-            width:          canvas_size.width,
-            height:         canvas_size.height,
+            width:          renderer.width,
+            height:         renderer.height,
             min_font_size:  12,
             max_font_size:  40,
             font:           'Helvetica',
@@ -61,10 +41,9 @@ var experiment = {
             debug:          false
         });
 
-        var s_points = spawnpoints.create(canvas_size.width * ratio,
-                                          canvas_size.height * ratio,
+        var s_points = spawnpoints.create(renderer.width * renderer.ratio,
+                                          renderer.height * renderer.ratio,
                                           num_spawnpoints);
-        // var particle_i = 0;
         var amount = 0;
 
         s_points.forEach(function(sp) {
@@ -76,12 +55,10 @@ var experiment = {
                 var coord = lookuptables.get_coord(deg, radius);
                 var target = target_coords[Math.floor(Math.random() * target_coords.length)];
 
-                // particle_i++;
-
-                particles.push(particle.create(stage, circle_gfx, {
+                particles.push(particle.create(renderer.stage, circle_gfx, {
                     target: {
-                        x: target.x * ratio,
-                        y: target.y * ratio
+                        x: target.x * renderer.ratio,
+                        y: target.y * renderer.ratio
                     },
                     pos: {
                         x: sp.x + coord.x,
@@ -91,7 +68,7 @@ var experiment = {
             }
         });
 
-        return renderer.view;
+        return renderer.renderer.view;
     },
 
     update: function() {
@@ -109,16 +86,14 @@ var experiment = {
             }
         });
 
-        renderer.render(stage);
-
-        // label(dead_count + '/' + particles.length, 10, 20);
+        renderer.renderer.render(renderer.stage);
 
         if (dead_count === particles.length) {
             console.log('particles dead');
             paused = true;
         }
 
-        return true;
+        return this;
     },
 
     pause: function() {
@@ -129,29 +104,23 @@ var experiment = {
         paused = false;
     },
 
-    scale: function(width_change, height_change) {
-        canvas_size.width *= width_change;
-        canvas_size.height *= height_change;
+    scale: function(change) {
+        renderer.width *= change;
+        renderer.height *= change;
 
-        renderer.resize(canvas_size.width * ratio,
-                        canvas_size.height * ratio);
+        renderer.renderer.resize(renderer.width * renderer.ratio,
+                                 renderer.height * renderer.ratio);
 
-        renderer.view.style.width = canvas_size.width + 'px';
-        renderer.view.style.height = canvas_size.height + 'px';
+        renderer.renderer.view.style.width = renderer.width + 'px';
+        renderer.renderer.view.style.height = renderer.height + 'px';
 
         particles.forEach(function(particle) {
-            particle.offset(width_change, height_change);
+            particle.offset(change);
         });
+
+        return this;
     }
 };
-
-function label(caption, x, y) {
-    ctx.font = '12 px Helvetica';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'bottom';
-    ctx.fillStyle = '#000';
-    ctx.fillText(caption, x, y);
-}
 
 function kill(particle) {
     var exists = false;

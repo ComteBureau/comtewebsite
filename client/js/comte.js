@@ -48,18 +48,23 @@ module.exports = function comte() {
        // document.body.style.background = is_visible ? '#ccc' : '#f00';
     });
 
-    resize(function(scale) {
-        experiment.scale(scale.change_width, scale.change_height);
-    });
-
+    resize.init();
     run();
 }
 
 function update() {
     stats.begin();
-    if (experiment.update()) {
-        run();
+
+    if (!resize.is_resizing) {
+        if (resize.has_resized) {
+            experiment.scale(resize.scale.change);
+            resize.has_resized = false;
+        } else {
+            experiment.update();
+        }
     }
+
+    run();
     stats.end();
 }
 
