@@ -11,11 +11,10 @@ module.exports = function home(app, res) {
 
                 res.content.home = {
                     company:    company(app, bookmarks.about),
-                    about:      section(app, bookmarks.about, 'about'),
-                    office:     section(app, bookmarks.about, 'office'),
-                    process:    process(app, bookmarks.about),
+                    contact:    contact(app, bookmarks.about),
+                    about:      about(app, bookmarks.about),
                     people:     peeps(app, bookmarks.about),
-                    clients:    section(app, bookmarks.about, 'clients')
+                    clients:    clients(app, bookmarks.about)
                 };
 
                 resolve(res.content.home);
@@ -33,54 +32,53 @@ function company(app, content) {
 
     return {
         name:               content.getText('about.company_name'),
-        tagline:            content.getText('about.company_tagline'),
-        email:              content.getText('about.company_email'),
-        telephone:          content.getText('about.company_telephone'),
-        visiting_address:   content.getStructuredText('about.company_visiting_address'),
-        location:           content.getGeoPoint('about.company_location')
+        tagline:            content.getText('about.company_tagline')
     };
 }
 
-function section(app, content, name) {
+function contact(app, content) {
     if (!content) {
         return;
     }
 
     return {
-        title:              content.getText('about.'+name+'_title'),
-        description:        content.getStructuredText('about.'+name+'_description'),
-        photo:              app.utils.getImage(content.get('about.'+name+'_photo')),
-        background_color:   common.getColor(content.get('about.'+name+'_background_color'))
+        email:              content.getText('about.contact_email'),
+        telephone:          content.getText('about.contact_telephone'),
+        visiting_address:   content.getStructuredText('about.contact_visiting_address'),
+        location:           content.getGeoPoint('about.contact_location'),
+        photo:              app.utils.getImage(content.get('about.contact_photo'))
     };
 }
 
-function process(app, content) {
+function about(app, content) {
     if (!content) {
         return;
     }
 
-    var proc = {
-        title:              content.getText('about.process_title'),
-        description:        content.getStructuredText('about.process_description'),
-        photo:              app.utils.getImage(content.get('about.process_photo')),
-        background_color:   common.getColor(content.get('about.process_background_color'))
+    return {
+        title:                  content.getText('about.about_title'),
+        subtitle:               content.getText('about.about_subtitle'),
+        description_top:        content.getStructuredText('about.about_description_top'),
+        description_bottom:     content.getStructuredText('about.about_description_bottom'),
+        more_link:              content.getText('about.about_more_link'),
+        title_insight:          content.getText('about.about_insight_title'),
+        description_insight:    content.getStructuredText('about.about_insight_description'),
+        title_strategy:         content.getText('about.about_strategy_title'),
+        description_strategy:   content.getStructuredText('about.about_strategy_description'),
+        title_design:           content.getText('about.about_design_title'),
+        description_design:     content.getStructuredText('about.about_design_description')
     };
+}
 
-    proc.steps = app.utils.iterateGroup({
-        document:   content,
-        path:       'about.process_steps'
-    }, function(step, i) {
+function clients(app, content) {
+    if (!content) {
+        return;
+    }
 
-        return {
-            title:          step.getText('step_title'),
-            description:    step.getStructuredText('step_description'),
-            icon:           app.utils.getImage(step.get('step_icon')),
-            i:              i
-        };
-
-    });
-
-    return proc;
+    return {
+        title:              content.getText('about.clients_title'),
+        description:        content.getStructuredText('about.clients_description')
+    };
 }
 
 function peeps(app, content) {
@@ -91,8 +89,8 @@ function peeps(app, content) {
     var people_content = {
         title:              content.getText('about.people_title'),
         description:        content.getStructuredText('about.people_description'),
-        photo:              app.utils.getImage(content.get('about.people_photo')),
-        background_color:   common.getColor(content.get('about.people_background_color'))
+        more_link:          content.getText('about.people_more_link'),
+        photo:              app.utils.getImage(content.get('about.people_photo'))
     };
 
     people_content.list = app.utils.iterateGroup({
