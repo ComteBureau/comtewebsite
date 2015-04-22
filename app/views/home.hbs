@@ -1,15 +1,3 @@
-<div id="size"></div>
-
-<script type="text/javascript">
-    window.onresize = resize;
-    resize();
-
-    function resize(event) {
-        var rect = document.documentElement.getBoundingClientRect();
-        document.getElementById('size').innerHTML = rect.width;
-    }
-</script>
-
 <!--
     (min-width: 960px)
     (max-width: 960px)
@@ -23,70 +11,82 @@
     <canvas id="intro"></canvas>
 </div>
 
-{{#if home.about.photo}}
-    {{imagestyle "about" home.about.photo}}
-    <section id="section_about">
-{{else}}
-    {{#if home.about.background_color}}
-        <section class="color_{{lowercase home.about.background_color}}">
-    {{/if}}
-{{/if}}
+<section class="yellow">
     <div>
         <h1>{{home.about.title}}</h1>
-        {{ashtml home.about.description}}
+        <h2 class="salmon">{{home.about.subtitle}}</h2>
+        {{ashtml home.about.description_top}}
+    </div>
+</section>
+<section class="black">
+    <div>
+        {{ashtml home.about.description_bottom}}
+        <a href="#process" class="button salmon">{{home.about.more_link}}</a>
     </div>
 </section>
 
-{{#if home.process.photo}}
-    {{imagestyle "process" home.process.photo}}
-    <section id="section_process">
-{{else}}
-    {{#if home.process.background_color}}
-        <section class="color_{{lowercase home.process.background_color}}">
-    {{/if}}
-{{/if}}
+<section class="salmon">
     <div>
-        <h1>{{home.process.title}}</h1>
-        {{ashtml home.process.description}}
-
-        {{#if home.process.steps}}
-        <ul id="col-4">
-            {{#each home.process.steps}}
+        <ul id="col-3">
             <li>
-                <img src="{{icon.small}}">
-                <h3>{{title}}</h3>
-                {{ashtml description}}
+                <h2>{{home.about.title_insight}}</h2>
+                <img src="insight.svg">
+                {{ashtml home.about.description_insight}}
             </li>
-            {{/each}}
+            <li>
+                <h2>{{home.about.title_strategy}}</h2>
+                <img src="strategy.svg">
+                {{ashtml home.about.description_strategy}}
+            </li>
+            <li>
+                <h2>{{home.about.title_design}}</h2>
+                <img src="design.svg">
+                {{ashtml home.about.description_design}}
+            </li>
         </ul>
-        {{/if}}
-
     </div>
 </section>
 
 {{#if works}}
 <section>
-    {{workslist works}}
+    {{#workslist works}}
+        <ul>
+        {{#each row}}
+            <li style="width: {{@width}}%;">
+                <div class="work_shade">
+                    <div class="work_content">
+                        <h2>{{title}}</h2>
+                        <a href="{{link}}" class="button">View project</a>
+                    </div>
+                </div>
+                <picture>
+                    <source srcset="{{main_photo.main}}" media="(min-width: 960px)">
+                    <source srcset="{{main_photo.large}}" media="(min-width: 700px) and (max-width: 960px)">
+                    <source srcset="{{main_photo.medium}}" media="(min-width: 400px) and (max-width: 700px)">
+                    <img srcset="{{main_photo.small}}" alt="{{main_photo.alt}}">
+                </picture>
+            </li>
+        {{/each}}
+        </ul>
+    {{/workslist}}
 </section>
 {{/if}}
 
-{{#if home.clients.photo}}
-    {{imagestyle "clients" home.clients.photo}}
-    <section id="section_clients">
-{{else}}
-    {{#if home.clients.background_color}}
-        <section class="color_{{lowercase home.clients.background_color}}">
-    {{/if}}
-{{/if}}
+<section class="greenish" id="clients">
     <div>
         <h1>{{home.clients.title}}</h1>
         {{ashtml home.clients.description}}
 
         {{#if works}}
-        <ul>
+        <ul class="logos">
         {{#each works}}
             <li>
-                <img src="{{logo.small}}">
+                <picture>
+                    <source srcset="{{logo.main}}" media="(min-width: 960px)">
+                    <source srcset="{{logo.large}}" media="(min-width: 700px) and (max-width: 960px)">
+                    <source srcset="{{logo.medium}}" media="(min-width: 400px) and (max-width: 700px)">
+                    <img srcset="{{logo.small}}" alt="{{logo.alt}}">
+                </picture>
             </li>
         {{/each}}
         </ul>
@@ -94,29 +94,11 @@
     </div>
 </section>
 
-{{#if home.office.photo}}
-    {{imagestyle "office" home.office.photo}}
-    <section id="section_office">
-{{else}}
-    {{#if home.office.background_color}}
-        <section class="color_{{lowercase home.office.background_color}}">
-    {{/if}}
-{{/if}}
-    <div>
-
-        <h1>{{home.office.title}}</h1>
-        {{ashtml home.office.description}}
-
-    </div>
-</section>
-
 {{#if home.people.photo}}
     {{imagestyle "people" home.people.photo}}
-    <section id="section_people">
+    <section id="people">
 {{else}}
-    {{#if home.people.background_color}}
-        <section class="color_{{lowercase home.people.background_color}}">
-    {{/if}}
+    <section class="black">
 {{/if}}
     <div>
 
@@ -127,11 +109,29 @@
         <ul id="people">
             {{#each home.people.list}}
             <li>
-                <img src="{{photo.small}}">
                 <h3>{{name}}</h3>
                 <p>{{title}}</p>
                 <p>{{email email}}</p>
                 <p>{{telephone}}</p>
+            </li>
+            {{/each}}
+        </ul>
+
+        <a href="#people" class="button">{{home.people.more_link}}</a>
+        {{/if}}
+
+    </div>
+</section>
+
+<section class="black">
+    <div>
+
+        {{#if home.people.list}}
+        <ul id="people">
+            {{#each home.people.list}}
+            <li>
+                <h3>{{name}}</h3>
+                <img src="{{photo.small}}">
                 {{ashtml about}}
             </li>
             {{/each}}
@@ -141,14 +141,18 @@
     </div>
 </section>
 
-<footer>
-    <h1>{{home.company.name}}</h1>
-    <span>{{home.company.tagline}}</span>
-    <ul>
-        <li>{{email home.company.email}}</li>
-        <li>{{home.company.telephone}}</li>
-        <li>{{ashtml home.company.visiting_address}}</li>
-        <li>Latitude: {{home.company.location.latitude}}</li>
-        <li>Longitude: {{home.company.location.longitude}}</li>
-    </ul>
-</footer>
+{{#if home.contact.photo}}
+    {{imagestyle "contact" home.contact.photo}}
+    <section id="contact">
+{{else}}
+    <section class="black">
+{{/if}}
+    <div>
+        <h1>{{home.company.name}}</h1>
+        <p>{{email home.contact.email}}</p>
+        <p>{{home.contact.telephone}}</p>
+        {{ashtml home.contact.visiting_address}}
+        {{!-- home.contact.location.latitude --}}
+        {{!-- home.contact.location.longitude --}}
+    </div>
+</section>
