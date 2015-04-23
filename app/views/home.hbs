@@ -25,22 +25,22 @@
     </div>
 </section>
 
-<section class="salmon">
+<section class="salmon" id="process">
     <div>
-        <ul id="col-3">
+        <ul>
             <li>
                 <h2>{{home.about.title_insight}}</h2>
-                <img src="insight.svg">
+                <img src="/public/images/symbol_03.svg">
                 {{ashtml home.about.description_insight}}
             </li>
             <li>
                 <h2>{{home.about.title_strategy}}</h2>
-                <img src="strategy.svg">
+                <img src="/public/images/symbol_02.svg">
                 {{ashtml home.about.description_strategy}}
             </li>
             <li>
                 <h2>{{home.about.title_design}}</h2>
-                <img src="design.svg">
+                <img src="/public/images/symbol_01.svg">
                 {{ashtml home.about.description_design}}
             </li>
         </ul>
@@ -50,9 +50,9 @@
 {{#if works}}
 <section>
     {{#workslist works}}
-        <ul>
+        <ul id="worklist">
         {{#each row}}
-            <li style="width: {{@width}}%;">
+            <li class="{{@description}}">
                 <div class="work_shade">
                     <div class="work_content">
                         <h2>{{title}}</h2>
@@ -78,7 +78,7 @@
         {{ashtml home.clients.description}}
 
         {{#if works}}
-        <ul class="logos">
+        <ul id="logos">
         {{#each works}}
             <li>
                 <picture>
@@ -96,7 +96,7 @@
 
 {{#if home.people.photo}}
     {{imagestyle "people" home.people.photo}}
-    <section id="people">
+    <section id="people" class="wide">
 {{else}}
     <section class="black">
 {{/if}}
@@ -123,7 +123,7 @@
     </div>
 </section>
 
-<section class="black">
+<section class="black wide">
     <div>
 
         {{#if home.people.list}}

@@ -8,7 +8,9 @@ module.exports.latest = function latest_works(app, res, options) {
     res.content.works = [];
 
     options = options || {};
-    options.limit = 10;
+
+    // Change according to the number of tiles in the work list grid
+    options.limit = 9;
     options.sort = 'published desc';
 
     return query(app, res.locals.ctx, options, function(results) {

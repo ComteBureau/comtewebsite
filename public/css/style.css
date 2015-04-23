@@ -57,7 +57,8 @@ section p {
     position: relative;
     display: block;
     margin: auto 10%;
-    line-height: 1.35rem;
+    line-height: 1.45rem;
+    letter-spacing: -0.06rem;
 }
 
 section {
@@ -79,13 +80,20 @@ section > div {
 
 section ul {
     list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 section li {
-    float: left;
-    display: inline-block;
+    float: none;
+    display: block;
+    flex-grow: 1;
+    flex-basis: 15rem;
     position: relative;
     font-size: 0;
+    margin: 0 1rem;
 }
 
 section li div.work_shade {
@@ -105,6 +113,50 @@ section li div.work_content {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    margin: auto 3rem;
+}
+
+section li img {
+    width: 30%;
+    margin-bottom: 2.5rem;
+    margin-top: 0.5rem;
+}
+
+li p {
+    padding-bottom: 0;
+    position: relative;
+    display: block;
+    margin: 0 0 1.3rem 0;
+    line-height: 1.2rem;
+    text-align: left;
+    font-size: 0.8rem;
+}
+
+ul#worklist li {
+    flex-basis: auto;
+    margin: 0;
+    width: auto;
+}
+
+ul#worklist li.full {
+    width: 100%;
+}
+
+ul#worklist li.half {
+    width: 50%;
+}
+
+ul#worklist li.third {
+    width: 33.333%;
+}
+
+ul#worklist li.fourth {
+    width: 25%;
+}
+
+ul#worklist li img {
+    width: 100%;
+    margin: 0;
 }
 
 div.work_content h2 {
@@ -113,22 +165,8 @@ div.work_content h2 {
     margin-bottom: 0;
 }
 
-section li img {
-    width: 100%;
-}
-
-section ul#col-3 li {
-    width: 33%;
-}
-
-ul#col-3 p {
-    padding-bottom: 0;
-    position: relative;
-    display: block;
-    margin: auto 2rem;
-    line-height: 1.2rem;
-    text-align: left;
-    font-size: 0.8rem;
+section#process > div {
+    padding: 4rem 1rem;
 }
 
 section#people ul#people {
@@ -136,7 +174,9 @@ section#people ul#people {
 }
 
 ul#people li {
-    width: 33%;
+    margin-bottom: 2rem;
+    flex-grow: 0;
+    flex-basis: 15rem;
 }
 
 ul#people li img {
@@ -147,7 +187,12 @@ ul#people li img {
 }
 
 ul#people p {
-    padding-bottom: 0.2rem;
+    margin-bottom: 0.2rem;
+    text-align: center;
+}
+
+section#clients > div {
+    padding: 4rem 15%;
 }
 
 section#clients div > p, section#people div > p {
@@ -161,6 +206,10 @@ section#people div, section#contact div {
 
 section#people {
     color: white;
+}
+
+section.wide > div {
+    padding: 4rem 15%;
 }
 
 section#contact div {
@@ -185,16 +234,27 @@ a.button {
     display: inline-block;
 }
 
-.logos li {
-    width: 33%;
+a.button.salmon {
+    border-color: #FC5B5D;
+}
+
+ul#logos {
+    margin-top: 3rem;
+}
+
+ul#logos li {
+    height: 10rem;
+    flex-grow: 0;
+    margin: auto 5%;
+}
+
+ul#logos li img {
+    width: 100%;
+    margin: 0;
 }
 
 .salmon {
     color: #FC5B5D;
-}
-
-a.button.salmon {
-    border-color: #FC5B5D;
 }
 
 section.salmon {
@@ -214,4 +274,139 @@ section.greenish {
 section.black {
     background-color: black;
     color: white;
+}
+
+@media screen and (min-width: 1320px) {
+    section > div {
+        padding: 4rem 30%;
+    }
+
+    section#process > div {
+        padding: 4rem 15%;
+    }
+
+    section li {
+        flex-basis: 10rem;
+    }
+}
+
+@media screen and (max-width: 1320px) {
+    section > div {
+        padding: 4rem 26%;
+    }
+
+    section#process > div {
+        padding: 4rem 15%;
+    }
+
+    section li {
+        flex-basis: 10rem;
+    }
+}
+
+@media screen and (max-width: 1130px) {
+    section > div {
+        padding: 4rem 25%;
+    }
+
+    div.work_content h2 {
+        font-size: 1.2rem;
+    }
+
+    div.work_content a.button {
+        font-size: 0.8rem;
+    }
+
+    section#clients div > p {
+        margin-left: 5rem;
+        margin-right: 5rem;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    section > div {
+        padding: 4rem 20%;
+    }
+
+    section#process > div {
+        padding: 4rem 12%;
+    }
+
+    ul#worklist li.fourth {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    section > div {
+        padding: 4rem 15%;
+    }
+
+    section#process > div {
+        padding: 4rem 8%;
+    }
+
+    ul#worklist li.third {
+        width: 50%;
+    }
+
+    ul#logos li {
+        margin: auto 0;
+        flex-basis: 8rem;
+    }
+
+    section#people div > p {
+        margin: auto 1rem;
+    }
+
+    ul#people li {
+        margin-bottom: 4rem;
+    }
+
+    section.wide > div {
+        padding: 4rem 1rem;
+    }
+
+}
+
+@media screen and (max-width: 650px) {
+    section > div {
+        padding: 4rem 12%;
+    }
+
+    section li {
+        margin-bottom: 2rem;
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+
+    section > div {
+        padding: 4rem 1rem;
+    }
+
+    section#process > div {
+        padding: 4rem 10%;
+    }
+
+    section li {
+        flex-basis: 15rem;
+    }
+
+    ul#worklist li.half {
+        width: 100%;
+    }
+
+    ul#worklist li.third {
+        width: 100%;
+    }
+
+    ul#worklist li.fourth {
+        width: 100%;
+    }
+
+    section#clients > div {
+        padding: 4rem 5%;
+    }
 }

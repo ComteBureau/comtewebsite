@@ -7,24 +7,24 @@ module.exports.lowercase = function(context, options) {
 module.exports.imagestyle = function(name, photo) {
     var style = "<style type='text/css'>"+
 
-        "#"+name+" {"+
+        "section#"+name+" {"+
             "background-image: url("+photo.main+");"+
         "}"+
 
         "@media only screen and (max-width: 1440px) {"+
-            "#"+name+" {"+
+            "section#"+name+" {"+
                 "background-image: url("+photo.large+");"+
             "}"+
         "}"+
 
         "@media only screen and (max-width: 720px) {"+
-            "#"+name+" {"+
+            "section#"+name+" {"+
                 "background-image: url("+photo.medium+");"+
             "}"+
         "}"+
 
         "@media only screen and (max-width: 375px) {"+
-            "#"+name+" {"+
+            "section#"+name+" {"+
                 "background-image: url("+photo.small+");"+
             "}"+
         "}"+
@@ -35,8 +35,23 @@ module.exports.imagestyle = function(name, photo) {
 
 // Iterates a list of works and outputs rows of works where each row
 // has an increasing number of works. Max number of works on a row is 4.
+
+// If you start with one column, you'll end up with a grid like this:
+// _____________
+// |___________|
+// |_____|_____|
+// |___|___|___|
+// |__|__|__|__|
+
+// If you start with two columns, you'll end up with:
+// _____________
+// |_____|_____|
+// |___|___|___|
+// |__|__|__|__|
+
 module.exports.workslist = function(works, options) {
-    var cols = 1;
+    // Set number of columns to start with
+    var cols = 2;
     var output = '';
     var max_cols = 4;
 
@@ -49,6 +64,12 @@ module.exports.workslist = function(works, options) {
         var items = works.splice(0, cols);
         var data = Handlebars.createFrame(options.data || {});
         data.width = 100 / items.length;
+        data.weight = 1 / cols;
+        data.description = items.length === 1 ? 'full' :
+                           items.length === 2 ? 'half' :
+                           items.length === 3 ? 'third' :
+                           items.length === 4 ? 'fourth' :
+                           'none';
 
         output += options.fn({row: items}, {data: data});
 
