@@ -20,6 +20,10 @@ body {
     margin-right: 15%;
     top: 50%;
     transform: translateY(-65%);
+    -webkit-transform: translateY(-65%);
+    -moz-transform: translateY(-65%);
+    -ms-transform: translateY(-65%);
+    -o-transform: translateY(-65%);
 }
 
 h1 {
@@ -80,17 +84,32 @@ section > div {
 
 section ul {
     list-style: none;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
+
     flex-direction: row;
+    -webkit-flex-direction: row;
+
     flex-wrap: wrap;
-    justify-content: center;
+    -webkit-flex-wrap: wrap;
+
+    -webkit-justify-content: center;
 }
 
 section li {
     float: none;
     display: block;
-    flex-grow: 1;
-    flex-basis: 15rem;
+
+    /* grow shrink basis */
+    -webkit-box-flex: 1 1 15rem;
+    -moz-box-flex: 1 1 15rem;
+    -webkit-flex: 1 1 15rem;
+    -ms-flex: 1 1 15rem;
+    flex: 1 1 15rem;
+
     position: relative;
     font-size: 0;
     margin: 0 1rem;
@@ -113,6 +132,10 @@ section li div.work_content {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
     margin: auto 3rem;
 }
 
@@ -133,7 +156,14 @@ li p {
 }
 
 ul#worklist li {
-    flex-basis: auto;
+
+    /* grow shrink basis */
+    -webkit-box-flex: auto;
+    -moz-box-flex: auto;
+    -webkit-flex: auto;
+    -ms-flex: auto;
+    flex: auto;
+
     margin: 0;
     width: auto;
 }
@@ -175,8 +205,13 @@ section#people ul#people {
 
 ul#people li {
     margin-bottom: 2rem;
-    flex-grow: 0;
-    flex-basis: 15rem;
+
+    /* grow shrink basis */
+    -webkit-box-flex: 0 15rem;
+    -moz-box-flex: 0 15rem;
+    -webkit-flex: 0 15rem;
+    -ms-flex: 0 15rem;
+    flex: 0 15rem;
 }
 
 ul#people li img {
@@ -244,7 +279,15 @@ ul#logos {
 
 ul#logos li {
     height: 10rem;
-    flex-grow: 0;
+
+    /* grow shrink basis */
+
+    -webkit-box-flex: 0 0 8rem;
+    -moz-box-flex: 0 0 8rem;
+    -webkit-flex: 0 0 8rem;
+    -ms-flex: 0 0 8rem;
+    flex: 0 0 8rem;
+
     margin: auto 5%;
 }
 
@@ -286,7 +329,12 @@ section.black {
     }
 
     section li {
-        flex-basis: 10rem;
+        /* grow shrink basis */
+        -webkit-box-flex: 10rem;
+        -moz-box-flex: 10rem;
+        -webkit-flex: 10rem;
+        -ms-flex: 10rem;
+        flex: 10rem;
     }
 }
 
@@ -300,7 +348,12 @@ section.black {
     }
 
     section li {
-        flex-basis: 10rem;
+        /* grow shrink basis */
+        -webkit-box-flex: 10rem;
+        -moz-box-flex: 10rem;
+        -webkit-flex: 10rem;
+        -ms-flex: 10rem;
+        flex: 10rem;
     }
 }
 
@@ -352,7 +405,6 @@ section.black {
 
     ul#logos li {
         margin: auto 0;
-        flex-basis: 8rem;
     }
 
     section#people div > p {
@@ -391,7 +443,12 @@ section.black {
     }
 
     section li {
-        flex-basis: 15rem;
+        /* grow shrink basis */
+        -webkit-box-flex: 15rem;
+        -moz-box-flex: 15rem;
+        -webkit-flex: 15rem;
+        -ms-flex: 15rem;
+        flex: 15rem;
     }
 
     ul#worklist li.half {
