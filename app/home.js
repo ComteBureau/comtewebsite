@@ -9,12 +9,37 @@ module.exports = function home(app, res) {
         app.bookmarks.get(res.locals.ctx)
             .then(function(bookmarks) {
 
+                // Idea for future functionality. Interesting because I
+                // put this json object in a separate file and pass it via
+                // the contructor.
+
+                // parse(app, res.content, bookmarks.about)
+                //     .section('company', {
+                //         name: {
+                //             type: 'text',
+                //             slug: 'about.company_name'
+                //         }
+                //     })
+                //     .section('people', {
+                //         list: {
+                //             type: 'group',
+                //             slug: 'about.people_list',
+                //             items: {
+                //                 name: {
+                //                     type: 'text',
+                //                     slug: 'employee_name'
+                //                 }
+                //             }
+                //         }
+                //     });
+
                 res.content.home = {
                     company:    company(app, bookmarks.about),
                     contact:    contact(app, bookmarks.about),
                     about:      about(app, bookmarks.about),
                     people:     peeps(app, bookmarks.about),
-                    clients:    clients(app, bookmarks.about)
+                    clients:    clients(app, bookmarks.about),
+                    colors:     colors(app, bookmarks.about)
                 };
 
                 resolve(res.content.home);
@@ -32,7 +57,8 @@ function company(app, content) {
 
     return {
         name:               content.getText('about.company_name'),
-        tagline:            content.getText('about.company_tagline')
+        tagline:            content.getText('about.company_tagline'),
+        call_to_action:     content.getText('about.company_call_to_action')
     };
 }
 
@@ -44,9 +70,7 @@ function contact(app, content) {
     return {
         email:              content.getText('about.contact_email'),
         telephone:          content.getText('about.contact_telephone'),
-        visiting_address:   content.getStructuredText('about.contact_visiting_address'),
-        location:           content.getGeoPoint('about.contact_location'),
-        photo:              app.utils.getImage(content.get('about.contact_photo'))
+        visiting_address:   content.getStructuredText('about.contact_visiting_address')
     };
 }
 
@@ -111,4 +135,19 @@ function peeps(app, content) {
     });
 
     return people_content;
+}
+
+function colors(app, content) {
+    if (!content) {
+        return;
+    }
+
+    return {
+        about_top:      content.get('about.color_about_top').value,
+        about_bottom:   content.get('about.color_about_bottom').value,
+        about_process:  content.get('about.color_about_process').value,
+        clients:        content.get('about.color_clients').value,
+        partners:       content.get('about.color_partners').value,
+        call_to_action: content.get('about.color_call_to_action').value
+    };
 }

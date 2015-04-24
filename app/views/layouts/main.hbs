@@ -25,5 +25,25 @@
 </head>
 <body>
     {{{body}}}
+
+
+<script type="text/javascript">
+    var process = document.getElementById('process');
+    process.className = 'hidden';
+
+    var btn_process = document.getElementById('btn_process');
+    var open = false;
+    btn_process.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (open) {
+            process.className = 'salmon hidden';
+            open = false;
+        } else {
+            process.className = 'salmon';
+            open = true;
+        }
+    });
+</script>
+
 </body>
 </html>

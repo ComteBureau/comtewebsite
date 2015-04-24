@@ -50,6 +50,10 @@ p {
     font-size: 1rem;
 }
 
+.hidden {
+    display: none;
+}
+
 section h1 {
     padding-bottom: 0.8rem;
     position: relative;
@@ -199,10 +203,6 @@ section#process > div {
     padding: 4rem 1rem;
 }
 
-section#people ul#people {
-    margin-top: 10rem;
-}
-
 ul#people li {
     margin-bottom: 2rem;
 
@@ -235,7 +235,7 @@ section#clients div > p, section#people div > p {
     margin-right: 10rem;
 }
 
-section#people div, section#contact div {
+section#people div {
     background-color: rgba(0,0,0,0.6);
 }
 
@@ -247,12 +247,12 @@ section.wide > div {
     padding: 4rem 15%;
 }
 
-section#contact div {
+a {
     color: white;
 }
 
-a {
-    color: white;
+p a {
+    color: inherit;
 }
 
 a.button {
@@ -267,6 +267,17 @@ a.button {
     padding-bottom: 0.5rem;
     margin-top: 1.5rem;
     display: inline-block;
+}
+
+a.button:hover {
+    background-color: white;
+    border-color: white;
+    color: black;
+}
+
+a.button.salmon:hover {
+    background-color: #FC5B5D;
+    border-color: #FC5B5D;
 }
 
 a.button.salmon {
@@ -305,8 +316,30 @@ section.salmon {
     color: white;
 }
 
+section.salmon a.button {
+    color: white;
+    border-color: white;
+}
+
+section.salmon a.button:hover {
+    color: #FC5B5D;
+    background-color: white;
+    border-color: white;
+}
+
 section.yellow {
     background-color: #FBF861;
+}
+
+section.yellow a.button {
+    color: black;
+    border-color: black;
+}
+
+section.yellow a.button:hover {
+    color: #FBF861;
+    background-color: black;
+    border-color: black;
 }
 
 section.greenish {
@@ -314,9 +347,47 @@ section.greenish {
     color: #FBF861;
 }
 
+section.greenish a.button {
+    color: #FBF861;
+    border-color: #FBF861;
+}
+
+section.greenish a.button:hover {
+    color: #849E8B;
+    background-color: #FBF861;
+    border-color: #FBF861;
+}
+
+section.purple {
+    background-color: #8C47D6;
+    color: white;
+}
+
+section.purple a.button {
+    color: white;
+    border-color: white;
+}
+
+section.purple a.button:hover {
+    color: #8C47D6;
+    background-color: white;
+    border-color: white;
+}
+
 section.black {
     background-color: black;
     color: white;
+}
+
+section.black a.button {
+    color: white;
+    border-color: white;
+}
+
+section.black a.button:hover {
+    color: black;
+    background-color: white;
+    border-color: white;
 }
 
 @media screen and (min-width: 1320px) {

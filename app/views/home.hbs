@@ -11,21 +11,34 @@
     <canvas id="intro"></canvas>
 </div>
 
-<section class="yellow">
+{{#if home.colors.about_top}}
+    <section class="{{home.colors.about_top}}">
+{{else}}
+    <section class="yellow">
+{{/if}}
     <div>
         <h1>{{home.about.title}}</h1>
         <h2 class="salmon">{{home.about.subtitle}}</h2>
         {{ashtml home.about.description_top}}
     </div>
 </section>
-<section class="black">
+
+{{#if home.colors.about_bottom}}
+    <section class="{{home.colors.about_bottom}}">
+{{else}}
+    <section class="black">
+{{/if}}
     <div>
         {{ashtml home.about.description_bottom}}
-        <a href="#process" class="button salmon">{{home.about.more_link}}</a>
+        <a href="#process" class="button salmon" id="btn_process">{{home.about.more_link}}</a>
     </div>
 </section>
 
-<section class="salmon" id="process">
+{{#if home.colors.about_process}}
+    <section class="{{home.colors.about_process}}" id="process">
+{{else}}
+    <section class="salmon" id="process">
+{{/if}}
     <div>
         <ul>
             <li>
@@ -72,7 +85,11 @@
 </section>
 {{/if}}
 
-<section class="greenish" id="clients">
+{{#if home.colors.clients}}
+    <section class="{{home.colors.clients}}" id="clients">
+{{else}}
+    <section class="greenish" id="clients">
+{{/if}}
     <div>
         <h1>{{home.clients.title}}</h1>
         {{ashtml home.clients.description}}
@@ -104,26 +121,20 @@
 
         <h1>{{home.people.title}}</h1>
         {{ashtml home.people.description}}
-
-        {{#if home.people.list}}
-        <ul id="people">
-            {{#each home.people.list}}
-            <li>
-                <h3>{{name}}</h3>
-                <p>{{title}}</p>
-                <p>{{email email}}</p>
-                <p>{{telephone}}</p>
-            </li>
-            {{/each}}
-        </ul>
+        <p>{{email home.contact.email}}</p>
+        <p>{{home.contact.telephone}}</p>
+        {{ashtml home.contact.visiting_address}}
 
         <a href="#people" class="button">{{home.people.more_link}}</a>
-        {{/if}}
 
     </div>
 </section>
 
-<section class="black wide">
+{{#if home.colors.partners}}
+    <section class="{{home.colors.partners}} wide">
+{{else}}
+    <section class="black wide">
+{{/if}}
     <div>
 
         {{#if home.people.list}}
@@ -132,6 +143,9 @@
             <li>
                 <h3>{{name}}</h3>
                 <img src="{{photo.small}}">
+                <p>{{title}}</p>
+                <p>{{email email}}</p>
+                <p>{{telephone}}</p>
                 {{ashtml about}}
             </li>
             {{/each}}
@@ -141,18 +155,15 @@
     </div>
 </section>
 
-{{#if home.contact.photo}}
-    {{imagestyle "contact" home.contact.photo}}
-    <section id="contact">
+{{#if home.colors.call_to_action}}
+    <section class="{{home.colors.call_to_action}}">
 {{else}}
-    <section class="black">
+    <section class="purple">
 {{/if}}
     <div>
-        <h1>{{home.company.name}}</h1>
-        <p>{{email home.contact.email}}</p>
-        <p>{{home.contact.telephone}}</p>
-        {{ashtml home.contact.visiting_address}}
-        {{!-- home.contact.location.latitude --}}
-        {{!-- home.contact.location.longitude --}}
+        {{email
+            home.contact.email
+            home.company.call_to_action
+            class="button"}}
     </div>
 </section>

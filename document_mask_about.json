@@ -10,10 +10,17 @@
       "config" : {
         "placeholder" : "Say something snazzy about the company!"
       }
+    },
+    "company_call_to_action" : {
+      "fieldset" : "Call to action",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Discuss your project with us"
+      }
     }
   },
 
-  "Contact info" : {
+  "Contact" : {
     "contact_title" : {
       "fieldset" : "Title",
       "type" : "Text",
@@ -40,36 +47,6 @@
       "type" : "StructuredText",
       "config" : {
         "multi": "paragraph"
-      }
-    },
-    "contact_call_to_action" : {
-      "fieldset" : "Call to action",
-      "type" : "Text",
-      "config" : {
-        "placeholder" : "Discuss your project with us"
-      }
-    },
-    "contact_photo" : {
-      "fieldset" : "Background photo",
-      "type" : "Image",
-      "config" : {
-        "constraint" : {
-          "width" : 2880,
-          "height" : 1624
-        },
-        "thumbnails" : [ {
-          "name" : "Large",
-          "width" : 1440,
-          "height" : 812
-        }, {
-          "name" : "Medium",
-          "width" : 720,
-          "height" : 406
-        }, {
-          "name" : "Small",
-          "width" : 375,
-          "height" : 212
-        } ]
       }
     }
   },
@@ -288,6 +265,51 @@
       "config" : {
         "multi": "paragraph, em, strong",
         "placeholder" : "A little about your clients"
+      }
+    }
+  },
+
+  "Colors" : {
+    "color_about_top" : {
+      "type" : "Select",
+      "config": {
+        "label" : "About top",
+        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+      }
+    },
+    "color_about_bottom" : {
+      "type" : "Select",
+      "config": {
+        "label" : "About bottom",
+        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+      }
+    },
+    "color_about_process" : {
+      "type" : "Select",
+      "config": {
+        "label" : "About process",
+        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+      }
+    },
+    "color_clients" : {
+      "type" : "Select",
+      "config": {
+        "label" : "Clients",
+        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+      }
+    },
+    "color_partners" : {
+      "type" : "Select",
+      "config": {
+        "label" : "Partners",
+        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+      }
+    },
+    "color_call_to_action" : {
+      "type" : "Select",
+      "config": {
+        "label" : "Call to action",
+        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
       }
     }
   }
