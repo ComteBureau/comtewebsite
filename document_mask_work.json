@@ -1,0 +1,126 @@
+{
+  "Work": {
+    "title" : {
+      "type" : "Text",
+      "fieldset" : "Title",
+      "config" : {
+        "placeholder" : "Title of the project"
+      }
+    },
+    "description" : {
+      "fieldset" : "Description",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "Describe the project"
+      }
+    },
+    "published" : {
+      "type" : "Date",
+      "fieldset" : "Published date"
+    },
+    "logo" : {
+      "fieldset" : "Client logo",
+      "type" : "Image",
+      "config" : {
+        "constraint" : {
+          "width" : 703,
+          "height" : 395
+        },
+        "thumbnails" : [ {
+          "name" : "Large",
+          "width" : 500,
+          "height" : 281
+        }, {
+          "name" : "Medium",
+          "width" : 250,
+          "height" : 140
+        }, {
+          "name" : "Small",
+          "width" : 125,
+          "height" : 70
+        } ]
+      }
+    },
+    "main_photo" : {
+      "fieldset" : "Main photo",
+      "type" : "Image",
+      "config" : {
+        "constraint" : {
+          "width" : 2880,
+          "height" : 1624
+        },
+        "thumbnails" : [ {
+          "name" : "Large",
+          "width" : 1440,
+          "height" : 812
+        }, {
+          "name" : "Medium",
+          "width" : 720,
+          "height" : 406
+        }, {
+          "name" : "Small",
+          "width" : 360,
+          "height" : 203
+        } ]
+      }
+    },
+    "background_color" : {
+      "fieldset" : "Background color",
+      "type" : "Select",
+      "config": {
+        "label": "Background color",
+        "options": [
+          "Green", "Blue", "Orange", "Teal", "Salmon", "Gray"
+        ]
+      }
+    },
+    "links" : {
+      "fieldset" : "Links",
+      "type" : "Group",
+      "config" : {
+        "fields" : {
+          "link" : {
+            "fieldset" : "Link",
+            "type" : "Link",
+            "config" : {
+              "select" : "web",
+              "placeholder" : "Link to external source"
+            }
+          }
+        }
+      }
+    },
+    "photos" : {
+      "fieldset" : "Photos",
+      "type" : "Group",
+      "config" : {
+        "fields" : {
+          "photo" : {
+            "fieldset" : "Photo",
+            "type" : "Image",
+            "config" : {
+              "constraint" : {
+                "width" : 2880,
+                "height" : 1624
+              },
+              "thumbnails" : [ {
+                "name" : "Large",
+                "width" : 1440,
+                "height" : 812
+              }, {
+                "name" : "Medium",
+                "width" : 720,
+                "height" : 406
+              }, {
+                "name" : "Small",
+                "width" : 360,
+                "height" : 203
+              } ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "Company" : {
+    "company_name" : {
+      "type" : "Text",
+      "fieldset" : "Company name"
+    },
+    "company_tagline" : {
+      "fieldset" : "Tagline",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Say something snazzy about the company!"
+      }
+    }
+  },
+
+  "Contact info" : {
+    "contact_title" : {
+      "fieldset" : "Title",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Title"
+      }
+    },
+    "contact_email" : {
+      "fieldset" : "email address",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Main contact email"
+      }
+    },
+    "contact_telephone" : {
+      "fieldset" : "Telephone number",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "+47"
+      }
+    },
+    "contact_visiting_address" : {
+      "fieldset" : "Visiting address",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph"
+      }
+    },
+    "contact_call_to_action" : {
+      "fieldset" : "Call to action",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Discuss your project with us"
+      }
+    },
+    "contact_photo" : {
+      "fieldset" : "Background photo",
+      "type" : "Image",
+      "config" : {
+        "constraint" : {
+          "width" : 2880,
+          "height" : 1624
+        },
+        "thumbnails" : [ {
+          "name" : "Large",
+          "width" : 1440,
+          "height" : 812
+        }, {
+          "name" : "Medium",
+          "width" : 720,
+          "height" : 406
+        }, {
+          "name" : "Small",
+          "width" : 375,
+          "height" : 212
+        } ]
+      }
+    }
+  },
+
+  "About" : {
+    "about_title" : {
+      "fieldset" : "Title",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Who are you?"
+      }
+    },
+    "about_subtitle" : {
+      "fieldset" : "Subtitle",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Subtitle"
+      }
+    },
+    "about_description_top" : {
+      "fieldset" : "Description top",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "This goes in the top block"
+      }
+    },
+    "about_description_bottom" : {
+      "fieldset" : "Description bottom",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "This goes in the bottom block"
+      }
+    },
+    "about_more_link" : {
+      "fieldset" : "More link",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Caption for the button that shows your work process"
+      }
+    },
+    "about_insight_title" : {
+      "fieldset" : "Insight title",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Title for insight process step"
+      }
+    },
+    "about_insight_description" : {
+      "fieldset" : "Insight description",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "Description of the insight process step"
+      }
+    },
+    "about_strategy_title" : {
+      "fieldset" : "Strategy title",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Title for strategy process step"
+      }
+    },
+    "about_strategy_description" : {
+      "fieldset" : "Strategy description",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "Description of the strategy process step"
+      }
+    },
+    "about_design_title" : {
+      "fieldset" : "Design title",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Title for design process step"
+      }
+    },
+    "about_design_description" : {
+      "fieldset" : "Design description",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "Description of the design process step"
+      }
+    }
+  },
+
+  "People" : {
+    "people_title" : {
+      "fieldset" : "Title",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Insert click bait here"
+      }
+    },
+    "people_description" : {
+      "fieldset" : "Description",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "Introduction of the peeps behind the company"
+      }
+    },
+    "people_more_link" : {
+      "fieldset" : "More about us",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "More about us link"
+      }
+    },
+    "people_photo" : {
+      "fieldset" : "Background photo",
+      "type" : "Image",
+      "config" : {
+        "constraint" : {
+          "width" : 2880,
+          "height" : 1624
+        },
+        "thumbnails" : [ {
+          "name" : "Large",
+          "width" : 1440,
+          "height" : 812
+        }, {
+          "name" : "Medium",
+          "width" : 720,
+          "height" : 406
+        }, {
+          "name" : "Small",
+          "width" : 375,
+          "height" : 212
+        } ]
+      }
+    },
+    "people_list" : {
+      "fieldset" : "Employees",
+      "type" : "Group",
+      "config" : {
+        "fields" : {
+          "employee_name" : {
+            "fieldset" : "Name",
+            "type" : "Text",
+            "config" : {
+              "placeholder" : "Firstname Lastname"
+            }
+          },
+          "employee_title" : {
+            "fieldset" : "Title",
+            "type" : "Text",
+            "config" : {
+              "placeholder" : "Chief Executive Something"
+            }
+          },
+          "employee_email" : {
+            "fieldset" : "email",
+            "type" : "Text",
+            "config" : {
+              "placeholder" : "name@comte.no"
+            }
+          },
+          "employee_telephone" : {
+            "fieldset" : "Telephone",
+            "type" : "Text",
+            "config" : {
+              "placeholder" : "+47"
+            }
+          },
+          "employee_about" : {
+            "fieldset" : "Describe the person",
+            "type" : "StructuredText",
+            "config" : {
+              "multi": "paragraph",
+              "placeholder" : "Got anything nice to say about the person?"
+            }
+          },
+          "employee_photo" : {
+            "fieldset" : "Photo",
+            "type" : "Image",
+            "config" : {
+              "constraint" : {
+                "width" : 1200,
+                "height" : 1200
+              },
+              "thumbnails" : [ {
+                "name" : "Large",
+                "width" : 800,
+                "height" : 800
+              }, {
+                "name" : "Medium",
+                "width" : 500,
+                "height" : 500
+              }, {
+                "name" : "Small",
+                "width" : 375,
+                "height" : 375
+              } ]
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "Clients" : {
+    "clients_title" : {
+      "fieldset" : "Title",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Insert click bait here"
+      }
+    },
+    "clients_description" : {
+      "fieldset" : "Description",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "A little about your clients"
+      }
+    }
+  }
+}
