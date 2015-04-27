@@ -143,11 +143,11 @@ function colors(app, content) {
     }
 
     return {
-        about_top:      content.get('about.color_about_top').value,
-        about_bottom:   content.get('about.color_about_bottom').value,
-        about_process:  content.get('about.color_about_process').value,
-        clients:        content.get('about.color_clients').value,
-        partners:       content.get('about.color_partners').value,
-        call_to_action: content.get('about.color_call_to_action').value
+        about_top:      common.getColor(content.get('about.color_about_top')),
+        about_bottom:   common.getColor(content.get('about.color_about_bottom')),
+        about_process:  common.getColor(content.get('about.color_about_process')),
+        clients:        common.getColor(content.get('about.color_clients')),
+        partners:       common.getColor(content.get('about.color_partners')),
+        call_to_action: common.getColor(content.get('about.color_call_to_action'))
     };
 }
