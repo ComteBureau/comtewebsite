@@ -1,24 +1,48 @@
-<div style="background-color: {{color background_color}};">
-    <div>Num: {{work.i}}</div>
-    <div>ID: {{work.id}}</div>
-    <a href="{{work.link}}">{{work.link}}</a>
-    <div>Date: {{work.date}}</div>
-    <h1>{{work.title}}</h1>
-    {{ashtml work.description}}
-    <img src="{{work.logo.small}}">
-    <img src="{{work.main_photo.small}}">
-    {{#if work.links}}
-    <ul>
-        {{#each work.links}}
-        <li><a href="{{link}}">{{link}}</a></li>
-        {{/each}}
-    </ul>
-    {{/if}}
-    {{#if work.photos}}
-    <ul>
-        {{#each work.photos}}
-        <li><img src="{{photo.small}}"></li>
-        {{/each}}
-    </ul>
-    {{/if}}
-</div
+
+{{#if work.main_photo}}
+    {{imagestyle "work_photo" "section" work.main_photo}}
+    <section id="work_photo" class="photo">
+{{else}}
+    <section class="yellow photo">
+{{/if}}
+    <div>
+        <h1>{{work.title}}</h1>
+    </div>
+</section>
+
+<section class="salmon">
+    <div>
+        {{ashtml work.description}}
+    </div>
+</section>
+
+{{#if work.photos}}
+<section class="black">
+    <div>
+        <ul>
+            {{#each work.photos}}
+            <li>
+                <picture>
+                    <source srcset="{{photo.main}}" media="(min-width: 960px)">
+                    <source srcset="{{photo.large}}" media="(min-width: 700px) and (max-width: 960px)">
+                    <source srcset="{{photo.medium}}" media="(min-width: 400px) and (max-width: 700px)">
+                    <img srcset="{{photo.small}}" alt="{{photo.alt}}">
+                </picture>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</section>
+{{/if}}
+
+{{#if work.links}}
+<section class="greenish">
+    <div>
+        <ul>
+            {{#each work.links}}
+            <li><a href="{{link}}">{{link}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
+</section>
+{{/if}}

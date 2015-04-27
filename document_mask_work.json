@@ -15,6 +15,14 @@
         "placeholder" : "Describe the project"
       }
     },
+    "background_color" : {
+      "fieldset" : "Background color",
+      "type" : "Select",
+      "config": {
+        "label": "Background color",
+        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+      }
+    },
     "published" : {
       "type" : "Date",
       "fieldset" : "Published date"
@@ -63,32 +71,6 @@
           "width" : 360,
           "height" : 203
         } ]
-      }
-    },
-    "background_color" : {
-      "fieldset" : "Background color",
-      "type" : "Select",
-      "config": {
-        "label": "Background color",
-        "options": [
-          "Green", "Blue", "Orange", "Teal", "Salmon", "Gray"
-        ]
-      }
-    },
-    "links" : {
-      "fieldset" : "Links",
-      "type" : "Group",
-      "config" : {
-        "fields" : {
-          "link" : {
-            "fieldset" : "Link",
-            "type" : "Link",
-            "config" : {
-              "select" : "web",
-              "placeholder" : "Link to external source"
-            }
-          }
-        }
       }
     },
     "photos" : {

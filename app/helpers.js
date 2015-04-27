@@ -4,28 +4,36 @@ module.exports.lowercase = function(context, options) {
     return new Handlebars.SafeString(context.toLowerCase());
 }
 
-module.exports.imagestyle = function(name, photo) {
+module.exports.imagestyle = function(name, el, photo) {
     var style = "<style type='text/css'>"+
 
-        "section#"+name+" {"+
+        el+"#"+name+" {"+
             "background-image: url("+photo.main+");"+
+            "background-position: 50% 50%;"+
+            "background-size: cover;"+
         "}"+
 
         "@media only screen and (max-width: 1440px) {"+
-            "section#"+name+" {"+
+            el+"#"+name+" {"+
                 "background-image: url("+photo.large+");"+
+                "background-position: 50% 50%;"+
+                "background-size: cover;"+
             "}"+
         "}"+
 
         "@media only screen and (max-width: 720px) {"+
-            "section#"+name+" {"+
+            el+"#"+name+" {"+
                 "background-image: url("+photo.medium+");"+
+                "background-position: 50% 50%;"+
+                "background-size: cover;"+
             "}"+
         "}"+
 
         "@media only screen and (max-width: 375px) {"+
-            "section#"+name+" {"+
+            el+"#"+name+" {"+
                 "background-image: url("+photo.small+");"+
+                "background-position: 50% 50%;"+
+                "background-size: cover;"+
             "}"+
         "}"+
 

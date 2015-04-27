@@ -65,19 +65,24 @@
     {{#workslist works}}
         <ul id="worklist">
         {{#each row}}
-            <li class="{{@description}}">
-                <div class="work_shade">
-                    <div class="work_content">
+
+            {{#if main_photo}}
+                {{imagestyle id "li" main_photo}}
+                <li class="{{@description}}" id="{{id}}">
+            {{else}}
+                {{#if background_color}}
+                    <li class="{{@description}} {{background_color}}">
+                {{else}}
+                    <li class="{{@description}} black">
+                {{/if}}
+            {{/if}}
+
+                <a href="{{link}}" class="shade">
+                    <div>
                         <h2>{{title}}</h2>
-                        <a href="{{link}}" class="button">View project</a>
+                        <span class="button">View project</span>
                     </div>
-                </div>
-                <picture>
-                    <source srcset="{{main_photo.main}}" media="(min-width: 960px)">
-                    <source srcset="{{main_photo.large}}" media="(min-width: 700px) and (max-width: 960px)">
-                    <source srcset="{{main_photo.medium}}" media="(min-width: 400px) and (max-width: 700px)">
-                    <img srcset="{{main_photo.small}}" alt="{{main_photo.alt}}">
-                </picture>
+                </a>
             </li>
         {{/each}}
         </ul>
@@ -112,7 +117,7 @@
 </section>
 
 {{#if home.people.photo}}
-    {{imagestyle "people" home.people.photo}}
+    {{imagestyle "people" "section" home.people.photo}}
     <section id="people" class="wide">
 {{else}}
     <section class="black">

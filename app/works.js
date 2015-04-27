@@ -81,15 +81,6 @@ function get_works(list, app) {
             main_photo:         app.utils.getImage(work.get('work.main_photo')),
             background_color:   common.getColor(work.get('work.background_color')),
 
-            links:              app.utils.iterateGroup({
-                document:   work,
-                path:       'work.links'
-            }, function(link, i) {
-                return {
-                    link:       link.getLink('link').value.url
-                }
-            }),
-
             photos:             app.utils.iterateGroup({
                 document:   work,
                 path:       'work.photos'

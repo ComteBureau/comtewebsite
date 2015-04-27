@@ -8,9 +8,88 @@ body {
     background-color: #fff;
 }
 
+.salmon {
+    background-color: #FC5B5D;
+    color: white;
+}
+
+.salmon .button {
+    color: white;
+    border-color: white;
+}
+
+.salmon .button:hover {
+    color: #FC5B5D;
+    background-color: white;
+    border-color: white;
+}
+
+.yellow {
+    background-color: #FBF861;
+}
+
+.yellow .button {
+    color: black;
+    border-color: black;
+}
+
+.yellow .button:hover {
+    color: #FBF861;
+    background-color: black;
+    border-color: black;
+}
+
+.greenish {
+    background-color: #849E8B;
+    color: #FBF861;
+}
+
+.greenish .button {
+    color: #FBF861;
+    border-color: #FBF861;
+}
+
+.greenish .button:hover {
+    color: #849E8B;
+    background-color: #FBF861;
+    border-color: #FBF861;
+}
+
+.purple {
+    background-color: #8C47D6;
+    color: white;
+}
+
+.purple .button {
+    color: white;
+    border-color: white;
+}
+
+.purple .button:hover {
+    color: #8C47D6;
+    background-color: white;
+    border-color: white;
+}
+
+.black {
+    background-color: black;
+    color: white;
+}
+
+.black .button {
+    color: white;
+    border-color: white;
+}
+
+.black .button:hover {
+    color: black;
+    background-color: white;
+    border-color: white;
+}
+
 #intro_wrapper {
     width: 100%;
-    height: 56.25%;
+    /*height: 56.25%;*/
     position: relative;
 }
 
@@ -35,8 +114,6 @@ h1 {
 h2 {
     font-family: 'apercumono', Courier, sans-serif;
     font-size: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
 }
 
 h3 {
@@ -48,6 +125,11 @@ h3 {
 p {
     font-family: 'apercumono', Courier, sans-serif;
     font-size: 1rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: underline;
 }
 
 .hidden {
@@ -71,12 +153,14 @@ section p {
 
 section {
     background-size: cover;
+    background-position-y: 50%;
+    background-position-x: 50%;
     position: relative;
     display: table;
     width: 100%;
     text-align: center;
     box-sizing: border-box;
-    min-height: 16rem;
+    min-height: 20rem;
 }
 
 section > div {
@@ -100,6 +184,7 @@ section ul {
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
 
+    justify-content: center;
     -webkit-justify-content: center;
 }
 
@@ -117,30 +202,6 @@ section li {
     position: relative;
     font-size: 0;
     margin: 0 1rem;
-}
-
-section li div.work_shade {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.6);
-}
-
-section li div.work_content {
-    color: white;
-    font-size: 1.8rem;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    margin: auto 3rem;
 }
 
 section li img {
@@ -170,6 +231,7 @@ ul#worklist li {
 
     margin: 0;
     width: auto;
+    min-height: 15rem;
 }
 
 ul#worklist li.full {
@@ -193,10 +255,36 @@ ul#worklist li img {
     margin: 0;
 }
 
-div.work_content h2 {
+ul#worklist a.shade {
+    background-color: rgba(0,0,0,0.3);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+ul#worklist a.shade:hover {
+    background-color: rgba(0,0,0,0);
+}
+
+ul#worklist a.shade div {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+ul#worklist h2 {
+    display: block;
     font-family: 'helvetica_neueregular', Helvetica, Arial, sans-serif;
     font-size: 1.4rem;
-    margin-bottom: 0;
+    margin: 0 1rem;
+    color: white;
 }
 
 section#process > div {
@@ -211,7 +299,7 @@ ul#people li {
     -moz-box-flex: 0 15rem;
     -webkit-flex: 0 15rem;
     -ms-flex: 0 15rem;
-    flex: 0 15rem;
+    flex: 0 1 15rem;
 }
 
 ul#people li img {
@@ -247,18 +335,16 @@ section.wide > div {
     padding: 4rem 15%;
 }
 
-a {
-    color: white;
+section.photo > div {
+    height: 50%;
 }
 
-p a {
-    color: inherit;
-}
-
-a.button {
+.button {
     text-decoration: none;
     font-family: 'apercumono', Courier, sans-serif;
-    border: 1px solid;
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
     border-radius: 999px;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -269,18 +355,20 @@ a.button {
     display: inline-block;
 }
 
-a.button:hover {
+.button:hover {
     background-color: white;
     border-color: white;
     color: black;
 }
 
-a.button.salmon:hover {
-    background-color: #FC5B5D;
+.button.salmon {
     border-color: #FC5B5D;
+    background-color: transparent;
+    color: #FC5B5D;
 }
 
-a.button.salmon {
+.button.salmon:hover {
+    background-color: #FC5B5D;
     border-color: #FC5B5D;
 }
 
@@ -307,87 +395,9 @@ ul#logos li img {
     margin: 0;
 }
 
-.salmon {
+h2.salmon {
     color: #FC5B5D;
-}
-
-section.salmon {
-    background-color: #FC5B5D;
-    color: white;
-}
-
-section.salmon a.button {
-    color: white;
-    border-color: white;
-}
-
-section.salmon a.button:hover {
-    color: #FC5B5D;
-    background-color: white;
-    border-color: white;
-}
-
-section.yellow {
-    background-color: #FBF861;
-}
-
-section.yellow a.button {
-    color: black;
-    border-color: black;
-}
-
-section.yellow a.button:hover {
-    color: #FBF861;
-    background-color: black;
-    border-color: black;
-}
-
-section.greenish {
-    background-color: #849E8B;
-    color: #FBF861;
-}
-
-section.greenish a.button {
-    color: #FBF861;
-    border-color: #FBF861;
-}
-
-section.greenish a.button:hover {
-    color: #849E8B;
-    background-color: #FBF861;
-    border-color: #FBF861;
-}
-
-section.purple {
-    background-color: #8C47D6;
-    color: white;
-}
-
-section.purple a.button {
-    color: white;
-    border-color: white;
-}
-
-section.purple a.button:hover {
-    color: #8C47D6;
-    background-color: white;
-    border-color: white;
-}
-
-section.black {
-    background-color: black;
-    color: white;
-}
-
-section.black a.button {
-    color: white;
-    border-color: white;
-}
-
-section.black a.button:hover {
-    color: black;
-    background-color: white;
-    border-color: white;
+    background-color: transparent;
 }
 
 @media screen and (min-width: 1320px) {
@@ -406,6 +416,10 @@ section.black a.button:hover {
         -webkit-flex: 10rem;
         -ms-flex: 10rem;
         flex: 10rem;
+    }
+
+    ul#worklist li {
+        min-height: 25rem;
     }
 }
 
@@ -426,6 +440,10 @@ section.black a.button:hover {
         -ms-flex: 10rem;
         flex: 10rem;
     }
+
+    ul#worklist li {
+        min-height: 22rem;
+    }
 }
 
 @media screen and (max-width: 1130px) {
@@ -437,7 +455,7 @@ section.black a.button:hover {
         font-size: 1.2rem;
     }
 
-    div.work_content a.button {
+    div.work_content .button {
         font-size: 0.8rem;
     }
 
@@ -459,6 +477,10 @@ section.black a.button:hover {
     ul#worklist li.fourth {
         width: 50%;
     }
+
+    ul#worklist li {
+        min-height: 18rem;
+    }
 }
 
 @media screen and (max-width: 770px) {
@@ -468,6 +490,10 @@ section.black a.button:hover {
 
     section#process > div {
         padding: 4rem 8%;
+    }
+
+    ul#worklist li {
+        min-height: 16rem;
     }
 
     ul#worklist li.third {
