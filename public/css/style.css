@@ -135,6 +135,12 @@ a {
     text-decoration: underline;
 }
 
+div#menu {
+    position: fixed;
+    width: 3rem;
+    margin: 1rem auto auto 1rem;
+}
+
 section h1 {
     padding-bottom: 0.8rem;
     position: relative;
@@ -378,7 +384,7 @@ section#clients div > p, section#people div > p {
 }
 
 section#people div {
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0,0,0,0.5);
 }
 
 section#people {
