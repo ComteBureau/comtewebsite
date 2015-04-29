@@ -114,6 +114,8 @@ h1 {
 h2 {
     font-family: 'apercumono', Courier, sans-serif;
     font-size: 1rem;
+    padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
 }
 
 h3 {
@@ -164,6 +166,14 @@ section > div {
     position: relative;
     padding: 4rem 1rem;
     vertical-align: middle;
+}
+
+section#process > div {
+    padding: 4rem 1rem;
+}
+
+section#about > div {
+    padding: 7% 1rem;
 }
 
 section ul {
@@ -219,7 +229,6 @@ section li img {
 .contracted {
     visibility: hidden;
     opacity: 0;
-    /* display: none; */
 }
 
 section.show {
@@ -309,10 +318,6 @@ ul#worklist h2 {
     font-size: 1.4rem;
     margin: 0 1rem;
     color: white;
-}
-
-section#process > div {
-    padding: 4rem 1rem;
 }
 
 ul#people li {
@@ -475,6 +480,10 @@ h2.salmon {
         padding: 4rem 25%;
     }
 
+    section#about > div {
+        padding: 8% 1rem;
+    }
+
     div.work_content h2 {
         font-size: 1.2rem;
     }
@@ -496,6 +505,10 @@ h2.salmon {
 
     section#process > div {
         padding: 4rem 12%;
+    }
+
+    section#about > div {
+        padding: 10% 8%;
     }
 
     ul#worklist li.fourth {
