@@ -39,7 +39,7 @@
 {{else}}
     <section class="salmon" id="process">
 {{/if}}
-    <div>
+    <div class="collapsible">
         <ul>
             <li>
                 <h2>{{home.about.title_insight}}</h2>
@@ -130,17 +130,17 @@
         <p>{{home.contact.telephone}}</p>
         {{ashtml home.contact.visiting_address}}
 
-        <a href="#people" class="button">{{home.people.more_link}}</a>
+        <a href="#partners" class="button" id="btn_partners">{{home.people.more_link}}</a>
 
     </div>
 </section>
 
 {{#if home.colors.partners}}
-    <section class="{{home.colors.partners}} wide">
+    <section class="{{home.colors.partners}} wide" id="partners">
 {{else}}
-    <section class="black wide">
+    <section class="black wide" id="partners">
 {{/if}}
-    <div>
+    <div class="collapsible">
 
         {{#if home.people.list}}
         <ul id="people">

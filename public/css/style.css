@@ -132,10 +132,6 @@ a {
     text-decoration: underline;
 }
 
-.hidden {
-    display: none;
-}
-
 section h1 {
     padding-bottom: 0.8rem;
     position: relative;
@@ -208,6 +204,34 @@ section li img {
     width: 30%;
     margin-bottom: 2.5rem;
     margin-top: 0.5rem;
+}
+
+.collapsible {
+    -webkit-transition: opacity 1s 0s;
+    transition: opacity 1s 0s;
+}
+
+.expanded {
+    visibility: visible;
+    opacity: 1;
+}
+
+.contracted {
+    visibility: hidden;
+    opacity: 0;
+    /* display: none; */
+}
+
+section.show {
+    display: table;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
 }
 
 li p {
