@@ -24,9 +24,14 @@
     <title>Comte</title>
 
 </head>
-<body>
-    {{{body}}}
 
+{{#if work.background_color}}
+<body class="{{work.background_color}}">
+{{else}}
+<body>
+{{/if}}
+
+    {{{body}}}
 
 <script type="text/javascript">
     var __btn_states = {};

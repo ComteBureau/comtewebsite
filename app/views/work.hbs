@@ -10,14 +10,14 @@
     </div>
 </section>
 
-<section class="salmon">
+<section>
     <div>
         {{ashtml work.description}}
     </div>
 </section>
 
 {{#if work.photos}}
-<section class="black">
+<section class="black" id="photo">
     <div>
         <ul>
             {{#each work.photos}}
@@ -29,18 +29,6 @@
                     <img srcset="{{photo.small}}" alt="{{photo.alt}}">
                 </picture>
             </li>
-            {{/each}}
-        </ul>
-    </div>
-</section>
-{{/if}}
-
-{{#if work.links}}
-<section class="greenish">
-    <div>
-        <ul>
-            {{#each work.links}}
-            <li><a href="{{link}}">{{link}}</a></li>
             {{/each}}
         </ul>
     </div>

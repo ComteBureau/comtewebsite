@@ -26,6 +26,7 @@ body {
 
 .yellow {
     background-color: #FBF861;
+    color: black;
 }
 
 .yellow .button {
@@ -341,6 +342,30 @@ ul#people li img {
 ul#people p {
     margin-bottom: 0.2rem;
     text-align: center;
+}
+
+section#photo {
+    display: block;
+}
+
+section#photo > div {
+    padding: 0;
+    display: block;
+}
+
+section#photo img {
+    width: 100%;
+    margin: 0;
+}
+
+section#photo ul {
+    display: block;
+}
+
+section#photo li {
+    display: block;
+    flex: none;
+    margin: 0;
 }
 
 section#clients > div {
