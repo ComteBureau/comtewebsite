@@ -312,5 +312,45 @@
         "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
       }
     }
+  },
+
+
+  "Menu" : {
+    "menu_about" : {
+      "fieldset" : "About us",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "We are"
+      }
+    },
+    "menu_process" : {
+      "fieldset" : "Work process",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "How we work"
+      }
+    },
+    "menu_works" : {
+      "fieldset" : "Works",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Our projects"
+      }
+    },
+    "menu_clients" : {
+      "fieldset" : "Clients",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Our clients"
+      }
+    },
+    "menu_contact" : {
+      "fieldset" : "Contact",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Contact us"
+      }
+    }
   }
+
 }

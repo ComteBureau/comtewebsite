@@ -39,7 +39,8 @@ module.exports = function home(app, res) {
                     about:      about(app, bookmarks.about),
                     people:     peeps(app, bookmarks.about),
                     clients:    clients(app, bookmarks.about),
-                    colors:     colors(app, bookmarks.about)
+                    colors:     colors(app, bookmarks.about),
+                    menu:       menu(app, bookmarks.about)
                 };
 
                 resolve(res.content.home);
@@ -149,5 +150,19 @@ function colors(app, content) {
         clients:        common.getColor(content.get('about.color_clients')),
         partners:       common.getColor(content.get('about.color_partners')),
         call_to_action: common.getColor(content.get('about.color_call_to_action'))
+    };
+}
+
+function menu(app, content) {
+    if (!content) {
+        return;
+    }
+
+    return {
+        about:      content.getText('about.menu_about'),
+        process:    content.getText('about.menu_process'),
+        works:      content.getText('about.menu_works'),
+        clients:    content.getText('about.menu_clients'),
+        contact:    content.getText('about.menu_contact')
     };
 }

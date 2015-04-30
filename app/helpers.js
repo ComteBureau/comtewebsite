@@ -87,3 +87,10 @@ module.exports.workslist = function(works, options) {
 
     return new Handlebars.SafeString(output);
 }
+
+module.exports.menu = function(label, default_label, options) {
+    if (typeof label === 'undefined') {
+        label = default_label;
+    }
+    return new Handlebars.SafeString(label);
+}

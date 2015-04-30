@@ -321,7 +321,7 @@ var elements = {
 
     init: function(list) {
         list.forEach(function(el_id) {
-            this.els[el_id] = document.getElementById(el_id);
+            this.els[el_id] = document.getElementById(el_id) || undefined;
         }, this);
     },
 
@@ -429,12 +429,16 @@ var menu_options = {
 };
 
 module.exports = function() {
+    elements.init(elements_list);
+    if (typeof elements.get('menu') === 'undefined') {
+        return;
+    }
+
     section_buttons.init(['process', 'partners']);
     menu();
 }
 
 function menu() {
-    elements.init(elements_list);
     elements.get('menu_symbol').classList.remove('hidden');
 
     menu_symbol.init(elements, eventlistener);
