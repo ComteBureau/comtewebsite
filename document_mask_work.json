@@ -27,6 +27,13 @@
       "type" : "Date",
       "fieldset" : "Published date"
     },
+    "client_name" : {
+      "type" : "Text",
+      "fieldset" : "Client name",
+      "config" : {
+        "placeholder" : "Client Inc."
+      }
+    },
     "logo" : {
       "fieldset" : "Client logo",
       "type" : "Image",
