@@ -155,6 +155,13 @@ div#menu_symbol {
     display: block;
 }
 
+#menu_symbol_shape {
+    -webkit-transition: fill 0.6s 0s;
+    -moz-transition: fill 0.6s 0s;
+    -o-transition: fill 0.6s 0s;
+    transition: fill 0.6s 0s;
+}
+
 .menu_symbol_deactive_hover {
     fill: #333;
 }
