@@ -274,42 +274,42 @@
       "type" : "Select",
       "config": {
         "label" : "About top",
-        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
       }
     },
     "color_about_bottom" : {
       "type" : "Select",
       "config": {
         "label" : "About bottom",
-        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
       }
     },
     "color_about_process" : {
       "type" : "Select",
       "config": {
         "label" : "About process",
-        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
       }
     },
     "color_clients" : {
       "type" : "Select",
       "config": {
         "label" : "Clients",
-        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
       }
     },
     "color_partners" : {
       "type" : "Select",
       "config": {
         "label" : "Partners",
-        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
       }
     },
     "color_call_to_action" : {
       "type" : "Select",
       "config": {
         "label" : "Call to action",
-        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
       }
     }
   }

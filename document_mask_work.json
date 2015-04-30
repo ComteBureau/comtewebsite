@@ -20,7 +20,7 @@
       "type" : "Select",
       "config": {
         "label": "Background color",
-        "options" : ["salmon", "yellow", "greenish", "purple", "black"]
+        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
       }
     },
     "published" : {

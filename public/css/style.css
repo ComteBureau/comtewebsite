@@ -56,18 +56,18 @@ body {
     border-color: #FBF861;
 }
 
-.purple {
-    background-color: #8C47D6;
+.aubergine {
+    background-color: #815D77;
     color: white;
 }
 
-.purple .button {
+.aubergine .button {
     color: white;
     border-color: white;
 }
 
-.purple .button:hover {
-    color: #8C47D6;
+.aubergine .button:hover {
+    color: #815D77;
     background-color: white;
     border-color: white;
 }
