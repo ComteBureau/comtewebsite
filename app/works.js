@@ -78,6 +78,7 @@ function get_works(list, app) {
             title:              work.getText('work.title'),
             description:        work.getStructuredText('work.description'),
             logo:               app.utils.getImage(work.get('work.logo')),
+            client_name:        work.getText('work.client_name'),
             main_photo:         app.utils.getImage(work.get('work.main_photo')),
             background_color:   common.getColor(work.get('work.background_color')),
 
