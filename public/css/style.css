@@ -294,6 +294,8 @@ section li img {
 
 .collapsible {
     -webkit-transition: opacity 1s 0s;
+    -moz-transition: opacity 1s 0s;
+    -o-transition: opacity 1s 0s;
     transition: opacity 1s 0s;
 }
 
