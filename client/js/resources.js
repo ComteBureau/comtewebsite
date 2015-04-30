@@ -1,19 +1,25 @@
 'use strict';
 
-function boot() {
-    if (!document.body) {
-        window.setTimeout(boot, 20);
-    } else {
-        document.removeEventListener('DOMContentLoaded', boot);
-        window.removeEventListener('load', boot);
-
-        load_css('/public/css/style.css');
-        load_font('Comte', '/public/css/fonts.css');
+module.exports = function(res) {
+    if (typeof res === 'undefined') {
+        return;
     }
-}
 
-function ready(state) {
-    return document.readyState === state;
+    if (Array.isArray(res.css)) {
+        res.css.forEach(function(stylesheet) {
+            load_css(stylesheet);
+        });
+    }
+
+    if (Array.isArray(res.font)) {
+        res.font.forEach(function(font) {
+            if (!font.file) {
+                return;
+            }
+            font.cache_name = font.cache_name || 'NoName';
+            load_font(font.cache_name, font.file);
+        });
+    }
 }
 
 function load_css(path) {
@@ -53,11 +59,4 @@ function load_font(font_name, path) {
         // maybe load the font synchronously for woff-capable browsers
         // to avoid blinking on every request when localStorage is not available
     }
-}
-
-if (ready('complete') || ready('interactive')) {
-    window.setTimeout(boot, 0);
-} else {
-    document.addEventListener('DOMContentLoaded', boot, false);
-    window.addEventListener('load', boot, false);
 }
