@@ -15,8 +15,10 @@ function _boot() {
         document.removeEventListener('DOMContentLoaded', _boot);
         window.removeEventListener('load', _boot);
 
-        // var extensions = require('utils/extensions');
-        var comte = require('comte');
-        comte();
+        var frontpage = require('frontpage');
+        frontpage();
+
+        // var comte = require('comte');
+        // comte();
     }
 };

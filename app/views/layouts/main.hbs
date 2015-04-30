@@ -12,7 +12,6 @@
 
     <!-- <link rel="stylesheet" type="text/css" href="/public/css/style.css"> -->
 
-    <script type="text/javascript" src="/public/js/classlist.js"></script>
     <script type="text/javascript" src="/public/js/resources.js"></script>
     <script type="text/javascript" src="/public/js/comte.js"></script>
 
@@ -32,71 +31,6 @@
 {{/if}}
 
     {{{body}}}
-
-<script type="text/javascript">
-    var __btn_states = {};
-
-    btn('process');
-    btn('partners');
-
-    function btn_exists(el_id) {
-        return (
-            typeof document.getElementById(el_id) !== 'undefined' &&
-            typeof document.getElementById('btn_'+el_id) !== 'undefined'
-        );
-    }
-
-    function expand(section, wrapper) {
-        window.setTimeout(function() {
-            wrapper.classList.add('expanded');
-            wrapper.classList.remove('contracted');
-        }, 100);
-        section.classList.add('show');
-        section.classList.remove('hide');
-    }
-
-    function contract(section, wrapper) {
-        wrapper.classList.add('contracted');
-        wrapper.classList.remove('expanded');
-        section.classList.add('hide');
-        section.classList.remove('show');
-    }
-
-    function btn(btn_name) {
-        if (!btn_exists(btn_name)) {
-            return;
-        }
-
-        if (typeof __btn_states[btn_name] !== 'undefined') {
-            return;
-        }
-
-        var btn = __btn_states[btn_name] = {};
-        btn.el_section = document.getElementById(btn_name);
-        btn.el_wrap = btn.el_section.children[0];
-        btn.el_btn = document.getElementById('btn_'+btn_name);
-        btn.expanded = false;
-
-        contract(btn.el_section, btn.el_wrap);
-
-        btn.el_btn.addEventListener('click', function(event) {
-            event.preventDefault();
-
-            // Due to the use of bind(), 'this' is set to the name of
-            // the button.
-            var btn = __btn_states[this];
-            btn.expanded = !btn.expanded;
-
-            if (btn.expanded) {
-                expand(btn.el_section, btn.el_wrap);
-            } else {
-                contract(btn.el_section, btn.el_wrap);
-            }
-
-        }.bind(btn_name), false);
-
-    }
-</script>
 
 </body>
 </html>
