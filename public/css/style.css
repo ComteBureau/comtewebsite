@@ -456,7 +456,7 @@ section#clients > div {
     padding: 4rem 15%;
 }
 
-section#clients div > p, section#people div > p {
+section#clients div > p {
     margin-left: 10rem;
     margin-right: 10rem;
 }
@@ -538,26 +538,104 @@ h2.salmon {
     background-color: transparent;
 }
 
-@media screen and (min-width: 1320px) {
-    section > div {
-        padding: 4rem 30%;
+@media screen and (min-width: 1700px) {
+    html {
+        font-size: 20px;
+    }
+
+    section > div,
+    section#about > div,
+    section.wide > div {
+        padding: 9% 28%;
+    }
+
+    section#clients > div {
+        padding: 9% 5%;
+    }
+
+    section#clients h1 {
+        padding: 0 19% 0.8rem 19%;
+    }
+
+    section#clients p {
+        padding: 0 19% 4rem 19%;
+    }
+
+    section#partners > div {
+        padding: 9% 5%;
     }
 
     section#process > div {
-        padding: 4rem 15%;
+        padding: 9% 5%;
     }
 
-    section li {
-        /* grow shrink basis */
-        -webkit-box-flex: 10rem;
-        -moz-box-flex: 10rem;
-        -webkit-flex: 10rem;
-        -ms-flex: 10rem;
-        flex: 10rem;
+    section#process li {
+        margin: 0 4%;
+        -webkit-box-flex: 0 1 15rem;
+        -moz-box-flex: 0 1 15rem;
+        -webkit-flex: 0 1 15rem;
+        -ms-flex: 0 1 15rem;
+        flex: 0 1 15rem;
     }
 
-    ul#worklist li {
-        min-height: 25rem;
+    section p {
+        line-height: 1.6rem;
+        padding-bottom: 4rem;
+    }
+
+    section#people p {
+        line-height: 1.6rem;
+        padding-bottom: 1rem;
+    }
+
+}
+
+@media screen and (max-width: 1700px) {
+    html {
+        font-size: 18px;
+    }
+
+    section > div,
+    section#about > div,
+    section.wide > div {
+        padding: 8% 27%;
+    }
+
+    section#process > div {
+        padding: 9% 5%;
+    }
+
+    section#process li {
+        margin: 0 4%;
+        -webkit-box-flex: 0 1 15rem;
+        -moz-box-flex: 0 1 15rem;
+        -webkit-flex: 0 1 15rem;
+        -ms-flex: 0 1 15rem;
+        flex: 0 1 15rem;
+    }
+
+    section#clients > div {
+        padding: 9% 5%;
+    }
+
+    section#clients h1 {
+        padding: 0 19% 0.8rem 19%;
+    }
+
+    section#clients p {
+        padding: 0 19% 4rem 19%;
+    }
+
+    section#about p,
+    section#process p {
+        line-height: 1.6rem;
+        padding-bottom: 4rem;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    section > div {
+        padding: 4rem 30%;
     }
 }
 
@@ -567,7 +645,16 @@ h2.salmon {
     }
 
     section#process > div {
-        padding: 4rem 15%;
+        padding: 4rem 5%;
+    }
+
+    section#process li {
+        margin: 0 4%;
+        -webkit-box-flex: 0 1 15rem;
+        -moz-box-flex: 0 1 15rem;
+        -webkit-flex: 0 1 15rem;
+        -ms-flex: 0 1 15rem;
+        flex: 0 1 15rem;
     }
 
     section li {
@@ -585,12 +672,20 @@ h2.salmon {
 }
 
 @media screen and (max-width: 1130px) {
+    html {
+        font-size: 16px;
+    }
+
     section > div {
         padding: 4rem 25%;
     }
 
     section#about > div {
-        padding: 8% 1rem;
+        padding: 8% 24%;
+    }
+
+    section#people > div {
+        padding: 12% 10%;
     }
 
     div.work_content h2 {
@@ -630,6 +725,10 @@ h2.salmon {
 }
 
 @media screen and (max-width: 770px) {
+    html {
+        font-size: 14px;
+    }
+
     section > div {
         padding: 4rem 15%;
     }
