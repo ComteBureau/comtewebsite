@@ -92,9 +92,9 @@
         <h1>{{home.clients.title}}</h1>
         {{ashtml home.clients.description}}
 
-        {{#if works}}
+        {{#if clients}}
         <ul id="logos">
-        {{#each works}}
+        {{#each clients}}
             <li>
                 <picture>
                     <source srcset="{{logo.main}}" media="(min-width: 960px)">

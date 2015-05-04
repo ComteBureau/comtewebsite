@@ -6,6 +6,7 @@ var common          = require('./common');
 module.exports.latest = function latest_works(app, res, options) {
     res.content = res.content || {};
     res.content.works = [];
+    res.content.clients = [];
 
     options = options || {};
 
@@ -14,21 +15,24 @@ module.exports.latest = function latest_works(app, res, options) {
     options.sort = 'published desc';
 
     return query(app, res.locals.ctx, options, function(results) {
-        res.content.works = results;
-        return res.content.works;
+        res.content.works = results.works;
+        res.content.clients = results.clients;
+        return res.content;
     });
 }
 
 module.exports.single = function single_work(app, id, res, options) {
     res.content = res.content || {};
     res.content.work = {};
+    res.content.clients = [];
 
     options = options || {};
     options.id = id;
 
     return query(app, res.locals.ctx, options, function(results) {
-        res.content.work = results[0];
-        return res.content.work;
+        res.content.work = results.works[0];
+        res.content.clients = results.clients;
+        return res.content;
     });
 }
 
@@ -61,7 +65,10 @@ function get(app, ctx, options, cb) {
 
     app.query(ctx, options)
     .then(function(works) {
-        cb(null, get_works(works.results, app));
+        cb(null, {
+            works:      get_works(works.results, app),
+            clients:    get_clients(works.results, app)
+        });
 
     }, function(reason) {
         cb(reason);
@@ -92,4 +99,31 @@ function get_works(list, app) {
             })
         };
     });
+}
+
+function get_clients(list, app) {
+    var unique = [];
+    var name;
+
+    list.forEach(function(work) {
+        name = work.getText('work.client_name');
+        if (!exists(unique, name)) {
+            unique.push({
+                name: name,
+                logo: app.utils.getImage(work.get('work.logo'))
+            });
+        }
+    });
+
+    return unique;
+}
+
+function exists(list, name) {
+    var does_exists = false;
+    list.forEach(function(entry) {
+        if (entry.name === name) {
+            does_exists = true;
+        }
+    });
+    return does_exists;
 }
