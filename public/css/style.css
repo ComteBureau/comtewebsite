@@ -90,7 +90,7 @@ body {
 
 #intro_wrapper {
     width: 100%;
-    /*height: 56.25%;*/
+    height: 20rem;
     position: relative;
 }
 
@@ -215,6 +215,18 @@ div#menu li a:hover {
 
 div#menu li a:active {
     color: #FC5B5D;
+}
+
+div#intro_wrapper img {
+    display: block;
+    position: absolute;
+    width: 30%;
+    top: 68%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
 }
 
 section h1 {
@@ -349,6 +361,8 @@ ul#worklist li {
 
     margin: 0;
     width: auto;
+
+
     min-height: 15rem;
 }
 
@@ -426,8 +440,13 @@ ul#people li img {
 ul#people p {
     margin-bottom: 0.2rem;
     text-align: center;
+    padding-bottom: 0.3rem;
 }
 
+section#about p:last-of-type {
+    padding-bottom: 0;
+
+}
 section#photo {
     display: block;
 }
@@ -515,7 +534,7 @@ ul#logos {
 }
 
 ul#logos li {
-    height: 10rem;
+    height: 8rem;
 
     /* grow shrink basis */
 
@@ -525,12 +544,20 @@ ul#logos li {
     -ms-flex: 0 0 8rem;
     flex: 0 0 8rem;
 
-    margin: auto 5%;
+    margin: auto 2%;
 }
 
 ul#logos li img {
     width: 100%;
     margin: 0;
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    left: 0;
 }
 
 h2.salmon {
@@ -538,15 +565,28 @@ h2.salmon {
     background-color: transparent;
 }
 
-@media screen and (min-width: 1700px) {
+@media screen and (min-width: 2000px) {
     html {
-        font-size: 20px;
+        font-size: 28px;
     }
 
     section > div,
     section#about > div,
     section.wide > div {
         padding: 9% 28%;
+    }
+
+    section#calltoaction > div {
+        padding: 1% 28%;
+    }
+
+    section#calltoaction {
+        min-height: 15rem;
+    }
+
+    section#calltoaction .button {
+    margin-top: 0;
+
     }
 
     section#clients > div {
@@ -588,11 +628,75 @@ h2.salmon {
         padding-bottom: 1rem;
     }
 
+    ul#worklist li {
+        min-height: 19rem;
+    }
+}
+
+@media screen and (max-width: 2000px) {
+    html {
+        font-size: 24px;
+    }
+
+    section > div,
+    section#about > div,
+    section.wide > div {
+        padding: 9% 28%;
+    }
+
+    section#clients > div {
+        padding: 9% 5%;
+    }
+
+    section#clients h1 {
+        padding: 0 19% 0.8rem 19%;
+    }
+
+    section#clients p {
+        padding: 0 19% 4rem 19%;
+    }
+
+    section#clients div > p {
+    padding-left: 14%;
+
+    padding-right: 14%;
+}
+
+    section#partners > div {
+        padding: 9% 5%;
+    }
+
+    section#process > div {
+        padding: 9% 5%;
+    }
+
+    section#process li {
+        margin: 0 4%;
+        -webkit-box-flex: 0 1 15rem;
+        -moz-box-flex: 0 1 15rem;
+        -webkit-flex: 0 1 15rem;
+        -ms-flex: 0 1 15rem;
+        flex: 0 1 15rem;
+    }
+
+    section p {
+        line-height: 1.6rem;
+        padding-bottom: 4rem;
+    }
+
+    section#people p {
+        line-height: 1.6rem;
+        padding-bottom: 1rem;
+    }
+
+    ul#worklist li {
+        min-height: 17rem;
+    }
 }
 
 @media screen and (max-width: 1700px) {
     html {
-        font-size: 18px;
+        font-size: 22px;
     }
 
     section > div,
@@ -619,7 +723,7 @@ h2.salmon {
     }
 
     section#clients h1 {
-        padding: 0 19% 0.8rem 19%;
+        padding: 0 5% 0.8rem 5%;
     }
 
     section#clients p {
@@ -631,15 +735,36 @@ h2.salmon {
         line-height: 1.6rem;
         padding-bottom: 4rem;
     }
+
+    ul#worklist li {
+        min-height: 15rem;
+    }
 }
 
 @media screen and (max-width: 1500px) {
+    html {
+        font-size: 20px;
+    }
+
     section > div {
         padding: 4rem 30%;
+    }
+
+    ul#logos li {
+    -webkit-box-flex: 0 0 10rem;
+    -moz-box-flex: 0 0 10rem;
+    -webkit-flex: 0 0 10rem;
+    -ms-flex: 0 0 10rem;
+    flex: 0 0 10rem;
+
     }
 }
 
 @media screen and (max-width: 1320px) {
+    html {
+        font-size: 18px;
+    }
+
     section > div {
         padding: 4rem 26%;
     }
@@ -667,7 +792,7 @@ h2.salmon {
     }
 
     ul#worklist li {
-        min-height: 22rem;
+        min-height: 16rem;
     }
 }
 
@@ -746,7 +871,7 @@ h2.salmon {
     }
 
     ul#logos li {
-        margin: auto 0;
+        margin: auto 5%;
     }
 
     section#people div > p {
@@ -760,7 +885,11 @@ h2.salmon {
     section.wide > div {
         padding: 4rem 1rem;
     }
+    section#clients div > p {
+    padding-left: 8%;
 
+    padding-right: 8%;
+}
 }
 
 @media screen and (max-width: 650px) {
@@ -808,4 +937,12 @@ h2.salmon {
     section#clients > div {
         padding: 4rem 5%;
     }
+
+    section#clients div > p {
+    padding-left: 0;
+
+    padding-right: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
 }
