@@ -1,9 +1,28 @@
 <!doctype html>
-<html>
+<html itemscope itemtype="http://schema.org/LocalBusiness">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta property="og:title" content="{{home.company.name}} : {{page.name}}" />
+
+    {{#isWork page.name}}
+        <meta property="og:url" content="{{work.link}}" />
+        <meta property="og:description" content="{{work.excerpt}}" />
+        {{#if work.main_photo}}
+        <meta property="og:image" content="{{work.main_photo.main}}" />
+        {{/if}}
+    {{else}}
+        <meta property="og:url" content="{{page.url}}" />
+        <meta property="og:description" content="{{home.company.name}} : {{home.company.tagline}}" />
+        <meta property="og:image" content="{{home.people.photo.main}}" />
+    {{/isWork}}
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@ComteBureau" />
+    <meta name="twitter:creator" content="@ComteBureau" />
+
 
     <!-- inline reset -->
     <link rel="stylesheet" type="text/css" href="/public/css/reset.css">

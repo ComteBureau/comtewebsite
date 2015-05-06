@@ -9,10 +9,11 @@ module.exports.latest = function latest_works(app, res, options) {
     res.content.clients = [];
 
     options = options || {};
+    options.type = ['work', 'client'];
 
     // Change according to the number of tiles in the work list grid
     options.limit = 9;
-    options.sort = 'published desc';
+    options.sort = 'work.published desc';
 
     return query(app, res.locals.ctx, options, function(results) {
         res.content.works = results.works;
@@ -29,11 +30,15 @@ module.exports.single = function single_work(app, id, res, options) {
     options = options || {};
     options.id = id;
 
-    return query(app, res.locals.ctx, options, function(results) {
-        res.content.work = results.works[0];
-        res.content.clients = results.clients;
-        return res.content;
-    });
+    return query(app, res.locals.ctx, options)
+        .then(function (results) {
+
+            res.content.work = get_works(results, app)[0];
+            return res.content;
+
+        }, function() {
+            return false;
+        });
 }
 
 function query(app, ctx, options, success) {
@@ -55,29 +60,25 @@ function query(app, ctx, options, success) {
 
 function get(app, ctx, options, cb) {
     options = options || {};
-    if (!options.id) {
-        options.type = ['work', 'client'];
-    }
     options.limit = options.limit || undefined;
     options.sort = options.sort ?
-                   '[my.work.'+options.sort+']' :
+                   '[my.'+options.sort+']' :
                    undefined;
 
     app.query(ctx, options)
-    .then(function(works) {
-        cb(null, {
-            works:      get_works(works.results, app),
-            clients:    get_clients(works.results, app)
-        });
-
+    .then(function(content) {
+        cb(null, content.results);
     }, function(reason) {
         cb(reason);
     });
 };
 
 function get_works(list, app) {
-    return list.map(function(work, i) {
-        if (work.type === 'work') {
+    return list
+        .filter(function(obj) {
+            return obj.type === 'work';
+        })
+        .map(function(work, i) {
             return {
                 i:                  i,
                 id:                 work.id,
@@ -86,6 +87,7 @@ function get_works(list, app) {
                 title:              work.getText('work.title'),
                 subtitle:           work.getText('work.subtitle'),
                 description:        work.getStructuredText('work.description'),
+                excerpt:            work.getStructuredText('work.description').getFirstParagraph().text,
                 logo:               app.utils.getImage(work.get('work.logo')),
                 client_name:        work.getText('work.client_name'),
                 main_photo:         app.utils.getImage(work.get('work.main_photo')),
@@ -100,8 +102,7 @@ function get_works(list, app) {
                     }
                 })
             };
-        }
-    });
+        });
 }
 
 function get_clients(list, app) {
@@ -109,8 +110,11 @@ function get_clients(list, app) {
     var name;
     var logo;
 
-    list.forEach(function(work) {
-        if (work.type === 'client') {
+    list
+        .filter(function(obj) {
+            return obj.type === 'client';
+        })
+        .forEach(function(work) {
             name = work.getText('client.name');
             if (!exists(unique, name)) {
                 logo = app.utils.getImage(work.get('client.logo'));
@@ -123,8 +127,7 @@ function get_clients(list, app) {
                     logo: logo
                 });
             }
-        }
-    });
+        });
 
     return unique;
 }
