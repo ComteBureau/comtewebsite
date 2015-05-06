@@ -15,11 +15,16 @@ module.exports.latest = function latest_works(app, res, options) {
     options.limit = 9;
     options.sort = 'work.published desc';
 
-    return query(app, res.locals.ctx, options, function(results) {
-        res.content.works = results.works;
-        res.content.clients = results.clients;
-        return res.content;
-    });
+    return query(app, res.locals.ctx, options)
+        .then(function (results) {
+
+            res.content.works = get_works(results, app);
+            res.content.clients = get_clients(results, app);
+            return res.content;
+
+        }, function() {
+            return false;
+        });
 }
 
 module.exports.single = function single_work(app, id, res, options) {
