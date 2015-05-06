@@ -66,20 +66,12 @@
         "placeholder" : "Subtitle"
       }
     },
-    "about_description_top" : {
-      "fieldset" : "Description top",
+    "about_description" : {
+      "fieldset" : "Description",
       "type" : "StructuredText",
       "config" : {
         "multi": "paragraph, em, strong",
-        "placeholder" : "This goes in the top block"
-      }
-    },
-    "about_description_bottom" : {
-      "fieldset" : "Description bottom",
-      "type" : "StructuredText",
-      "config" : {
-        "multi": "paragraph, em, strong",
-        "placeholder" : "This goes in the bottom block"
+        "placeholder" : "Describe your company"
       }
     },
     "about_more_link" : {

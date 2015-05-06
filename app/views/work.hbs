@@ -1,12 +1,13 @@
+{{> menu}}
 
-{{#if work.main_photo}}
-    {{imagestyle "work_photo" "section" work.main_photo}}
-    <section id="work_photo" class="photo">
+{{#if work.background_color}}
+    <section class="{{work.background_color}} work">
 {{else}}
-    <section class="yellow photo">
+    <section class="yellow work">
 {{/if}}
     <div>
         <h1>{{work.title}}</h1>
+        <h2>{{work.subtitle}}</h2>
     </div>
 </section>
 
@@ -17,7 +18,7 @@
 </section>
 
 {{#if work.photos}}
-<section class="black" id="photo">
+<section id="photo">
     <div>
         <ul>
             {{#each work.photos}}
@@ -28,6 +29,7 @@
                     <source srcset="{{photo.medium}}" media="(min-width: 400px) and (max-width: 700px)">
                     <img srcset="{{photo.small}}" alt="{{photo.alt}}">
                 </picture>
+                <span>{{photo.alt}}</span>
             </li>
             {{/each}}
         </ul>

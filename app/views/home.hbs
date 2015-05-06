@@ -1,7 +1,7 @@
 {{> menu}}
 
 <div id="intro_wrapper">
-    <canvas id="intro"></canvas>
+    <img src="/public/images/logo.svg">
 </div>
 
 {{#if home.colors.about_top}}
@@ -12,17 +12,7 @@
     <div>
         <h1>{{home.about.title}}</h1>
         <h2 class="salmon">{{home.about.subtitle}}</h2>
-        {{ashtml home.about.description_top}}
-    </div>
-</section>
-
-{{#if home.colors.about_bottom}}
-    <section class="{{home.colors.about_bottom}}">
-{{else}}
-    <section class="black">
-{{/if}}
-    <div>
-        {{ashtml home.about.description_bottom}}
+        {{ashtml home.about.description}}
         <a href="#process" class="button salmon" id="btn_process">{{home.about.more_link}}</a>
     </div>
 </section>
@@ -73,7 +63,7 @@
                 <a href="{{link}}" class="shade">
                     <div>
                         <h2>{{title}}</h2>
-                        <span class="button">View project</span>
+                        <h3>{{subtitle}}</h3>
                     </div>
                 </a>
             </li>

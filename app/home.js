@@ -83,8 +83,7 @@ function about(app, content) {
     return {
         title:                  content.getText('about.about_title'),
         subtitle:               content.getText('about.about_subtitle'),
-        description_top:        content.getStructuredText('about.about_description_top'),
-        description_bottom:     content.getStructuredText('about.about_description_bottom'),
+        description:            content.getStructuredText('about.about_description'),
         more_link:              content.getText('about.about_more_link'),
         title_insight:          content.getText('about.about_insight_title'),
         description_insight:    content.getStructuredText('about.about_insight_description'),

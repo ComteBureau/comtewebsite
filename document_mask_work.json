@@ -7,6 +7,13 @@
         "placeholder" : "Title of the project"
       }
     },
+    "subtitle" : {
+      "type" : "Text",
+      "fieldset" : "Subtitle",
+      "config" : {
+        "placeholder" : "Add context to the title"
+      }
+    },
     "description" : {
       "fieldset" : "Description",
       "type" : "StructuredText",

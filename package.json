@@ -17,16 +17,16 @@
   "author": "Thomas Viktil <mandarin@mandarin.no> (http://mandarin.no)",
   "license": "MIT",
   "dependencies": {
-    "dat-gui": "^0.5.0",
+    "dataset": "^0.3.1",
     "handlebars": "^2.0.0",
     "pixi.js": "^2.2.9",
-    "prismic-website": "^0.1.2",
+    "prismic-website": "^0.1.3",
     "promise": "^6.1.0"
   },
   "devDependencies": {
+    "dat-gui": "^0.5.0",
     "browserify": "^6.0.0",
     "chokidar": "^1.0.0-rc4",
-    "dataset": "^0.3.1",
     "nodemon": "^1.3.7",
     "parallelshell": "^1.1.1",
     "remapify": "^1.3.0",

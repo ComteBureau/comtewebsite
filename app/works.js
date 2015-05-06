@@ -83,6 +83,7 @@ function get_works(list, app) {
             link:               app.linkresolver.document('work', work),
             date:               work.getDate('work.published'),
             title:              work.getText('work.title'),
+            subtitle:           work.getText('work.subtitle'),
             description:        work.getStructuredText('work.description'),
             logo:               app.utils.getImage(work.get('work.logo')),
             client_name:        work.getText('work.client_name'),
@@ -104,13 +105,19 @@ function get_works(list, app) {
 function get_clients(list, app) {
     var unique = [];
     var name;
+    var logo;
 
     list.forEach(function(work) {
         name = work.getText('work.client_name');
         if (!exists(unique, name)) {
+            logo = app.utils.getImage(work.get('work.logo'));
+            if (!logo) {
+                return;
+            }
+
             unique.push({
                 name: name,
-                logo: app.utils.getImage(work.get('work.logo'))
+                logo: logo
             });
         }
     });
