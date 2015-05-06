@@ -56,7 +56,7 @@ function query(app, ctx, options, success) {
 function get(app, ctx, options, cb) {
     options = options || {};
     if (!options.id) {
-        options.type = 'work';
+        options.type = ['work', 'client'];
     }
     options.limit = options.limit || undefined;
     options.sort = options.sort ?
@@ -77,28 +77,30 @@ function get(app, ctx, options, cb) {
 
 function get_works(list, app) {
     return list.map(function(work, i) {
-        return {
-            i:                  i,
-            id:                 work.id,
-            link:               app.linkresolver.document('work', work),
-            date:               work.getDate('work.published'),
-            title:              work.getText('work.title'),
-            subtitle:           work.getText('work.subtitle'),
-            description:        work.getStructuredText('work.description'),
-            logo:               app.utils.getImage(work.get('work.logo')),
-            client_name:        work.getText('work.client_name'),
-            main_photo:         app.utils.getImage(work.get('work.main_photo')),
-            background_color:   common.getColor(work.get('work.background_color')),
+        if (work.type === 'work') {
+            return {
+                i:                  i,
+                id:                 work.id,
+                link:               app.linkresolver.document('work', work),
+                date:               work.getDate('work.published'),
+                title:              work.getText('work.title'),
+                subtitle:           work.getText('work.subtitle'),
+                description:        work.getStructuredText('work.description'),
+                logo:               app.utils.getImage(work.get('work.logo')),
+                client_name:        work.getText('work.client_name'),
+                main_photo:         app.utils.getImage(work.get('work.main_photo')),
+                background_color:   common.getColor(work.get('work.background_color')),
 
-            photos:             app.utils.iterateGroup({
-                document:   work,
-                path:       'work.photos'
-            }, function(photo, i) {
-                return {
-                    photo:      app.utils.getImage(photo.get('photo'))
-                }
-            })
-        };
+                photos:             app.utils.iterateGroup({
+                    document:   work,
+                    path:       'work.photos'
+                }, function(photo, i) {
+                    return {
+                        photo:      app.utils.getImage(photo.get('photo'))
+                    }
+                })
+            };
+        }
     });
 }
 
@@ -108,17 +110,19 @@ function get_clients(list, app) {
     var logo;
 
     list.forEach(function(work) {
-        name = work.getText('work.client_name');
-        if (!exists(unique, name)) {
-            logo = app.utils.getImage(work.get('work.logo'));
-            if (!logo) {
-                return;
-            }
+        if (work.type === 'client') {
+            name = work.getText('client.name');
+            if (!exists(unique, name)) {
+                logo = app.utils.getImage(work.get('client.logo'));
+                if (!logo) {
+                    return;
+                }
 
-            unique.push({
-                name: name,
-                logo: logo
-            });
+                unique.push({
+                    name: name,
+                    logo: logo
+                });
+            }
         }
     });
 

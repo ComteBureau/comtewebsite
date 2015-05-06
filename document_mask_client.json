@@ -1,0 +1,34 @@
+{
+  "Client": {
+    "name" : {
+      "type" : "Text",
+      "fieldset" : "Client name",
+      "config" : {
+        "placeholder" : "Client Inc."
+      }
+    },
+    "logo" : {
+      "fieldset" : "Logo",
+      "type" : "Image",
+      "config" : {
+        "constraint" : {
+          "width" : 703,
+          "height" : 395
+        },
+        "thumbnails" : [ {
+          "name" : "Large",
+          "width" : 500,
+          "height" : 281
+        }, {
+          "name" : "Medium",
+          "width" : 250,
+          "height" : 140
+        }, {
+          "name" : "Small",
+          "width" : 125,
+          "height" : 70
+        } ]
+      }
+    }
+  }
+}
