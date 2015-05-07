@@ -38,4 +38,12 @@ module.exports = function(app) {
         });
 
     });
+
+    app.events.on('survey', function(req, res, next) {
+        res.content = res.content || {};
+        res.content.sid = req.params.sid;
+        res.content.token = req.params.token;
+
+        app.templates.render(res, 'survey', 'survey');
+    });
 }
