@@ -1,5 +1,8 @@
 <!doctype html>
-<html itemscope itemtype="http://schema.org/LocalBusiness">
+
+<!--[if lte IE 9 ]> <html lang="en" class="ie9" itemscope itemtype="http://schema.org/LocalBusiness"> <![endif]-->
+<!--[if !(IE)]><!--> <html lang="en" itemscope itemtype="http://schema.org/LocalBusiness"> <!--<![endif]-->
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
@@ -33,12 +36,12 @@
 
     <!-- inline reset -->
     <link rel="stylesheet" type="text/css" href="/public/css/reset.css">
-    <!-- inline fold -->
-    <!-- <link rel="stylesheet" type="text/css" href="/public/css/fold.css"> -->
-
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">
-
     <script type="text/javascript" src="/public/js/comte.js"></script>
+
+    <!--[if lte IE 9]><!-->
+    <link rel="stylesheet" href="/public/css/ie.css">
+    <!--<![endif]-->
 
     <script>
         document.createElement('picture');

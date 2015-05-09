@@ -1,0 +1,72 @@
+.ie9 ul#worklist {
+    display: block;
+}
+
+.ie9 ul#worklist li {
+    display: table-cell;
+    float: left;
+}
+
+.ie9 section#works {
+    background-color: black;
+}
+
+.ie9 ul#logos {
+    display: block;
+    overflow: auto;
+    height: auto;
+    margin-top: 0px;
+    text-align: center;
+    padding: 0.2rem;
+}
+
+.ie9 ul#logos li {
+    display: inline;
+}
+
+.ie9 ul#logos li img {
+    width: auto;
+    position: relative;
+    top: auto;
+    transform: none;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+}
+
+.ie9 ul#people {
+    overflow: auto;
+    display: block;
+    position: relative;
+}
+
+.ie9 section#process ul {
+    display: table;
+    width: 100%;
+}
+
+.ie9 section#process li {
+    display: table-cell;
+    width: 28%;
+    min-width: 20rem;
+    float: left;
+}
+
+.ie9 ul#people li {
+    width: 27%;
+    float: left;
+    display: block;
+}
+
+@media screen and (max-width: 770px) {
+    .ie9 ul#people li {
+        width: 35%;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .ie9 ul#people li {
+        width: 50%;
+    }
+}

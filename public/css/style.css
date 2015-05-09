@@ -151,6 +151,7 @@ div#menu_symbol.hidden {
 div#menu_symbol {
     position: fixed;
     width: 3rem;
+    height: 4rem;
     margin: 1rem auto auto 1rem;
     z-index: 1000;
     cursor: pointer;
@@ -273,13 +274,21 @@ section > div {
 }
 
 section#process > div {
-    padding: 4rem 1rem;
+    padding-right: 10%;
+    padding-left: 10%;
 }
-/*
-section#about > div {
-    padding: 7% 1rem;
+
+section#partners > div {
+    padding-right: 10%;
+    padding-left: 10%;
 }
-*/
+
+section#photo picture,
+section#photo span {
+    padding-right: 0;
+    padding-left: 0;
+}
+
 section ul {
     list-style: none;
     display: -webkit-box;
@@ -303,29 +312,30 @@ section li {
     display: block;
 
     /* grow shrink basis */
-    -webkit-box-flex: 1 1 15rem;
-    -moz-box-flex: 1 1 15rem;
-    -webkit-flex: 1 1 15rem;
-    -ms-flex: 1 1 15rem;
-    flex: 1 1 15rem;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    width: 100%;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
 
     position: relative;
     font-size: 0;
     margin: 0 1rem;
 }
 
+section li > * {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
 section#process li {
-    margin: 0 2%;
-    /* grow shrink basis */
-    -webkit-box-flex: 0 1 15rem;
-    -moz-box-flex: 0 1 15rem;
-    -webkit-flex: 0 1 15rem;
-    -ms-flex: 0 1 15rem;
-    flex: 0 1 15rem;
+    margin: 0;
+    padding: 0;
 }
 
 section li img {
-    width: 30%;
+    width: 35%;
     margin-bottom: 2.5rem;
     margin-top: 0.5rem;
 }
@@ -366,22 +376,18 @@ li p {
     margin: 0 0 1.3rem 0;
     line-height: 1.2rem;
     text-align: left;
-    /*font-size: 0.8rem;*/
 }
 
 ul#worklist li {
-
     /* grow shrink basis */
     -webkit-box-flex: auto;
     -moz-box-flex: auto;
+    width: auto;
     -webkit-flex: auto;
     -ms-flex: auto;
     flex: auto;
 
     margin: 0;
-    width: auto;
-
-
     min-height: 15rem;
 }
 
@@ -421,7 +427,7 @@ ul#worklist a.shade:hover {
 
 ul#worklist a.shade div {
     position: absolute;
-    width: 100%;
+    width: 90%;
     top: 50%;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
@@ -448,11 +454,11 @@ ul#people li {
     margin-bottom: 2rem;
 
     /* grow shrink basis */
-    -webkit-box-flex: 0 15rem;
-    -moz-box-flex: 0 15rem;
-    -webkit-flex: 0 15rem;
-    -ms-flex: 0 15rem;
-    flex: 0 1 15rem;
+    -webkit-box-flex: 1 1 29%;
+    -moz-box-flex: 1 1 29%;
+    -webkit-flex: 1 1 29%;
+    -ms-flex: 1 1 29%;
+    flex: 1 1 29%;
 }
 
 ul#people li img {
@@ -470,8 +476,13 @@ ul#people p {
 
 section#about p:last-of-type {
     padding-bottom: 3rem;
-
 }
+
+section#process p {
+    line-height: 1.6rem;
+    padding-bottom: 0rem;
+}
+
 section#photo {
     display: block;
 }
@@ -568,7 +579,6 @@ ul#logos li {
     height: 8rem;
 
     /* grow shrink basis */
-
     -webkit-box-flex: 0 0 8rem;
     -moz-box-flex: 0 0 8rem;
     -webkit-flex: 0 0 8rem;
@@ -609,17 +619,6 @@ h2.salmon {
         padding: 9% 24%;
     }
 
-/*
-    section > div,
-    section#about > div,
-    section.wide > div {
-        padding: 9% 28%;
-    }
-
-    section#calltoaction > div {
-        padding: 1% 28%;
-    }
-*/
     section#calltoaction {
         min-height: 15rem;
     }
@@ -628,11 +627,7 @@ h2.salmon {
     margin-top: 0;
 
     }
-/*
-    section#clients > div {
-        padding: 9% 5%;
-    }
-*/
+
     section#clients h1 {
         padding: 0 19% 0.8rem 19%;
     }
@@ -640,25 +635,7 @@ h2.salmon {
     section#clients p {
         padding: 0 19% 4rem 19%;
     }
-/*
-    section#partners > div {
-        padding: 9% 5%;
-    }
 
-    section#process > div {
-        padding: 9% 5%;
-    }
-*/
-/*
-    section#process li {
-        margin: 0 4%;
-        -webkit-box-flex: 0 1 15rem;
-        -moz-box-flex: 0 1 15rem;
-        -webkit-flex: 0 1 15rem;
-        -ms-flex: 0 1 15rem;
-        flex: 0 1 15rem;
-    }
-*/
     section p {
         line-height: 1.6rem;
         padding-bottom: 4rem;
@@ -682,17 +659,7 @@ h2.salmon {
     section > div {
         padding: 9% 24%;
     }
-/*
-    section > div,
-    section#about > div,
-    section.wide > div {
-        padding: 9% 28%;
-    }
 
-    section#clients > div {
-        padding: 9% 5%;
-    }
-*/
     section#clients h1 {
         padding: 0 19% 0.8rem 19%;
     }
@@ -706,25 +673,6 @@ h2.salmon {
         padding-right: 14%;
     }
 
-/*
-    section#partners > div {
-        padding: 9% 5%;
-    }
-
-    section#process > div {
-        padding: 9% 5%;
-    }
-*/
-/*
-    section#process li {
-        margin: 0 4%;
-        -webkit-box-flex: 0 1 15rem;
-        -moz-box-flex: 0 1 15rem;
-        -webkit-flex: 0 1 15rem;
-        -ms-flex: 0 1 15rem;
-        flex: 0 1 15rem;
-    }
-*/
     section p {
         line-height: 1.6rem;
         padding-bottom: 4rem;
@@ -748,32 +696,8 @@ h2.salmon {
     section > div {
         padding: 8% 20%;
     }
-/*
-    section > div,
-    section#about > div,
-    section.wide > div {
-        padding: 8% 27%;
-    }
 
-    section#process > div {
-        padding: 9% 5%;
-    }
-*/
-/*
-    section#process li {
-        margin: 0 4%;
-        -webkit-box-flex: 0 1 15rem;
-        -moz-box-flex: 0 1 15rem;
-        -webkit-flex: 0 1 15rem;
-        -ms-flex: 0 1 15rem;
-        flex: 0 1 15rem;
-    }
-*/
-/*    section#clients > div {
-        padding: 9% 5%;
-    }
-
-*/    section#clients h1 {
+    section#clients h1 {
         padding: 0 5% 0.8rem 5%;
     }
 
@@ -781,10 +705,9 @@ h2.salmon {
         padding: 0 19% 4rem 19%;
     }
 
-    section#about p,
-    section#process p {
+    section#about p {
         line-height: 1.6rem;
-        padding-bottom: 4rem;
+        padding-bottom: 2rem;
     }
 
     ul#worklist li {
@@ -818,29 +741,6 @@ h2.salmon {
     section > div {
         padding: 4rem 20%;
     }
-/*
-    section#process > div {
-        padding: 4rem 5%;
-    }
-*/
-/*
-    section#process li {
-        margin: 0 4%;
-        -webkit-box-flex: 0 1 15rem;
-        -moz-box-flex: 0 1 15rem;
-        -webkit-flex: 0 1 15rem;
-        -ms-flex: 0 1 15rem;
-        flex: 0 1 15rem;
-    }
-*/
-    section li {
-        /* grow shrink basis */
-        -webkit-box-flex: 10rem;
-        -moz-box-flex: 10rem;
-        -webkit-flex: 10rem;
-        -ms-flex: 10rem;
-        flex: 10rem;
-    }
 
     ul#worklist li {
         min-height: 16rem;
@@ -856,15 +756,7 @@ h2.salmon {
         padding: 4rem 17%;
     }
 
-/*    section#about > div {
-        padding: 8% 24%;
-    }
-
-    section#people > div {
-        padding: 12% 10%;
-    }
-
-*/    div.work_content h2 {
+    div.work_content h2 {
         font-size: 1.2rem;
     }
 
@@ -882,24 +774,7 @@ h2.salmon {
     section > div {
         padding: 4rem 17%;
     }
-/*
-    section#process li {
-        margin: 0 2%;
-        -webkit-box-flex: 0 1 15rem;
-        -moz-box-flex: 0 1 15rem;
-        -webkit-flex: 0 1 15rem;
-        -ms-flex: 0 1 15rem;
-        flex: 0 1 15rem;
-    }
-*/
-/*
-    section#process > div {
-        padding: 4rem 12%;
-    }
-    section#about > div {
-        padding: 10% 8%;
-    }
-*/
+
     ul#worklist li.fourth {
         width: 50%;
     }
@@ -942,13 +817,18 @@ h2.salmon {
         margin: auto 1rem;
     }
 
-    ul#people li {
-        margin-bottom: 4rem;
-    }
-
     section#clients div > p {
         padding-left: 8%;
         padding-right: 8%;
+    }
+
+    section#process li {
+        -webkit-box-flex: 1 1 40%;
+        -moz-box-flex: 1 1 40%;
+        width: 50%;
+        -webkit-flex: 1 1 40%;
+        -ms-flex: 1 1 40%;
+        flex: 1 1 40%;
     }
 }
 
@@ -961,6 +841,15 @@ h2.salmon {
         margin-bottom: 2rem;
     }
 
+    ul#people li {
+        margin: 0 2%;
+        -webkit-box-flex: 1 1 60%;
+        -moz-box-flex: 1 1 60%;
+        width: 100%;
+        -webkit-flex: 1 1 60%;
+        -ms-flex: 1 1 60%;
+        flex: 1 1 60%;
+    }
 }
 
 @media screen and (max-width: 550px) {
@@ -975,20 +864,12 @@ h2.salmon {
 
     section#process li {
         margin: 0 2%;
-        -webkit-box-flex: 0 1 auto;
-        -moz-box-flex: 0 1 auto;
-        -webkit-flex: 0 1 auto;
-        -ms-flex: 0 1 auto;
-        flex: 0 1 auto;
-    }
-
-    section li {
-        /* grow shrink basis */
-        -webkit-box-flex: 15rem;
-        -moz-box-flex: 15rem;
-        -webkit-flex: 15rem;
-        -ms-flex: 15rem;
-        flex: 15rem;
+        -webkit-box-flex: 1 1 60%;
+        -moz-box-flex: 1 1 60%;
+        width: 100%;
+        -webkit-flex: 1 1 60%;
+        -ms-flex: 1 1 60%;
+        flex: 1 1 60%;
     }
 
     ul#worklist li.half {

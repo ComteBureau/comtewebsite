@@ -1,27 +1,37 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
+var eventlistener = require('./eventlistener.js');
+
 if (document.readyState === 'complete' ||
     document.readyState === 'interactive') {
     window.setTimeout(_boot, 0);
 } else {
-    document.addEventListener('DOMContentLoaded', _boot, false);
-    window.addEventListener('load', _boot, false);
+    eventlistener.add(document, 'DOMContentLoaded', _boot);
+    eventlistener.add(window, 'load', _boot, 'on');
+    // document.addEventListener('DOMContentLoaded', _boot, false);
+    // window.addEventListener('load', _boot, false);
+}
+
+function isCanvasSupported() {
+    var elem = document.createElement('canvas');
+    return !!(elem.getContext && elem.getContext('2d'));
 }
 
 function _boot() {
     if (!document.body) {
         window.setTimeout(_boot, 20);
     } else {
-        document.removeEventListener('DOMContentLoaded', _boot);
-        window.removeEventListener('load', _boot);
+        eventlistener.remove(document, 'DOMContentLoaded', _boot);
+        eventlistener.remove(window, 'load', _boot, 'on');
+        // document.removeEventListener('DOMContentLoaded', _boot);
+        // window.removeEventListener('load', _boot);
 
         var resources   = require('./resources.js');
         var frontpage   = require('./frontpage.js');
         var dots        = require('./dots.js');
 
         resources({
-            // css: ['/public/css/style.css'],
             font: [{
                 cache_name: 'Comte',
                 file:       '/public/css/fonts.css'
@@ -30,258 +40,11 @@ function _boot() {
 
         frontpage();
 
-        // dots();
+        dots(isCanvasSupported());
     }
 };
 
-},{"./dots.js":4,"./frontpage.js":10,"./resources.js":18}],2:[function(require,module,exports){
-/*
- * classList.js: Cross-browser full element.classList implementation.
- * 2014-07-23
- *
- * By Eli Grey, http://eligrey.com
- * Public Domain.
- * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
- */
-
-/*global self, document, DOMException */
-
-/*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js*/
-
-if ("document" in self) {
-
-    // Full polyfill for browsers with no classList support
-    if (!("classList" in document.createElement("_"))) {
-
-        (function (view) {
-
-            "use strict";
-
-            if (!('Element' in view)) return;
-
-            var
-                  classListProp = "classList"
-                , protoProp = "prototype"
-                , elemCtrProto = view.Element[protoProp]
-                , objCtr = Object
-                , strTrim = String[protoProp].trim || function () {
-                    return this.replace(/^\s+|\s+$/g, "");
-                }
-                , arrIndexOf = Array[protoProp].indexOf || function (item) {
-                    var
-                          i = 0
-                        , len = this.length
-                    ;
-                    for (; i < len; i++) {
-                        if (i in this && this[i] === item) {
-                            return i;
-                        }
-                    }
-                    return -1;
-                }
-                // Vendors: please allow content code to instantiate DOMExceptions
-                , DOMEx = function (type, message) {
-                    this.name = type;
-                    this.code = DOMException[type];
-                    this.message = message;
-                }
-                , checkTokenAndGetIndex = function (classList, token) {
-                    if (token === "") {
-                        throw new DOMEx(
-                              "SYNTAX_ERR"
-                            , "An invalid or illegal string was specified"
-                        );
-                    }
-                    if (/\s/.test(token)) {
-                        throw new DOMEx(
-                              "INVALID_CHARACTER_ERR"
-                            , "String contains an invalid character"
-                        );
-                    }
-                    return arrIndexOf.call(classList, token);
-                }
-                , ClassList = function (elem) {
-                    var
-                          trimmedClasses = strTrim.call(elem.getAttribute("class") || "")
-                        , classes = trimmedClasses ? trimmedClasses.split(/\s+/) : []
-                        , i = 0
-                        , len = classes.length
-                    ;
-                    for (; i < len; i++) {
-                        this.push(classes[i]);
-                    }
-                    this._updateClassName = function () {
-                        elem.setAttribute("class", this.toString());
-                    };
-                }
-                , classListProto = ClassList[protoProp] = []
-                , classListGetter = function () {
-                    return new ClassList(this);
-                }
-            ;
-
-            // Most DOMException implementations don't allow calling DOMException's toString()
-            // on non-DOMExceptions. Error's toString() is sufficient here.
-            DOMEx[protoProp] = Error[protoProp];
-
-            classListProto.item = function (i) {
-                return this[i] || null;
-            };
-
-            classListProto.contains = function (token) {
-                token += "";
-                return checkTokenAndGetIndex(this, token) !== -1;
-            };
-
-            classListProto.add = function () {
-                var
-                      tokens = arguments
-                    , i = 0
-                    , l = tokens.length
-                    , token
-                    , updated = false
-                ;
-                do {
-                    token = tokens[i] + "";
-                    if (checkTokenAndGetIndex(this, token) === -1) {
-                        this.push(token);
-                        updated = true;
-                    }
-                }
-                while (++i < l);
-
-                if (updated) {
-                    this._updateClassName();
-                }
-            };
-
-            classListProto.remove = function () {
-                var
-                      tokens = arguments
-                    , i = 0
-                    , l = tokens.length
-                    , token
-                    , updated = false
-                    , index
-                ;
-                do {
-                    token = tokens[i] + "";
-                    index = checkTokenAndGetIndex(this, token);
-                    while (index !== -1) {
-                        this.splice(index, 1);
-                        updated = true;
-                        index = checkTokenAndGetIndex(this, token);
-                    }
-                }
-                while (++i < l);
-
-                if (updated) {
-                    this._updateClassName();
-                }
-            };
-
-            classListProto.toggle = function (token, force) {
-                token += "";
-
-                var
-                      result = this.contains(token)
-                    , method = result ?
-                        force !== true && "remove"
-                    :
-                        force !== false && "add"
-                ;
-
-                if (method) {
-                    this[method](token);
-                }
-
-                if (force === true || force === false) {
-                    return force;
-                } else {
-                    return !result;
-                }
-            };
-
-            classListProto.toString = function () {
-                return this.join(" ");
-            };
-
-            if (objCtr.defineProperty) {
-                var classListPropDesc = {
-                      get: classListGetter
-                    , enumerable: true
-                    , configurable: true
-                };
-                try {
-                    objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
-                } catch (ex) { // IE 8 doesn't support enumerable:true
-                    if (ex.number === -0x7FF5EC54) {
-                        classListPropDesc.enumerable = false;
-                        objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
-                    }
-                }
-            } else if (objCtr[protoProp].__defineGetter__) {
-                elemCtrProto.__defineGetter__(classListProp, classListGetter);
-            }
-
-        }(self));
-
-    } else {
-
-        // There is full or partial native classList support, so just check if we need
-        // to normalize the add/remove and toggle APIs.
-
-        (function () {
-            "use strict";
-
-            var testElement = document.createElement("_");
-
-            testElement.classList.add("c1", "c2");
-
-            // Polyfill for IE 10/11 and Firefox <26, where classList.add and
-            // classList.remove exist but support only one argument at a time.
-            if (!testElement.classList.contains("c2")) {
-                var createMethod = function(method) {
-                    var original = DOMTokenList.prototype[method];
-
-                    DOMTokenList.prototype[method] = function(token) {
-                        var i, len = arguments.length;
-
-                        for (i = 0; i < len; i++) {
-                            token = arguments[i];
-                            original.call(this, token);
-                        }
-                    };
-                };
-                createMethod('add');
-                createMethod('remove');
-            }
-
-            testElement.classList.toggle("c3", false);
-
-            // Polyfill for IE 10 and Firefox <24, where classList.toggle does not
-            // support the second argument.
-            if (testElement.classList.contains("c3")) {
-                var _toggle = DOMTokenList.prototype.toggle;
-
-                DOMTokenList.prototype.toggle = function(token, force) {
-                    if (1 in arguments && !this.contains(token) === !force) {
-                        return force;
-                    } else {
-                        return _toggle.call(this, token);
-                    }
-                };
-
-            }
-
-            testElement = null;
-        }());
-
-    }
-
-}
-
-},{}],3:[function(require,module,exports){
+},{"./dots.js":3,"./eventlistener.js":4,"./frontpage.js":9,"./resources.js":18}],2:[function(require,module,exports){
 "use strict";
 
 var dom = {
@@ -296,38 +59,29 @@ var dom = {
 
 module.exports = dom;
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
+var raf             = require('./raf.js');
 var dom             = require('./dom.js');
 var viewport        = require('./viewport.js');
 var tab             = require('./tab.js');
 var experiments     = require('./experiments/index.js');
-var StatsJs         = require('stats.js');
 var resize          = require('./resize.js');
 var renderer_setup  = require('./renderer.js');
 
-var stats;
 var stop = false;
 var experiment;
 var canvas;
 var renderer;
 
-module.exports = function dots() {
+module.exports = function dots(canvas_supported) {
 
-    if (typeof StatsJs !== 'undefined') {
-        stats = new StatsJs();
-        stats.setMode(0); // 0: fps, 1: ms
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.left = '100px';
-        stats.domElement.style.top = '0px';
-        document.body.appendChild(stats.domElement);
-    } else {
-        stats = {
-            begin: function() {},
-            end: function() {}
-        };
+    if (!canvas_supported) {
+        return;
     }
+
+    raf();
 
     var wrapper = dom.id('intro_wrapper');
     wrapper.style.height = 'auto';
@@ -363,8 +117,6 @@ module.exports = function dots() {
 }
 
 function update() {
-    stats.begin();
-
     if (stop) {
         return;
     }
@@ -379,14 +131,13 @@ function update() {
     }
 
     run();
-    stats.end();
 }
 
 function run() {
     window.requestAnimationFrame(update);
 }
 
-},{"./dom.js":3,"./experiments/index.js":8,"./renderer.js":16,"./resize.js":17,"./tab.js":21,"./viewport.js":25,"stats.js":28}],5:[function(require,module,exports){
+},{"./dom.js":2,"./experiments/index.js":7,"./raf.js":15,"./renderer.js":16,"./resize.js":17,"./tab.js":21,"./viewport.js":25}],4:[function(require,module,exports){
 "use strict";
 
 module.exports.add = function(element, event_name, callback, prefix) {
@@ -400,13 +151,30 @@ module.exports.add = function(element, event_name, callback, prefix) {
     }
 
     if (typeof element.attachEvent !== 'undefined') {
-        return element.attachEvent(event_name, handler);
+        return element.attachEvent(event_name, callback);
     }
 
     return undefined;
 }
 
-},{}],6:[function(require,module,exports){
+module.exports.remove = function(element, event_name, callback, prefix) {
+
+    if (typeof element.removeEventListener !== 'undefined') {
+        return element.removeEventListener(event_name, callback, false);
+    }
+
+    if (typeof prefix !== 'undefined') {
+        event_name = prefix + event_name;
+    }
+
+    if (typeof element.detachEvent !== 'undefined') {
+        return element.detachEvent(event_name, callback);
+    }
+
+    return undefined;
+}
+
+},{}],5:[function(require,module,exports){
 'use strict';
 
 var dom             = require('./../dom.js');
@@ -595,8 +363,8 @@ var experiment = {
             human.offset(change);
         });
 
-        dot.position.x *= change;
-        dot.position.y *= change;
+        // dot.position.x *= change;
+        // dot.position.y *= change;
 
         return this;
     }
@@ -605,7 +373,7 @@ var experiment = {
 module.exports = experiment;
 
 
-},{"./../dom.js":3,"./../gfx.js":11,"./../human.js":12,"./../lookuptables.js":13,"./../spawnpoints.js":20,"./../text.js":22,"pixi.js":27}],7:[function(require,module,exports){
+},{"./../dom.js":2,"./../gfx.js":10,"./../human.js":11,"./../lookuptables.js":12,"./../spawnpoints.js":20,"./../text.js":22,"pixi.js":28}],6:[function(require,module,exports){
 'use strict';
 
 var dom             = require('./../dom.js');
@@ -799,12 +567,12 @@ var experiment = {
 module.exports = experiment;
 
 
-},{"./../dom.js":3,"./../gfx.js":11,"./../lookuptables.js":13,"./../particle.js":14,"./../spawnpoints.js":20,"pixi.js":27}],8:[function(require,module,exports){
+},{"./../dom.js":2,"./../gfx.js":10,"./../lookuptables.js":12,"./../particle.js":13,"./../spawnpoints.js":20,"pixi.js":28}],7:[function(require,module,exports){
 module.exports.text_attract = require('./text_attract');
 module.exports.dot_filler = require('./dot_filler');
 module.exports.citylike = require('./citylike');
 
-},{"./citylike":6,"./dot_filler":7,"./text_attract":9}],9:[function(require,module,exports){
+},{"./citylike":5,"./dot_filler":6,"./text_attract":8}],8:[function(require,module,exports){
 'use strict';
 
 var gfx             = require('./../gfx.js');
@@ -971,10 +739,10 @@ function kill(particle) {
 module.exports = experiment;
 
 
-},{"./../gfx.js":11,"./../lookuptables.js":13,"./../particle.js":14,"./../pixelratio.js":15,"./../spawnpoints.js":20,"./../text.js":22,"pixi.js":27}],10:[function(require,module,exports){
+},{"./../gfx.js":10,"./../lookuptables.js":12,"./../particle.js":13,"./../pixelratio.js":14,"./../spawnpoints.js":20,"./../text.js":22,"pixi.js":28}],9:[function(require,module,exports){
 'use strict';
 
-var classlist           = require('./classlist.js');
+var classList           = require('dom-classlist');
 var dataset             = require('dataset');
 var section_buttons     = require('./section_buttons.js');
 var eventlistener       = require('./eventlistener.js');
@@ -983,7 +751,6 @@ var elements_list = [
     'menu',
     'menu_symbol',
     'menu_symbol_shape',
-    'menu_symbol_hover',
     'menu_symbol_cross'
 ];
 
@@ -993,6 +760,7 @@ var elements = {
     init: function(list) {
         list.forEach(function(el_id) {
             this.els[el_id] = document.getElementById(el_id) || undefined;
+            // console.log(this.els[el_id]);
         }, this);
     },
 
@@ -1037,39 +805,53 @@ var menu_symbol = {
         this.active = !this.active;
         if (this.active) {
             if (!this.is_over) {
-                this._shape.classList.add('menu_symbol_active');
+                classList(this._shape).add('menu_symbol_active');
+                // this._shape.classList.add('menu_symbol_active');
                 this.out();
             } else {
                 this.over();
             }
-            this._shape.classList.remove('menu_symbol_deactive');
-            this._menu.classList.add('opened');
-            this._cross.classList.add('visible');
+            classList(this._shape).remove('menu_symbol_deactive');
+            classList(this._menu).add('opened');
+            classList(this._cross).add('visible');
+            // this._shape.classList.remove('menu_symbol_deactive');
+            // this._menu.classList.add('opened');
+            // this._cross.classList.add('visible');
         } else {
-            this._shape.classList.remove('menu_symbol_active');
+            classList(this._shape).remove('menu_symbol_active');
+            // this._shape.classList.remove('menu_symbol_active');
             if (!this.is_over) {
-                this._shape.classList.add('menu_symbol_deactive');
+                classList(this._shape).add('menu_symbol_deactive');
+                // this._shape.classList.add('menu_symbol_deactive');
                 this.out();
             } else {
                 this.over();
             }
-            this._menu.classList.remove('opened');
-            this._cross.classList.remove('visible');
+            classList(this._menu).remove('opened');
+            classList(this._shape).remove('visible');
+            // this._menu.classList.remove('opened');
+            // this._cross.classList.remove('visible');
         }
     },
 
     over: function(event) {
         this.is_over = true;
-        this._shape.classList.add('menu_symbol_'+(this.active ? 'active' : 'deactive')+'_hover');
-        this._shape.classList.remove('menu_symbol_'+(!this.active ? 'active' : 'deactive')+'_hover');
-        this._shape.classList.remove(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
+        classList(this._shape).add('menu_symbol_'+(this.active ? 'active' : 'deactive')+'_hover');
+        classList(this._shape).remove('menu_symbol_'+(!this.active ? 'active' : 'deactive')+'_hover');
+        classList(this._shape).remove(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
+        // this._shape.classList.add('menu_symbol_'+(this.active ? 'active' : 'deactive')+'_hover');
+        // this._shape.classList.remove('menu_symbol_'+(!this.active ? 'active' : 'deactive')+'_hover');
+        // this._shape.classList.remove(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
     },
 
     out: function(event) {
         this.is_over = false;
-        this._shape.classList.remove('menu_symbol_active_hover');
-        this._shape.classList.remove('menu_symbol_deactive_hover');
-        this._shape.classList.add(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
+        classList(this._shape).remove('menu_symbol_active_hover');
+        classList(this._shape).remove('menu_symbol_deactive_hover');
+        classList(this._shape).add(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
+        // this._shape.classList.remove('menu_symbol_active_hover');
+        // this._shape.classList.remove('menu_symbol_deactive_hover');
+        // this._shape.classList.add(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
     }
 };
 
@@ -1093,7 +875,7 @@ var menu_options = {
     click: function(event) {
         var expand_name = this.options[event.target.name];
         if (typeof expand_name === 'string') {
-            var btn = section_buttons.states[expand_name];
+            var btn = section_buttons.states(expand_name);
             section_buttons.expand(btn);
         }
     }
@@ -1110,7 +892,8 @@ module.exports = function() {
 }
 
 function menu() {
-    elements.get('menu_symbol').classList.remove('hidden');
+    classList(elements.get('menu_symbol')).remove('hidden');
+    // elements.get('menu_symbol').classList.remove('hidden');
 
     menu_symbol.init(elements, eventlistener);
 
@@ -1123,7 +906,7 @@ function menu() {
                       section_buttons);
 }
 
-},{"./classlist.js":2,"./eventlistener.js":5,"./section_buttons.js":19,"dataset":26}],11:[function(require,module,exports){
+},{"./eventlistener.js":4,"./section_buttons.js":19,"dataset":26,"dom-classlist":27}],10:[function(require,module,exports){
 'use strict';
 
 var pixelratio      = require('./pixelratio.js');
@@ -1144,7 +927,7 @@ module.exports.circle = function(options) {
     return circle_gfx;
 }
 
-},{"./pixelratio.js":15,"pixi.js":27}],12:[function(require,module,exports){
+},{"./pixelratio.js":14,"pixi.js":28}],11:[function(require,module,exports){
 "use strict";
 
 var vector          = require('./vector.js');
@@ -1214,7 +997,7 @@ var human = {
         if (Math.abs(travel_x) <= 0 &&
             Math.abs(travel_y) <= 0) {
             this.aquire_target();
-            console.log('new target', this.cur_target.x, this.cur_target.y);
+            // console.log('new target', this.cur_target.x, this.cur_target.y);
         }
 
         // this.seek(this.target);
@@ -1322,7 +1105,7 @@ module.exports.create = function create(container, gfx, options) {
     return instance;
 }
 
-},{"./utils.js":23,"./vector.js":24,"pixi.js":27}],13:[function(require,module,exports){
+},{"./utils.js":23,"./vector.js":24,"pixi.js":28}],12:[function(require,module,exports){
 'use strict';
 
 var radians = [];
@@ -1350,7 +1133,7 @@ module.exports.get_coord = function(deg, radius) {
     };
 }
 
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 var vector          = require('./vector.js');
@@ -1479,7 +1262,7 @@ module.exports.create = function create(container, gfx, options) {
     return instance;
 }
 
-},{"./utils.js":23,"./vector.js":24,"pixi.js":27}],15:[function(require,module,exports){
+},{"./utils.js":23,"./vector.js":24,"pixi.js":28}],14:[function(require,module,exports){
 'use strict';
 
 var width;
@@ -1490,7 +1273,11 @@ var ratio = 1;
 var PixelRatio = {
     get_ratio: function(canvas) {
 
-        ctx = canvas.getContext('2d') || canvas.getContext('webgl');
+        ctx = canvas.getContext('2d');
+        if (ctx === null) {
+            ratio = 1;
+            return ratio;
+        }
 
         var devicePixelRatio = window.devicePixelRatio || 1;
         var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
@@ -1502,25 +1289,9 @@ var PixelRatio = {
         // Pixel ratio is larger than 1 when on a screen with high pixel density
         ratio = devicePixelRatio / backingStoreRatio;
         return ratio;
-        // if (devicePixelRatio !== backingStoreRatio) {
-
-        //     width = canvas.width;
-        //     height = canvas.height;
-
-        //     canvas.width = width * ratio;
-        //     canvas.height = height * ratio;
-        //     canvas.style.width = width + 'px';
-        //     canvas.style.height = height + 'px';
-
-        //     // now scale the context to counter
-        //     // the fact that we've manually scaled
-        //     // our canvas element
-        //     ctx.scale(ratio, ratio);
-        // }
     },
 
     scale_canvas: function(canvas) {
-        // ctx = canvas.getContext('2d') || canvas.getContext('webgl');
         width = canvas.width;
         height = canvas.height;
 
@@ -1528,17 +1299,49 @@ var PixelRatio = {
         canvas.height = height * ratio;
         canvas.style.width = width + 'px';
         canvas.style.height = height + 'px';
-        // ctx.scale(ratio, ratio);
+    },
+
+    ratio: function() {
+        return ratio;
     }
 };
 
 module.exports = PixelRatio;
 
-Object.defineProperty(PixelRatio, 'ratio', {
-    get: function() {
-        return ratio;
+// Object.defineProperty(PixelRatio, 'ratio', {
+//     get: function() {
+//         return ratio;
+//     }
+// });
+
+},{}],15:[function(require,module,exports){
+module.exports = function() {
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] ||
+                                      window[vendors[x]+'CancelRequestAnimationFrame'];
     }
-});
+
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() {
+                callback(currTime + timeToCall);
+            }, timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
+
+    if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+    }
+};
 
 },{}],16:[function(require,module,exports){
 'use strict';
@@ -1569,7 +1372,7 @@ module.exports = function(color, container) {
     return r;
 }
 
-},{"./pixelratio.js":15,"pixi.js":27}],17:[function(require,module,exports){
+},{"./pixelratio.js":14,"pixi.js":28}],17:[function(require,module,exports){
 'use strict';
 
 var eventlistener   = require('./eventlistener.js');
@@ -1641,7 +1444,7 @@ function resize_handler() {
     }
 }
 
-},{"./eventlistener.js":5}],18:[function(require,module,exports){
+},{"./eventlistener.js":4}],18:[function(require,module,exports){
 'use strict';
 
 module.exports = function(res) {
@@ -1708,7 +1511,8 @@ function load_font(font_name, path) {
 },{}],19:[function(require,module,exports){
 'use strict';
 
-var eventlistener = require('./eventlistener.js');
+var eventlistener       = require('./eventlistener.js');
+var classList           = require('dom-classlist');
 
 var __btn_states = {};
 
@@ -1725,19 +1529,31 @@ var section_buttons = {
         }
 
         window.setTimeout(function() {
-            btn.el_wrap.classList.add('expanded');
-            btn.el_wrap.classList.remove('contracted');
+            classList(btn.el_wrap).add('expanded');
+            classList(btn.el_wrap).remove('contracted');
+            // btn.el_wrap.classList.add('expanded');
+            // btn.el_wrap.classList.remove('contracted');
         }, 100);
-        btn.el_section.classList.add('show');
-        btn.el_section.classList.remove('hide');
+        classList(btn.el_section).add('show');
+        classList(btn.el_section).remove('hide');
+        // btn.el_section.classList.add('show');
+        // btn.el_section.classList.remove('hide');
     },
 
     contract: function(btn) {
-        btn.el_wrap.classList.add('contracted');
-        btn.el_wrap.classList.remove('expanded');
-        btn.el_section.classList.add('hide');
-        btn.el_section.classList.remove('show');
+        classList(btn.el_wrap).add('contracted');
+        classList(btn.el_wrap).remove('expanded');
+        classList(btn.el_section).add('hide');
+        classList(btn.el_section).remove('show');
+        // btn.el_wrap.classList.add('contracted');
+        // btn.el_wrap.classList.remove('expanded');
+        // btn.el_section.classList.add('hide');
+        // btn.el_section.classList.remove('show');
     },
+
+    states: function(name) {
+        return typeof name === 'undefined' ? __btn_states : __btn_states[name];
+    }
 };
 
 module.exports = section_buttons;
@@ -1779,13 +1595,13 @@ function btn(btn_name) {
     }.bind(btn_name), false);
 }
 
-Object.defineProperty(section_buttons, 'states', {
-    get: function() {
-        return __btn_states;
-    }
-});
+// Object.defineProperty(section_buttons, 'states', {
+//     get: function() {
+//         return __btn_states;
+//     }
+// });
 
-},{"./eventlistener.js":5}],20:[function(require,module,exports){
+},{"./eventlistener.js":4,"dom-classlist":27}],20:[function(require,module,exports){
 'use strick';
 
 var spawnpoints = [];
@@ -1891,7 +1707,7 @@ module.exports.visibility = function(callback) {
     }
 }
 
-},{"./eventlistener.js":5}],22:[function(require,module,exports){
+},{"./eventlistener.js":4}],22:[function(require,module,exports){
 'use strict';
 
 var canvas;
@@ -2113,7 +1929,7 @@ function isElementInViewport(el) {
            (rect.bottom <= dh && rect.bottom >= 0);
 }
 
-},{"./eventlistener.js":5}],26:[function(require,module,exports){
+},{"./eventlistener.js":4}],26:[function(require,module,exports){
 module.exports=dataset;
 
 /*global document*/
@@ -2186,6 +2002,173 @@ function dataset(node, attr, value) {
 }
 
 },{}],27:[function(require,module,exports){
+/**
+ * Module export
+ *
+ * @param {Element} el
+ * @return {ClassList}
+ */
+
+module.exports = function (el) {
+  return new ClassList(el);
+};
+
+/**
+ * Initialize a new ClassList for the given element
+ *
+ * @param {Element} el DOM Element
+ */
+function ClassList(el) {
+  if (!el || el.nodeType !== 1) {
+    throw new Error('A DOM Element reference is required');
+  }
+
+  this.el = el;
+  this.classList = el.classList;
+}
+
+/**
+ * Check token validity
+ *
+ * @param token
+ * @param [method]
+ */
+function checkToken(token, method) {
+  method = method || 'a method';
+
+  if (typeof token != 'string') {
+    throw new TypeError(
+      'Failed to execute \'' + method + '\' on \'ClassList\': ' +
+      'the token provided (\'' + token + '\') is not a string.'
+    );
+  }
+  if (token === "") {
+    throw new SyntaxError(
+      'Failed to execute \'' + method + '\' on \'ClassList\': ' +
+      'the token provided must not be empty.'
+    );
+  }
+  if (/\s/.test(token)) {
+    throw new Error(
+      'Failed to execute \'' + method + '\' on \'ClassList\': ' +
+      'the token provided (\'' + token + '\') contains HTML space ' +
+      'characters, which are not valid in tokens.'
+    );
+  }
+}
+
+/**
+ * Return an array of the class names on the element.
+ *
+ * @return {Array}
+ */
+ClassList.prototype.toArray = function () {
+  var str = (this.el.getAttribute('class') || '').replace(/^\s+|\s+$/g, '');
+  var classes = str.split(/\s+/);
+  if ('' === classes[0]) { classes.shift(); }
+  return classes;
+};
+
+/**
+ * Add the given `token` to the class list if it's not already present.
+ *
+ * @param {String} token
+ */
+ClassList.prototype.add = function (token) {
+  var classes, index, updated;
+  checkToken(token, 'add');
+
+  if (this.classList) {
+    this.classList.add(token);
+  }
+  else {
+    // fallback
+    classes = this.toArray();
+    index = classes.indexOf(token);
+    if (index === -1) {
+      classes.push(token);
+      this.el.setAttribute('class', classes.join(' '));
+    }
+  }
+
+  return;
+};
+
+/**
+ * Check if the given `token` is in the class list.
+ *
+ * @param {String} token
+ * @return {Boolean}
+ */
+ClassList.prototype.contains = function (token) {
+  checkToken(token, 'contains');
+
+  return this.classList ?
+    this.classList.contains(token) :
+    this.toArray().indexOf(token) > -1;
+};
+
+/**
+ * Remove any class names that match the given `token`, when present.
+ *
+ * @param {String|RegExp} token
+ */
+ClassList.prototype.remove = function (token) {
+  var arr, classes, i, index, len;
+
+  if ('[object RegExp]' == Object.prototype.toString.call(token)) {
+    arr = this.toArray();
+    for (i = 0, len = arr.length; i < len; i++) {
+      if (token.test(arr[i])) {
+        this.remove(arr[i]);
+      }
+    }
+  }
+  else {
+    checkToken(token, 'remove');
+
+    if (this.classList) {
+      this.classList.remove(token);
+    }
+    else {
+      // fallback
+      classes = this.toArray();
+      index = classes.indexOf(token);
+      if (index > -1) {
+        classes.splice(index, 1);
+        this.el.setAttribute('class', classes.join(' '));
+      }
+    }
+  }
+
+  return;
+};
+
+/**
+ * Toggle the `token` in the class list. Optionally force state via `force`.
+ *
+ * Native `classList` is not used as some browsers that support `classList` do
+ * not support `force`. Avoiding `classList` altogether keeps this function
+ * simple.
+ *
+ * @param {String} token
+ * @param {Boolean} [force]
+ * @return {Boolean}
+ */
+ClassList.prototype.toggle = function (token, force) {
+  checkToken(token, 'toggle');
+
+  var hasToken = this.contains(token);
+  var method = hasToken ? (force !== true && 'remove') : (force !== false && 'add');
+
+  if (method) {
+    this[method](token);
+  }
+
+  return (typeof force == 'boolean' ? force : !hasToken);
+};
+
+},{}],28:[function(require,module,exports){
 /**
  * @license
  * pixi.js - v2.2.9
@@ -22564,154 +22547,4 @@ Object.defineProperty(PIXI.RGBSplitFilter.prototype, 'blue', {
         root.PIXI = PIXI;
     }
 }).call(this);
-},{}],28:[function(require,module,exports){
-/**
- * @author mrdoob / http://mrdoob.com/
- */
-
-var Stats = function () {
-
-	var startTime = Date.now(), prevTime = startTime;
-	var ms = 0, msMin = Infinity, msMax = 0;
-	var fps = 0, fpsMin = Infinity, fpsMax = 0;
-	var frames = 0, mode = 0;
-
-	var container = document.createElement( 'div' );
-	container.id = 'stats';
-	container.addEventListener( 'mousedown', function ( event ) { event.preventDefault(); setMode( ++ mode % 2 ) }, false );
-	container.style.cssText = 'width:80px;opacity:0.9;cursor:pointer';
-
-	var fpsDiv = document.createElement( 'div' );
-	fpsDiv.id = 'fps';
-	fpsDiv.style.cssText = 'padding:0 0 3px 3px;text-align:left;background-color:#002';
-	container.appendChild( fpsDiv );
-
-	var fpsText = document.createElement( 'div' );
-	fpsText.id = 'fpsText';
-	fpsText.style.cssText = 'color:#0ff;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px';
-	fpsText.innerHTML = 'FPS';
-	fpsDiv.appendChild( fpsText );
-
-	var fpsGraph = document.createElement( 'div' );
-	fpsGraph.id = 'fpsGraph';
-	fpsGraph.style.cssText = 'position:relative;width:74px;height:30px;background-color:#0ff';
-	fpsDiv.appendChild( fpsGraph );
-
-	while ( fpsGraph.children.length < 74 ) {
-
-		var bar = document.createElement( 'span' );
-		bar.style.cssText = 'width:1px;height:30px;float:left;background-color:#113';
-		fpsGraph.appendChild( bar );
-
-	}
-
-	var msDiv = document.createElement( 'div' );
-	msDiv.id = 'ms';
-	msDiv.style.cssText = 'padding:0 0 3px 3px;text-align:left;background-color:#020;display:none';
-	container.appendChild( msDiv );
-
-	var msText = document.createElement( 'div' );
-	msText.id = 'msText';
-	msText.style.cssText = 'color:#0f0;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px';
-	msText.innerHTML = 'MS';
-	msDiv.appendChild( msText );
-
-	var msGraph = document.createElement( 'div' );
-	msGraph.id = 'msGraph';
-	msGraph.style.cssText = 'position:relative;width:74px;height:30px;background-color:#0f0';
-	msDiv.appendChild( msGraph );
-
-	while ( msGraph.children.length < 74 ) {
-
-		var bar = document.createElement( 'span' );
-		bar.style.cssText = 'width:1px;height:30px;float:left;background-color:#131';
-		msGraph.appendChild( bar );
-
-	}
-
-	var setMode = function ( value ) {
-
-		mode = value;
-
-		switch ( mode ) {
-
-			case 0:
-				fpsDiv.style.display = 'block';
-				msDiv.style.display = 'none';
-				break;
-			case 1:
-				fpsDiv.style.display = 'none';
-				msDiv.style.display = 'block';
-				break;
-		}
-
-	};
-
-	var updateGraph = function ( dom, value ) {
-
-		var child = dom.appendChild( dom.firstChild );
-		child.style.height = value + 'px';
-
-	};
-
-	return {
-
-		REVISION: 12,
-
-		domElement: container,
-
-		setMode: setMode,
-
-		begin: function () {
-
-			startTime = Date.now();
-
-		},
-
-		end: function () {
-
-			var time = Date.now();
-
-			ms = time - startTime;
-			msMin = Math.min( msMin, ms );
-			msMax = Math.max( msMax, ms );
-
-			msText.textContent = ms + ' MS (' + msMin + '-' + msMax + ')';
-			updateGraph( msGraph, Math.min( 30, 30 - ( ms / 200 ) * 30 ) );
-
-			frames ++;
-
-			if ( time > prevTime + 1000 ) {
-
-				fps = Math.round( ( frames * 1000 ) / ( time - prevTime ) );
-				fpsMin = Math.min( fpsMin, fps );
-				fpsMax = Math.max( fpsMax, fps );
-
-				fpsText.textContent = fps + ' FPS (' + fpsMin + '-' + fpsMax + ')';
-				updateGraph( fpsGraph, Math.min( 30, 30 - ( fps / 100 ) * 30 ) );
-
-				prevTime = time;
-				frames = 0;
-
-			}
-
-			return time;
-
-		},
-
-		update: function () {
-
-			startTime = this.end();
-
-		}
-
-	}
-
-};
-
-if ( typeof module === 'object' ) {
-
-	module.exports = Stats;
-
-}
 },{}]},{},[1]);
