@@ -1,24 +1,40 @@
 "use strict";
 
+var eventlistener = require('eventlistener');
+
 if (document.readyState === 'complete' ||
     document.readyState === 'interactive') {
     window.setTimeout(_boot, 0);
 } else {
-    document.addEventListener('DOMContentLoaded', _boot, false);
-    window.addEventListener('load', _boot, false);
+    eventlistener.add(document, 'DOMContentLoaded', _boot);
+    eventlistener.add(window, 'load', _boot, 'on');
+}
+
+function isCanvasSupported() {
+    var elem = document.createElement('canvas');
+    return !!(elem.getContext && elem.getContext('2d'));
 }
 
 function _boot() {
     if (!document.body) {
         window.setTimeout(_boot, 20);
     } else {
-        document.removeEventListener('DOMContentLoaded', _boot);
-        window.removeEventListener('load', _boot);
+        eventlistener.remove(document, 'DOMContentLoaded', _boot);
+        eventlistener.remove(window, 'load', _boot, 'on');
 
-        var frontpage = require('frontpage');
+        var resources   = require('resources');
+        var frontpage   = require('frontpage');
+        var dots        = require('dots');
+
+        resources({
+            font: [{
+                cache_name: 'Comte',
+                file:       '/public/css/fonts.css'
+            }]
+        });
+
         frontpage();
 
-        // var comte = require('comte');
-        // comte();
+        dots(isCanvasSupported());
     }
 };

@@ -1,6 +1,7 @@
 'use strict';
 
-var eventlistener = require('eventlistener');
+var eventlistener       = require('eventlistener');
+var classList           = require('dom-classlist');
 
 var __btn_states = {};
 
@@ -17,27 +18,39 @@ var section_buttons = {
         }
 
         window.setTimeout(function() {
-            btn.el_wrap.classList.add('expanded');
-            btn.el_wrap.classList.remove('contracted');
+            classList(btn.el_wrap).add('expanded');
+            classList(btn.el_wrap).remove('contracted');
+            // btn.el_wrap.classList.add('expanded');
+            // btn.el_wrap.classList.remove('contracted');
         }, 100);
-        btn.el_section.classList.add('show');
-        btn.el_section.classList.remove('hide');
+        classList(btn.el_section).add('show');
+        classList(btn.el_section).remove('hide');
+        // btn.el_section.classList.add('show');
+        // btn.el_section.classList.remove('hide');
     },
 
     contract: function(btn) {
-        btn.el_wrap.classList.add('contracted');
-        btn.el_wrap.classList.remove('expanded');
-        btn.el_section.classList.add('hide');
-        btn.el_section.classList.remove('show');
+        classList(btn.el_wrap).add('contracted');
+        classList(btn.el_wrap).remove('expanded');
+        classList(btn.el_section).add('hide');
+        classList(btn.el_section).remove('show');
+        // btn.el_wrap.classList.add('contracted');
+        // btn.el_wrap.classList.remove('expanded');
+        // btn.el_section.classList.add('hide');
+        // btn.el_section.classList.remove('show');
     },
+
+    states: function(name) {
+        return typeof name === 'undefined' ? __btn_states : __btn_states[name];
+    }
 };
 
 module.exports = section_buttons;
 
 function btn_exists(el_id) {
     return (
-        typeof document.getElementById(el_id) !== 'undefined' &&
-        typeof document.getElementById('btn_'+el_id) !== 'undefined'
+        document.getElementById(el_id) !== null &&
+        document.getElementById('btn_'+el_id) !== null
     );
 }
 
@@ -71,8 +84,8 @@ function btn(btn_name) {
     }.bind(btn_name), false);
 }
 
-Object.defineProperty(section_buttons, 'states', {
-    get: function() {
-        return __btn_states;
-    }
-});
+// Object.defineProperty(section_buttons, 'states', {
+//     get: function() {
+//         return __btn_states;
+//     }
+// });

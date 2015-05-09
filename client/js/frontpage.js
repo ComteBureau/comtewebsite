@@ -1,6 +1,6 @@
 'use strict';
 
-var classlist           = require('classlist');
+var classList           = require('dom-classlist');
 var dataset             = require('dataset');
 var section_buttons     = require('section_buttons');
 var eventlistener       = require('eventlistener');
@@ -9,7 +9,6 @@ var elements_list = [
     'menu',
     'menu_symbol',
     'menu_symbol_shape',
-    'menu_symbol_hover',
     'menu_symbol_cross'
 ];
 
@@ -19,6 +18,7 @@ var elements = {
     init: function(list) {
         list.forEach(function(el_id) {
             this.els[el_id] = document.getElementById(el_id) || undefined;
+            // console.log(this.els[el_id]);
         }, this);
     },
 
@@ -63,39 +63,53 @@ var menu_symbol = {
         this.active = !this.active;
         if (this.active) {
             if (!this.is_over) {
-                this._shape.classList.add('menu_symbol_active');
+                classList(this._shape).add('menu_symbol_active');
+                // this._shape.classList.add('menu_symbol_active');
                 this.out();
             } else {
                 this.over();
             }
-            this._shape.classList.remove('menu_symbol_deactive');
-            this._menu.classList.add('opened');
-            this._cross.classList.add('visible');
+            classList(this._shape).remove('menu_symbol_deactive');
+            classList(this._menu).add('opened');
+            classList(this._cross).add('visible');
+            // this._shape.classList.remove('menu_symbol_deactive');
+            // this._menu.classList.add('opened');
+            // this._cross.classList.add('visible');
         } else {
-            this._shape.classList.remove('menu_symbol_active');
+            classList(this._shape).remove('menu_symbol_active');
+            // this._shape.classList.remove('menu_symbol_active');
             if (!this.is_over) {
-                this._shape.classList.add('menu_symbol_deactive');
+                classList(this._shape).add('menu_symbol_deactive');
+                // this._shape.classList.add('menu_symbol_deactive');
                 this.out();
             } else {
                 this.over();
             }
-            this._menu.classList.remove('opened');
-            this._cross.classList.remove('visible');
+            classList(this._menu).remove('opened');
+            classList(this._shape).remove('visible');
+            // this._menu.classList.remove('opened');
+            // this._cross.classList.remove('visible');
         }
     },
 
     over: function(event) {
         this.is_over = true;
-        this._shape.classList.add('menu_symbol_'+(this.active ? 'active' : 'deactive')+'_hover');
-        this._shape.classList.remove('menu_symbol_'+(!this.active ? 'active' : 'deactive')+'_hover');
-        this._shape.classList.remove(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
+        classList(this._shape).add('menu_symbol_'+(this.active ? 'active' : 'deactive')+'_hover');
+        classList(this._shape).remove('menu_symbol_'+(!this.active ? 'active' : 'deactive')+'_hover');
+        classList(this._shape).remove(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
+        // this._shape.classList.add('menu_symbol_'+(this.active ? 'active' : 'deactive')+'_hover');
+        // this._shape.classList.remove('menu_symbol_'+(!this.active ? 'active' : 'deactive')+'_hover');
+        // this._shape.classList.remove(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
     },
 
     out: function(event) {
         this.is_over = false;
-        this._shape.classList.remove('menu_symbol_active_hover');
-        this._shape.classList.remove('menu_symbol_deactive_hover');
-        this._shape.classList.add(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
+        classList(this._shape).remove('menu_symbol_active_hover');
+        classList(this._shape).remove('menu_symbol_deactive_hover');
+        classList(this._shape).add(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
+        // this._shape.classList.remove('menu_symbol_active_hover');
+        // this._shape.classList.remove('menu_symbol_deactive_hover');
+        // this._shape.classList.add(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
     }
 };
 
@@ -119,7 +133,7 @@ var menu_options = {
     click: function(event) {
         var expand_name = this.options[event.target.name];
         if (typeof expand_name === 'string') {
-            var btn = section_buttons.states[expand_name];
+            var btn = section_buttons.states(expand_name);
             section_buttons.expand(btn);
         }
     }
@@ -136,7 +150,8 @@ module.exports = function() {
 }
 
 function menu() {
-    elements.get('menu_symbol').classList.remove('hidden');
+    classList(elements.get('menu_symbol')).remove('hidden');
+    // elements.get('menu_symbol').classList.remove('hidden');
 
     menu_symbol.init(elements, eventlistener);
 

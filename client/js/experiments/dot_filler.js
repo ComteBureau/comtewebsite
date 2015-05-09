@@ -1,52 +1,79 @@
 'use strict';
 
+var dom             = require('dom');
 var gfx             = require('gfx');
-var pixelratio      = require('pixelratio');
-var text            = require('text');
 var particle        = require('particle');
 var spawnpoints     = require('spawnpoints');
 var lookuptables    = require('lookuptables');
 var PIXI            = require('pixi.js');
 
-var target_coords = [];
 var particles = [];
 var dead_particles = [];
+var dead_index = 0;
 var renderer = {};
 var paused = false;
-var dead_count = 0;
+var total_dead = 0;
+var total = 0;
 var circle_gfx;
+var dot_gfx;
+var dot_scale = 0;
+var logo_rect;
+var dot_radius;
+var target;
 var s_points;
 var amount = 0;
 var deg;
 var radius;
 var coord;
-var target;
 
 var num_spawnpoints = 8;
-var num_particles = 200;
+var num_particles = 100;
+var dot;
 
 var experiment = {
+
+    // expose settings publicly, let all child object read settings without cachin to allow
+    // realtime manipulation
+    settings: {
+        particle_speed: 0
+    },
+
     init: function(a_renderer) {
 
         renderer = a_renderer;
 
         if (typeof circle_gfx === 'undefined') {
             circle_gfx = gfx.circle({
-                radius: 2,
+                radius: 10,
                 color:  0x000000,
                 alpha:  1
             });
         }
 
-        target_coords = text.create({
-            width:          renderer.width,
-            height:         renderer.height,
-            min_font_size:  12,
-            max_font_size:  40,
-            font:           'Helvetica',
-            text:           'Think people',
-            debug:          false
-        });
+        logo_rect = dom.id('logo').getBoundingClientRect();
+        dot_radius = (logo_rect.height / 2);
+
+        target = {
+            x: ((logo_rect.left + logo_rect.width) * renderer.ratio) + dot_radius,
+            y: ((logo_rect.top - dot_radius) * renderer.ratio) + dot_radius
+        };
+
+        if (typeof dot_gfx === 'undefined') {
+            dot_gfx = gfx.circle({
+                radius: dot_radius,
+                color:  0x000000,
+                alpha:  1
+            });
+        }
+
+        dot = new PIXI.Sprite(dot_gfx.generateTexture());
+        dot.anchor.x = 0.5;
+        dot.anchor.y = 0.5;
+        dot.position.x = target.x;
+        dot.position.y = target.y;
+        dot.scale.x = 0;
+        dot.scale.y = 0;
+        renderer.stage.addChild(dot);
 
         s_points = spawnpoints.create(renderer.width * renderer.ratio,
                                       renderer.height * renderer.ratio,
@@ -60,12 +87,11 @@ var experiment = {
                 deg = Math.floor(Math.random() * 360);
                 radius = Math.random() * sp.size * 0.5 * (4 + sp.weight);
                 coord = lookuptables.get_coord(deg, radius);
-                target = target_coords[Math.floor(Math.random() * target_coords.length)];
 
                 particles.push(particle.create(renderer.stage, circle_gfx, {
                     target: {
-                        x: target.x * renderer.ratio,
-                        y: target.y * renderer.ratio
+                        x: target.x,
+                        y: target.y
                     },
                     pos: {
                         x: sp.x + coord.x,
@@ -74,6 +100,8 @@ var experiment = {
                 }));
             }
         });
+
+        total = particles.length;
     },
 
     update: function() {
@@ -81,19 +109,29 @@ var experiment = {
             return false;
         }
 
-        dead_count = 0;
+        dead_index = -1;
 
-        particles.forEach(function(particle) {
+        particles.forEach(function(particle, i) {
             if (particle.alive) {
                 particle.update();
             } else {
-                ++dead_count;
+                dead_index = i;
             }
         });
 
+        total_dead = total - particles.length;
+        dot_scale = total_dead / total;
+        dot.scale.x = dot_scale;
+        dot.scale.y = dot_scale;
+
         renderer.renderer.render(renderer.stage);
 
-        if (dead_count === particles.length) {
+        if (dead_index > -1) {
+            particles.splice(dead_index, 1);
+        }
+
+        if (particles.length === 0) {
+            console.log('game over');
             paused = true;
         }
 
@@ -110,22 +148,22 @@ var experiment = {
 
     exit: function() {
         paused = true;
+
         particles.forEach(function(particle) {
             particle.exit();
             particle = null;
         });
         particles = [];
-        target_coords.forEach(function(tc) {
-            tc = null;
-        });
-        target_coords = [];
+
         dead_particles.forEach(function(dp) {
             dp.exit();
             dp = null;
         });
         dead_particles = [];
-        dead_count = 0;
-        text.exit();
+
+        total = 0;
+        dot = null;
+
         renderer.stage.removeChildren();
     },
 
@@ -143,23 +181,12 @@ var experiment = {
             particle.offset(change);
         });
 
+        dot.position.x *= change;
+        dot.position.y *= change;
+
         return this;
     }
 };
-
-function kill(particle) {
-    var exists = false;
-    for (var i=0; i<dead_particles.length; i++) {
-        if (dead_particles[i] === particle) {
-            exists = true;
-            break;
-        }
-    }
-
-    if (!exists) {
-        dead_particles.push(particle);
-    }
-}
 
 module.exports = experiment;
 

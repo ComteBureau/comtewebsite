@@ -16,12 +16,19 @@ var particle = {
     velocity: null,
     acceleration: null,
 
-    speed:      0,
-    max_speed:  Math.round((Math.random() * 150) + 150),
-    max_force:  200,
-    alive:      true,
+    speed:          0,
+    max_speed:      0,
+    max_force:      0,
+    alive:          true,
+    target_dist:    5,
 
     init: function(container, gfx, pos) {
+        this.alive = true;
+
+        this.max_speed = Math.round((Math.random() * 100) + 100);
+        this.max_force = 8000;
+        this.target_dist = 5;
+
         this.position = vector.create(pos.x, pos.y);
         this.velocity = vector.create();
         this.acceleration = vector.create();
@@ -29,7 +36,7 @@ var particle = {
         this.sprite = new PIXI.Sprite(gfx.generateTexture());
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
-        this.sprite.alpha = 0.8;
+        this.sprite.alpha = 1;
 
         container.addChild(this.sprite);
     },
@@ -49,17 +56,17 @@ var particle = {
             return;
         }
 
-        this.seek(this.target);
-        this.velocity.add(this.acceleration).limit(this.max_speed);
-        this.position.add(this.velocity);
-        this.acceleration.multiply(0);
+        // this.seek(this.target);
+        // this.velocity.add(this.acceleration).limit(this.max_speed);
+        // this.position.add(this.velocity);
+        // this.acceleration.multiply(0);
 
-        if (tmp.desired_mag <= 10 &&
-            this.velocity.magnitude() <= 1) {
-            this.position.set(this.target.x, this.target.y);
-            this.velocity.set(0, 0);
-            this.alive = false;
-        }
+        // if (tmp.desired_mag <= this.target_dist &&
+        //     this.velocity.magnitude() <= 1) {
+        //     this.position.set(this.target.x, this.target.y);
+        //     this.velocity.set(0, 0);
+        //     this.alive = false;
+        // }
 
         this.sprite.position = this.position;
     },
@@ -87,12 +94,31 @@ var particle = {
         this.applyForce(tmp.steer);
     },
 
+    exit: function() {
+        this.alive = false;
+        this.target = null;
+        this.position = null;
+        this.velocity = null;
+        this.acceleration = null;
+        this.speed = null;
+        this.max_speed = null;
+        this.max_force = null;
+        this.alive = null;
+        this.target_dist = null;
+        this.sprite = null;
+        tmp = {
+            desired: null,
+            desired_mag: null,
+            steer: null
+        };
+    }
 };
 
 module.exports.create = function create(container, gfx, options) {
     var instance = Object.create(particle, {
         target: {
-            value:      options.target
+            value:      options.target,
+            writable:   true
         }
     });
 

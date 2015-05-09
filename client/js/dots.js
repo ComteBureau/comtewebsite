@@ -1,31 +1,34 @@
 "use strict";
 
+var raf             = require('raf');
 var dom             = require('dom');
 var viewport        = require('viewport');
 var tab             = require('tab');
-var experiment      = require('experiments/text_attract');
-var StatsJs         = require('stats.js');
+var experiments     = require('experiments/index');
 var resize          = require('resize');
+var renderer_setup  = require('renderer');
 
-var stats;
+var stop = false;
+var experiment;
+var canvas;
+var renderer;
 
-module.exports = function comte() {
+module.exports = function dots(canvas_supported) {
 
-    if (typeof StatsJs !== 'undefined') {
-        stats = new StatsJs();
-        stats.setMode(0); // 0: fps, 1: ms
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.left = '100px';
-        stats.domElement.style.top = '0px';
-        document.body.appendChild(stats.domElement);
-    } else {
-        stats = {
-            begin: function() {},
-            end: function() {}
-        };
+    if (!canvas_supported) {
+        return;
     }
 
-    var canvas = experiment.init(dom.id('intro_wrapper'));
+    raf();
+
+    var wrapper = dom.id('intro_wrapper');
+    wrapper.style.height = 'auto';
+
+    renderer = renderer_setup(0xFFFFFF, wrapper);
+    canvas = renderer.renderer.view;
+
+    experiment = experiments.citylike;
+    experiment.init(renderer);
 
     tab.visibility(function(is_visible) {
         if (is_visible) {
@@ -45,7 +48,6 @@ module.exports = function comte() {
         } else {
             experiment.pause();
         }
-       // document.body.style.background = is_visible ? '#ccc' : '#f00';
     });
 
     resize.init();
@@ -53,7 +55,9 @@ module.exports = function comte() {
 }
 
 function update() {
-    stats.begin();
+    if (stop) {
+        return;
+    }
 
     if (!resize.is_resizing) {
         if (resize.has_resized) {
@@ -65,7 +69,6 @@ function update() {
     }
 
     run();
-    stats.end();
 }
 
 function run() {

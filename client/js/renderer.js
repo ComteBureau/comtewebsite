@@ -4,10 +4,13 @@ var PIXI            = require('pixi.js');
 var pixelratio      = require('pixelratio');
 
 var r = {};
+var sixteen_nine = 0.5625;
+var sixteen_seven = 0.4375;
 
+// TODO: Should be cleaned up and the API should be simplified
 module.exports = function(color, container) {
     r.width = document.documentElement.clientWidth;
-    r.height = r.width * 0.5625;
+    r.height = r.width * sixteen_seven;
 
     r.stage = new PIXI.Stage(color);
     r.renderer = PIXI.autoDetectRenderer(r.width, r.height);
