@@ -109,9 +109,6 @@
 
         <h1>{{home.people.title}}</h1>
         {{ashtml home.people.description}}
-        <p>{{email home.contact.email}}</p>
-        <p>{{home.contact.telephone}}</p>
-        {{ashtml home.contact.visiting_address}}
 
         <a href="#partners" class="button" id="btn_partners">{{home.people.more_link}}</a>
 
@@ -131,9 +128,9 @@
             <li>
                 <h3>{{name}}</h3>
                 <img src="{{photo.small}}">
-                <p>{{title}}</p>
-                <p>{{email email}}</p>
-                <p>{{telephone}}</p>
+                <span>{{title}}</span>
+                <span>{{email email}}</span>
+                <span>{{telephone}}</span>
                 {{ashtml about}}
             </li>
             {{/each}}
@@ -153,5 +150,8 @@
             home.contact.email
             home.company.call_to_action
             class="button"}}
+        <p>{{email home.contact.email}}</p>
+        <p>{{home.contact.telephone}}</p>
+        {{ashtml home.contact.visiting_address}}
     </div>
 </section>

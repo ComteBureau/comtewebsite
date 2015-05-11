@@ -1,17 +1,19 @@
 {{> menu}}
 
-{{#if work.background_color}}
-    <section class="{{work.background_color}} work">
+{{#if work.main_photo}}
+    {{imagestyle "workhead" "section" work.main_photo}}
+    <section id="workhead">
 {{else}}
-    <section class="yellow work">
+    <section class="yellow">
 {{/if}}
-    <div>
-        <h1>{{work.title}}</h1>
-        <h2>{{work.subtitle}}</h2>
-    </div>
 </section>
 
-<section>
+<div class="headline">
+    <h1>{{work.title}}</h1>
+    <h2>{{work.subtitle}}</h2>
+</div>
+
+<section class="work_description">
     <div>
         {{ashtml work.description}}
     </div>
