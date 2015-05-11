@@ -22,6 +22,10 @@ module.exports = function dots(canvas_supported) {
     raf();
 
     var wrapper = dom.id('intro_wrapper');
+    if (!wrapper) {
+        return;
+    }
+
     wrapper.style.height = 'auto';
 
     renderer = renderer_setup(0xFFFFFF, wrapper);
