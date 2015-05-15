@@ -6,76 +6,76 @@ var human           = require('human');
 var spawnpoints     = require('spawnpoints');
 var lookuptables    = require('lookuptables');
 var text            = require('text');
+var color           = require('color');
+var renderer        = require('renderer');
 var PIXI            = require('pixi.js');
 
 var humans = [];
 var dead_humans = [];
-var target_coords = [];
 var dead_index = 0;
-var renderer = {};
 var paused = false;
-var total_dead = 0;
-var total = 0;
+var blocks = [];
+
+var textres;
 var circle_gfx;
-var target;
-var s_points;
-var amount = 0;
-var deg;
-var radius;
-var coord;
-
-var num_spawnpoints = 8;
-var num_particles = 800;
-var dot;
-
-var target_c;
 
 var experiment = {
 
-    settings: {
-        particle_speed: 0
-    },
+    init: function() {
 
-    init: function(a_renderer) {
-
-        renderer = a_renderer;
+        var cw = document.documentElement.clientWidth;
+        var dot_radius = cw > 2000 ? 6 :
+                         cw > 1600 ? 5 :
+                         cw > 1100 ? 4 :
+                         cw > 700 ? 3 : 2;
 
         circle_gfx = gfx.circle({
-            radius: 2,
-            color:  0x000000,
+            radius: dot_radius,
+            color:  0xFFFFFF,
             alpha:  1
         });
 
-        target_c = gfx.circle({
-            radius: 5,
-            color:  0xFF0000,
-            alpha:  1
-        });
+        var text_max_width = renderer.width() * 0.7;
+        var text_max_height = renderer.height() * 0.5;
 
-        target_coords = text.create({
-            width:          renderer.width,
-            height:         renderer.height,
-            font_size:      32,
+        textres = text.create({
+            width:          text_max_width / dot_radius,
+            height:         text_max_height / dot_radius,
+            spacing:        dot_radius,
+            font_size:      40,
             font:           'Helvetica',
-            text:           'Think people',
-            debug:          false
+            text:           window.comte.text,
+            debug:          true
         });
 
-        // console.log('target_coords', target_coords.length);
+        dot_radius = text_max_width / textres.size.width;
 
-        var block_size = Math.max(Math.round(renderer.width * 0.01), 20);
-        var cols = Math.round(renderer.width / block_size) + 2;
-        var rows = Math.round(renderer.height / block_size) + 2;
-        var offset_h = ((cols * block_size) - renderer.width) * -0.5;
-        var offset_v = ((rows * block_size) - renderer.height) * -0.5;
+        var y_offset = (renderer.height() * 0.5) - (textres.size.height * 0.5 * dot_radius);
+        var x_offset = (renderer.width() * 0.5) - (textres.size.width * 0.5 * dot_radius);
+
+        x_offset = Math.max(0, x_offset);
+
+        textres.coords = textres.coords.map(function(coord) {
+            return {
+                x: x_offset + (coord.x * dot_radius) + (Math.random() * dot_radius),
+                y: y_offset + (coord.y * dot_radius) + (Math.random() * dot_radius)
+            };
+        });
+
+        shuffle(textres.coords);
+
+        var block_size = Math.max(Math.round(renderer.width() * 0.01), 20);
+        var cols = Math.round(renderer.width() / block_size) + 2;
+        var rows = Math.round(renderer.height() / block_size) + 2;
+        var offset_h = ((cols * block_size) - renderer.width()) * -0.5;
+        var offset_v = ((rows * block_size) - renderer.height()) * -0.5;
         var x = 0;
         var y = 0;
-        var blocks = [];
 
         for (var i=0; i<(cols*rows); i++) {
             blocks.push({
-                x:          (x * block_size + offset_h) * renderer.ratio,
-                y:          (y * block_size + offset_v) * renderer.ratio,
+                x:          (x * block_size + offset_h) * renderer.ratio(),
+                y:          (y * block_size + offset_v) * renderer.ratio(),
                 disabled:   false,
                 distance:   0,
                 neighbour:  {
@@ -102,40 +102,20 @@ var experiment = {
                 y++;
             }
         }
-
-        // var rnd_t;
-        // var rnd_s;
-        var instance;
-
-        for (var n=0; n<num_particles; n++) {
-            // rnd_t = Math.floor(Math.random() * blocks.length);
-            // rnd_s = Math.floor(Math.random() * blocks.length);
-
-            // console.log('start '+blocks[rnd_s].x+'/'+blocks[rnd_s].y+' '+
-            //             'end '+blocks[rnd_t].x+'/'+blocks[rnd_t].y);
-
-            // var target_sprite = new PIXI.Sprite(target_c.generateTexture());
-            // target_sprite.anchor.x = 0.5;
-            // target_sprite.anchor.y = 0.5;
-            // target_sprite.position = {
-            //     x: blocks[rnd_t].x,
-            //     y: blocks[rnd_t].y
-            // };
-            // renderer.stage.addChild(target_sprite);
-
-            humans.push(human.create(renderer.stage, circle_gfx, {
-                target: blocks[Math.floor(Math.random() * blocks.length)],
-                pos:    blocks[Math.floor(Math.random() * blocks.length)],
-                blocks: blocks
-            }));
-        }
-
-        total = humans.length;
     },
 
     update: function() {
         if (paused) {
             return false;
+        }
+
+        if (humans.length < 40 && textres.coords.length > 0) {
+            humans.push(human.create(circle_gfx, {
+                target: get_target_coord(),
+                pos:    blocks[Math.floor(Math.random() * blocks.length)],
+                blocks: blocks,
+                tint:   color.palette()
+            }));
         }
 
         dead_index = -1;
@@ -148,9 +128,7 @@ var experiment = {
             }
         });
 
-        total_dead = total - humans.length;
-
-        renderer.renderer.render(renderer.stage);
+        renderer.render();
 
         if (dead_index > -1) {
             humans.splice(dead_index, 1);
@@ -161,11 +139,15 @@ var experiment = {
             paused = true;
         }
 
-        return this;
+        return true;
     },
 
     pause: function() {
         paused = true;
+    },
+
+    paused: function() {
+        return paused;
     },
 
     play: function() {
@@ -187,28 +169,23 @@ var experiment = {
         });
         dead_humans = [];
 
-        total = 0;
-        dot = null;
-
-        renderer.stage.removeChildren();
+        // renderer.stage().removeChildren();
+        // renderer.removeDots();
     },
 
     scale: function(change) {
-        renderer.width *= change;
-        renderer.height *= change;
+        // renderer.width *= change;
+        // renderer.height *= change;
 
-        renderer.renderer.resize(renderer.width * renderer.ratio,
-                                 renderer.height * renderer.ratio);
+        // renderer.renderer.resize(renderer.width * renderer.ratio,
+        //                          renderer.height * renderer.ratio);
 
-        renderer.renderer.view.style.width = renderer.width + 'px';
-        renderer.renderer.view.style.height = renderer.height + 'px';
+        // renderer.renderer.view.style.width = renderer.width + 'px';
+        // renderer.renderer.view.style.height = renderer.height + 'px';
 
-        humans.forEach(function(human) {
-            human.offset(change);
-        });
-
-        // dot.position.x *= change;
-        // dot.position.y *= change;
+        // humans.forEach(function(human) {
+        //     human.offset(change);
+        // });
 
         return this;
     }
@@ -216,3 +193,14 @@ var experiment = {
 
 module.exports = experiment;
 
+function get_target_coord() {
+    if (textres.coords.length > 0) {
+        return textres.coords.shift();
+    }
+    return null;
+}
+
+function shuffle(o) {
+    for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};

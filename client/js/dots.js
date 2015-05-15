@@ -6,12 +6,11 @@ var viewport        = require('viewport');
 var tab             = require('tab');
 var experiments     = require('experiments/index');
 var resize          = require('resize');
-var renderer_setup  = require('renderer');
+var renderer        = require('renderer');
 
 var stop = false;
 var experiment;
 var canvas;
-var renderer;
 
 module.exports = function dots(canvas_supported) {
 
@@ -28,30 +27,19 @@ module.exports = function dots(canvas_supported) {
 
     wrapper.style.height = 'auto';
 
-    renderer = renderer_setup(0xFFFFFF, wrapper);
-    canvas = renderer.renderer.view;
+    renderer.setup(0xFFFFFF, wrapper);
+    canvas = renderer.canvas();
 
     experiment = experiments.citylike;
-    experiment.init(renderer);
+    experiment.init();
 
     tab.visibility(function(is_visible) {
-        if (is_visible) {
-            experiment.play();
-            run();
-        } else {
-            experiment.pause();
-        }
-
+        experiment[is_visible ? 'play' : 'pause']();
         document.title = is_visible ? 'Active' : 'Paused';
     });
 
     viewport.visibility(canvas, function(is_visible) {
-        if (is_visible) {
-            experiment.play();
-            run();
-        } else {
-            experiment.pause();
-        }
+        experiment[is_visible ? 'play' : 'pause']();
     });
 
     resize.init();
@@ -59,6 +47,10 @@ module.exports = function dots(canvas_supported) {
 }
 
 function update() {
+    if (experiment.paused()) {
+        return run();
+    }
+
     if (stop) {
         return;
     }
@@ -68,7 +60,9 @@ function update() {
             experiment.scale(resize.scale.change);
             resize.has_resized = false;
         } else {
-            experiment.update();
+            if (!experiment.update()) {
+                stop = true;
+            }
         }
     }
 

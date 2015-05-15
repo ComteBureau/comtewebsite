@@ -2,6 +2,7 @@
 
 var vector          = require('vector');
 var utils           = require('utils');
+var renderer        = require('renderer');
 var PIXI            = require('pixi.js');
 
 var human = {
@@ -21,25 +22,25 @@ var human = {
     targets:        null,
     cur_target_i:   0,
 
-    init: function(container, gfx, pos) {
+    init: function(gfx, options) {
         this.alive = true;
         this.targets = [];
         this.cur_target = {};
 
-        this.max_speed = Math.round(Math.random() * 5) + 5;
-        this.max_force = 20;
+        this.max_speed = Math.round(Math.random() * 15) + 100;
+        this.max_force = 5;
 
-        this.position = vector.create(pos.x, pos.y);
+        this.position = vector.create(options.pos.x, options.pos.y);
 
         if (Math.random() > 0.5 ? true : false) {
             this.targets.push({
-                x: pos.x,
+                x: options.pos.x,
                 y: this.target.y
             });
         } else {
             this.targets.push({
                 x: this.target.x,
-                y: pos.y
+                y: options.pos.y
             });
         }
 
@@ -54,8 +55,64 @@ var human = {
         this.sprite.anchor.x = 0.5;
         this.sprite.anchor.y = 0.5;
         this.sprite.alpha = 1;
+        this.sprite.tint = options.tint;
 
-        container.addChild(this.sprite);
+        renderer.stage().addChild(this.sprite);
+    },
+
+    update: function() {
+        if (!this.alive) {
+            return;
+        }
+
+        this.seek(this.cur_target);
+        this.velocity
+            .add(this.acceleration)
+            .limit(this.max_speed);
+        this.position.add(this.velocity);
+        this.acceleration.multiply(0);
+
+        this.sprite.position = this.position;
+
+        if (this.desired_mag < 30) {
+            this.position.x = this.cur_target.x;
+            this.position.y = this.cur_target.y;
+
+            this.cur_target_i++;
+            if (this.cur_target_i >= this.targets.length) {
+                this.alive = false;
+                renderer.add_dead(this.sprite);
+            } else {
+                this.set_target(this.cur_target_i);
+                this.velocity.multiply(0);
+            }
+        }
+    },
+
+    seek: function(target) {
+        this.desired = vector.subtract(target, this.position);
+        this.desired_mag = this.desired.magnitude();
+
+        this.desired.normalize();
+
+        this.speed = this.max_speed;
+
+        if (this.cur_target_i === this.targets.length-1 &&
+            this.desired_mag < 200) {
+            this.speed = utils.map(this.desired_mag, 0, 200, 0, this.max_speed);
+        }
+
+        this.desired.multiply(this.speed);
+
+        // this.steer = vector
+        //     .subtract(this.desired, this.velocity)
+        //     .limit(this.max_force);
+
+        this.acceleration.add(this.desired);
+    },
+
+    set_target: function(index) {
+        this.cur_target = this.targets[index];
     },
 
     offset: function(change) {
@@ -66,63 +123,6 @@ var human = {
         this.target.y *= change;
 
         this.max_speed *= change;
-    },
-
-    update: function() {
-        if (!this.alive) {
-            return;
-        }
-
-        this.seek(this.cur_target);
-        this.velocity.add(this.acceleration).limit(this.max_speed);
-        this.position.add(this.velocity);
-        this.acceleration.multiply(0);
-
-        this.sprite.position = this.position;
-
-        if (this.desired_mag < 1) {
-            this.position.x = this.cur_target.x;
-            this.position.y = this.cur_target.y;
-
-            this.cur_target_i++;
-            if (this.cur_target_i >= this.targets.length) {
-                this.alive = false;
-            } else {
-                this.set_target(this.cur_target_i);
-                this.velocity.multiply(0);
-            }
-        }
-    },
-
-    applyForce: function(force) {
-        this.acceleration.add(force);
-    },
-
-    seek: function(target) {
-        this.desired = vector.subtract(target, this.position);
-        this.desired_mag = this.desired.magnitude();
-
-        this.desired.normalize();
-
-        // TODO: calc distance using pixelratio and size of dot
-        this.speed = this.desired_mag < 100 ?
-            utils.map(this.desired_mag, 0, 100, 0, this.max_speed) :
-            this.max_speed;
-        this.desired.multiply(this.speed);
-
-        this.desired
-            .normalize()
-            .multiply(this.max_speed);
-
-        this.steer = vector
-            .subtract(this.desired, this.velocity)
-            .limit(this.max_force);
-
-        this.applyForce(this.steer);
-    },
-
-    set_target: function(index) {
-        this.cur_target = this.targets[index];
     },
 
     exit: function() {
@@ -147,7 +147,7 @@ function sign(x) {
     return typeof x === 'number' ? x ? x < 0 ? -1 : 1 : x === x ? 0 : NaN : NaN;
 }
 
-module.exports.create = function create(container, gfx, options) {
+module.exports.create = function create(gfx, options) {
     var instance = Object.create(human, {
         target: {
             value:      options.target,
@@ -159,6 +159,6 @@ module.exports.create = function create(container, gfx, options) {
         }
     });
 
-    instance.init(container, gfx, options.pos);
+    instance.init(gfx, options);
     return instance;
 }
