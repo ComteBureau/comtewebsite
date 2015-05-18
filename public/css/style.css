@@ -584,32 +584,31 @@ section.photo > div {
     text-decoration: none;
     font-family: 'apercumono', Courier, sans-serif;
     font-size: .8rem;
-    border: 1px solid white;
+    border: 1px solid;
     border-radius: 999px;
     background-color: transparent;
-    color: white;
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
-.button:hover {
+/*.button:hover {
     background-color: white;
     border-color: white;
     color: black;
 }
-
+*/
 .button.salmon {
     border-color: #FC5B5D;
     background-color: transparent;
     color: #FC5B5D;
 }
 
-.button.salmon:hover {
+/*.button.salmon:hover {
     background-color: #FC5B5D;
     border-color: #FC5B5D;
 }
-
+*/
 ul#logos {
     margin-top: 3rem;
 }

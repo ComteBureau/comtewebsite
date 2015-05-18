@@ -143,12 +143,16 @@ function colors(app, content) {
     }
 
     return {
-        about_top:      common.getColor(content.get('about.color_about_top')),
-        about_bottom:   common.getColor(content.get('about.color_about_bottom')),
-        about_process:  common.getColor(content.get('about.color_about_process')),
-        clients:        common.getColor(content.get('about.color_clients')),
-        partners:       common.getColor(content.get('about.color_partners')),
-        call_to_action: common.getColor(content.get('about.color_call_to_action'))
+        about_bg:           common.parseColor(content.get('about.color_about_bg')),
+        about_fg:           common.parseColor(content.get('about.color_about_fg')),
+        process_bg:         common.parseColor(content.get('about.color_process_bg')),
+        process_fg:         common.parseColor(content.get('about.color_process_fg')),
+        clients_bg:         common.parseColor(content.get('about.color_clients_bg')),
+        clients_fg:         common.parseColor(content.get('about.color_clients_fg')),
+        partners_bg:        common.parseColor(content.get('about.color_partners_bg')),
+        partners_fg:        common.parseColor(content.get('about.color_partners_fg')),
+        calltoaction_bg:    common.parseColor(content.get('about.color_calltoaction_bg')),
+        calltoaction_fg:    common.parseColor(content.get('about.color_calltoaction_fg'))
     };
 }
 

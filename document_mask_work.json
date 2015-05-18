@@ -24,10 +24,16 @@
     },
     "background_color" : {
       "fieldset" : "Background color",
-      "type" : "Select",
-      "config": {
-        "label": "Background color",
-        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
+      }
+    },
+    "foreground_color" : {
+      "fieldset" : "Foreground color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#FFFFFF"
       }
     },
     "published" : {

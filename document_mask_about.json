@@ -262,46 +262,78 @@
   },
 
   "Colors" : {
-    "color_about_top" : {
-      "type" : "Select",
-      "config": {
-        "label" : "About top",
-        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
+    "color_about_bg" : {
+      "fieldset" : "About background color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
       }
     },
-    "color_about_bottom" : {
-      "type" : "Select",
-      "config": {
-        "label" : "About bottom",
-        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
+    "color_about_fg" : {
+      "fieldset" : "About foreground color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#FFFFFF"
       }
     },
-    "color_about_process" : {
-      "type" : "Select",
-      "config": {
-        "label" : "About process",
-        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
+
+    "color_process_bg" : {
+      "fieldset" : "Process background color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
       }
     },
-    "color_clients" : {
-      "type" : "Select",
-      "config": {
-        "label" : "Clients",
-        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
+    "color_process_fg" : {
+      "fieldset" : "Process foreground color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#FFFFFF"
       }
     },
-    "color_partners" : {
-      "type" : "Select",
-      "config": {
-        "label" : "Partners",
-        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
+
+    "color_clients_bg" : {
+      "fieldset" : "Clients background color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
       }
     },
-    "color_call_to_action" : {
-      "type" : "Select",
-      "config": {
-        "label" : "Call to action",
-        "options" : ["salmon", "yellow", "greenish", "aubergine", "black"]
+    "color_clients_fg" : {
+      "fieldset" : "Clients foreground color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#FFFFFF"
+      }
+    },
+
+    "color_partners_bg" : {
+      "fieldset" : "Partners background color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
+      }
+    },
+    "color_partners_fg" : {
+      "fieldset" : "Partners foreground color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#FFFFFF"
+      }
+    },
+
+    "color_calltoaction_bg" : {
+      "fieldset" : "Call to action background color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
+      }
+    },
+    "color_calltoaction_fg" : {
+      "fieldset" : "Call to action foreground color",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#FFFFFF"
       }
     }
   },

@@ -4,8 +4,8 @@
     <img src="/public/images/logo.svg">
 </div>
 
-{{#if home.colors.about_top}}
-    <section class="{{home.colors.about_top}}" id="about">
+{{#if home.colors.about_bg}}
+    <section style="background-color: {{home.colors.about_bg}}; color: {{home.colors.about_fg}};" id="about">
 {{else}}
     <section class="yellow" id="about">
 {{/if}}
@@ -13,12 +13,12 @@
         <h1>{{home.about.title}}</h1>
         <h2 class="salmon">{{home.about.subtitle}}</h2>
         {{ashtml home.about.description}}
-        <a href="#process" class="button salmon" id="btn_process">{{home.about.more_link}}</a>
+        <a href="#process" class="button" id="btn_process">{{home.about.more_link}}</a>
     </div>
 </section>
 
-{{#if home.colors.about_process}}
-    <section class="{{home.colors.about_process}}" id="process">
+{{#if home.colors.process_bg}}
+    <section style="background-color: {{home.colors.process_bg}}; color: {{home.colors.process_fg}};" id="process">
 {{else}}
     <section class="salmon" id="process">
 {{/if}}
@@ -73,8 +73,8 @@
 </section>
 {{/if}}
 
-{{#if home.colors.clients}}
-    <section class="{{home.colors.clients}}" id="clients">
+{{#if home.colors.clients_bg}}
+    <section style="background-color: {{home.colors.clients_bg}}; color: {{home.colors.clients_fg}};" id="clients">
 {{else}}
     <section class="greenish" id="clients">
 {{/if}}
@@ -115,8 +115,8 @@
     </div>
 </section>
 
-{{#if home.colors.partners}}
-    <section class="{{home.colors.partners}} wide" id="partners">
+{{#if home.colors.partners_bg}}
+    <section style="background-color: {{home.colors.partners_bg}}; color: {{home.colors.partners_fg}};" class="wide" id="partners">
 {{else}}
     <section class="black wide" id="partners">
 {{/if}}
@@ -140,8 +140,8 @@
     </div>
 </section>
 
-{{#if home.colors.call_to_action}}
-    <section class="{{home.colors.call_to_action}}">
+{{#if home.colors.calltoaction_bg}}
+    <section style="background-color: {{home.colors.calltoaction_bg}}; color: {{home.colors.calltoaction_fg}};">
 {{else}}
     <section class="aubergine">
 {{/if}}

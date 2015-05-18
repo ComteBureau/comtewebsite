@@ -96,7 +96,8 @@ function get_works(list, app) {
                 logo:               app.utils.getImage(work.get('work.logo')),
                 client_name:        work.getText('work.client_name'),
                 main_photo:         app.utils.getImage(work.get('work.main_photo')),
-                background_color:   common.getColor(work.get('work.background_color')),
+                background_color:   common.parseColor(work.get('work.background_color')),
+                foreground_color:   common.parseColor(work.get('work.foreground_color')),
 
                 photos:             app.utils.iterateGroup({
                     document:   work,
