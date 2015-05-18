@@ -298,7 +298,7 @@ div.headline {
     text-align: center;
 }
 
-section.work_description > div {
+section.work_description p {
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
@@ -341,6 +341,10 @@ section#photo picture,
 section#photo span {
     padding-right: 0;
     padding-left: 0;
+}
+
+section#workhead {
+    height: 20rem;
 }
 
 section ul {
@@ -977,7 +981,7 @@ h2.salmon {
         margin-right: 1rem;
     }
 
-    section.work_description > div {
+    section.work_description p {
         -webkit-column-count: 1;
         -moz-column-count: 1;
         column-count: 1;
