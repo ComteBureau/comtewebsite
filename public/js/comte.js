@@ -203,6 +203,7 @@ var lookuptables    = require('./../lookuptables.js');
 var text            = require('./../text.js');
 var color           = require('./../color.js');
 var renderer        = require('./../renderer.js');
+var pixelratio      = require('./../pixelratio.js');
 var PIXI            = require('pixi.js');
 
 var humans = [];
@@ -210,6 +211,8 @@ var dead_humans = [];
 var dead_index = 0;
 var paused = false;
 var blocks = [];
+var renderer_w;
+var renderer_h;
 
 var textres;
 var circle_gfx;
@@ -224,14 +227,17 @@ var experiment = {
                          cw > 1100 ? 4 :
                          cw > 700 ? 3 : 2;
 
+        renderer_w = renderer.width() * pixelratio.ratio();
+        renderer_h = renderer.height() * pixelratio.ratio();
+
         circle_gfx = gfx.circle({
             radius: dot_radius,
             color:  0xFFFFFF,
             alpha:  1
         });
 
-        var text_max_width = renderer.width() * 0.7;
-        var text_max_height = renderer.height() * 0.5;
+        var text_max_width = renderer_w * 0.7;
+        var text_max_height = renderer_h * 0.5;
 
         textres = text.create({
             width:          text_max_width / dot_radius,
@@ -245,8 +251,8 @@ var experiment = {
 
         dot_radius = text_max_width / textres.size.width;
 
-        var y_offset = (renderer.height() * 0.5) - (textres.size.height * 0.5 * dot_radius);
-        var x_offset = (renderer.width() * 0.5) - (textres.size.width * 0.5 * dot_radius);
+        var y_offset = (renderer_h * 0.5) - (textres.size.height * 0.5 * dot_radius);
+        var x_offset = (renderer_w * 0.5) - (textres.size.width * 0.5 * dot_radius);
 
         x_offset = Math.max(0, x_offset);
 
@@ -259,18 +265,18 @@ var experiment = {
 
         shuffle(textres.coords);
 
-        var block_size = Math.max(Math.round(renderer.width() * 0.01), 20);
-        var cols = Math.round(renderer.width() / block_size) + 2;
-        var rows = Math.round(renderer.height() / block_size) + 2;
-        var offset_h = ((cols * block_size) - renderer.width()) * -0.5;
-        var offset_v = ((rows * block_size) - renderer.height()) * -0.5;
+        var block_size = Math.max(Math.round(renderer_w * 0.01), 20);
+        var cols = Math.round(renderer_w / block_size) + 2;
+        var rows = Math.round(renderer_h / block_size) + 2;
+        var offset_h = ((cols * block_size) - renderer_w) * -0.5;
+        var offset_v = ((rows * block_size) - renderer_h) * -0.5;
         var x = 0;
         var y = 0;
 
         for (var i=0; i<(cols*rows); i++) {
             blocks.push({
-                x:          (x * block_size + offset_h) * renderer.ratio(),
-                y:          (y * block_size + offset_v) * renderer.ratio(),
+                x:          (x * block_size + offset_h) * pixelratio.ratio(),
+                y:          (y * block_size + offset_v) * pixelratio.ratio(),
                 disabled:   false,
                 distance:   0,
                 neighbour:  {
@@ -352,35 +358,36 @@ var experiment = {
     exit: function() {
         paused = true;
 
-        humans.forEach(function(human) {
-            human.exit();
-            human = null;
-        });
-        humans = [];
+        // humans.forEach(function(human) {
+        //     human.exit();
+        //     human = null;
+        // });
+        // humans = [];
 
-        dead_humans.forEach(function(dp) {
-            dp.exit();
-            dp = null;
-        });
-        dead_humans = [];
+        // dead_humans.forEach(function(dp) {
+        //     dp.exit();
+        //     dp = null;
+        // });
+        // dead_humans = [];
 
         // renderer.stage().removeChildren();
         // renderer.removeDots();
     },
 
     scale: function(change) {
-        // renderer.width *= change;
-        // renderer.height *= change;
+        renderer.width(renderer_w * change);
+        renderer.height(renderer_h * change);
 
-        // renderer.renderer.resize(renderer.width * renderer.ratio,
-        //                          renderer.height * renderer.ratio);
+        renderer.resize_by(pixelratio.ratio());
 
-        // renderer.renderer.view.style.width = renderer.width + 'px';
-        // renderer.renderer.view.style.height = renderer.height + 'px';
+        textres.coords.forEach(function(c) {
+            c.x *= change;
+            c.y *= change;
+        });
 
-        // humans.forEach(function(human) {
-        //     human.offset(change);
-        // });
+        humans.forEach(function(human) {
+            human.offset(change);
+        });
 
         return this;
     }
@@ -400,7 +407,7 @@ function shuffle(o) {
     return o;
 };
 
-},{"./../color.js":2,"./../dom.js":3,"./../gfx.js":11,"./../human.js":12,"./../lookuptables.js":13,"./../renderer.js":17,"./../spawnpoints.js":21,"./../text.js":23,"pixi.js":138}],7:[function(require,module,exports){
+},{"./../color.js":2,"./../dom.js":3,"./../gfx.js":11,"./../human.js":12,"./../lookuptables.js":13,"./../pixelratio.js":15,"./../renderer.js":17,"./../spawnpoints.js":21,"./../text.js":23,"pixi.js":138}],7:[function(require,module,exports){
 'use strict';
 
 var dom             = require('./../dom.js');
@@ -948,7 +955,9 @@ module.exports.circle = function(options) {
 
     var circle_gfx = new PIXI.Graphics();
     circle_gfx.beginFill(options.color, options.alpha);
-    circle_gfx.drawCircle(options.radius, options.radius, options.radius);
+    circle_gfx.drawCircle(options.radius * pixelratio.ratio(),
+                          options.radius * pixelratio.ratio(),
+                          options.radius * pixelratio.ratio());
     circle_gfx.endFill();
 
     return circle_gfx;
@@ -1076,10 +1085,12 @@ var human = {
         this.position.x *= change;
         this.position.y *= change;
 
-        this.target.x *= change;
-        this.target.y *= change;
+        this.targets.forEach(function(t) {
+            t.x *= change;
+            t.y *= change;
+        });
 
-        this.max_speed *= change;
+        // this.max_speed *= change;
     },
 
     exit: function() {
@@ -1280,35 +1291,33 @@ module.exports.create = function create(container, gfx, options) {
 },{"./utils.js":24,"./vector.js":25,"pixi.js":138}],15:[function(require,module,exports){
 'use strict';
 
-var width;
-var height;
-var ctx;
 var ratio = 1;
 
 var PixelRatio = {
-    get_ratio: function(canvas) {
-
-        ctx = canvas.getContext('2d');
+    get_ratio: function() {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
         if (ctx === null) {
             ratio = 1;
             return ratio;
         }
 
-        var devicePixelRatio = window.devicePixelRatio || 1;
-        var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
-                                ctx.mozBackingStorePixelRatio ||
-                                ctx.msBackingStorePixelRatio ||
-                                ctx.oBackingStorePixelRatio ||
-                                ctx.backingStorePixelRatio || 1;
-
         // Pixel ratio is larger than 1 when on a screen with high pixel density
-        ratio = devicePixelRatio / backingStoreRatio;
+        ratio = ((window.devicePixelRatio || 1) /
+                (ctx.webkitBackingStorePixelRatio ||
+                ctx.mozBackingStorePixelRatio ||
+                ctx.msBackingStorePixelRatio ||
+                ctx.oBackingStorePixelRatio ||
+                ctx.backingStorePixelRatio || 1));
+
+        ctx = null;
+        canvas = null;
         return ratio;
     },
 
     scale_canvas: function(canvas) {
-        width = canvas.width;
-        height = canvas.height;
+        var width = canvas.width;
+        var height = canvas.height;
 
         canvas.width = width * ratio;
         canvas.height = height * ratio;
@@ -1322,12 +1331,6 @@ var PixelRatio = {
 };
 
 module.exports = PixelRatio;
-
-// Object.defineProperty(PixelRatio, 'ratio', {
-//     get: function() {
-//         return ratio;
-//     }
-// });
 
 },{}],16:[function(require,module,exports){
 module.exports = function() {
@@ -1368,7 +1371,6 @@ var width = 0;
 var height = 0;
 var stage;
 var renderer;
-var ratio;
 
 var sixteen_nine = 0.5625;
 var sixteen_seven = 0.4375;
@@ -1383,17 +1385,20 @@ var r = {
         width = document.documentElement.clientWidth;
         height = window.innerHeight;
 
+        var ratio = pixelratio.get_ratio();
+
         stage = new PIXI.Container();
         renderer = PIXI.autoDetectRenderer(width, height);
         renderer.backgroundColor = color;
         container.appendChild(renderer.view);
 
         dead_container = new PIXI.Container();
-        dead_rtx = new PIXI.RenderTexture(renderer, width, height);
+        dead_rtx = new PIXI.RenderTexture(renderer,
+                                          width * ratio,
+                                          height * ratio);
         dead_sprite = new PIXI.Sprite(dead_rtx);
         stage.addChild(dead_sprite);
 
-        ratio = pixelratio.get_ratio(renderer.view);
         renderer.resize(width * ratio, height * ratio);
 
         renderer.view.style.width = width + 'px';
@@ -1416,6 +1421,13 @@ var r = {
         renderer.render(stage);
     },
 
+    resize_by: function(factor) {
+        renderer.resize(renderer.width * factor,
+                        renderer.height * factor);
+        renderer.view.style.width = renderer.width + 'px';
+        renderer.view.style.height = renderer.height + 'px';
+    },
+
     canvas: function() {
         return renderer.view;
     },
@@ -1424,16 +1436,18 @@ var r = {
         return stage;
     },
 
-    width: function() {
+    width: function(new_width) {
+        if (typeof new_width !== 'undefined') {
+            width = new_width;
+        }
         return width;
     },
 
-    height: function() {
+    height: function(new_height) {
+        if (typeof new_height !== 'undefined') {
+            height = new_height;
+        }
         return height;
-    },
-
-    ratio: function() {
-        return ratio;
     },
 };
 

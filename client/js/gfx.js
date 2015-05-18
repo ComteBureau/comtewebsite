@@ -12,7 +12,9 @@ module.exports.circle = function(options) {
 
     var circle_gfx = new PIXI.Graphics();
     circle_gfx.beginFill(options.color, options.alpha);
-    circle_gfx.drawCircle(options.radius, options.radius, options.radius);
+    circle_gfx.drawCircle(options.radius * pixelratio.ratio(),
+                          options.radius * pixelratio.ratio(),
+                          options.radius * pixelratio.ratio());
     circle_gfx.endFill();
 
     return circle_gfx;

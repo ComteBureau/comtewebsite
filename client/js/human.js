@@ -119,10 +119,12 @@ var human = {
         this.position.x *= change;
         this.position.y *= change;
 
-        this.target.x *= change;
-        this.target.y *= change;
+        this.targets.forEach(function(t) {
+            t.x *= change;
+            t.y *= change;
+        });
 
-        this.max_speed *= change;
+        // this.max_speed *= change;
     },
 
     exit: function() {
