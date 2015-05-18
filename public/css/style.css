@@ -236,16 +236,40 @@ div#menu li a:active {
     color: #FC5B5D;
 }
 
-div#intro_wrapper img {
+div#intro_wrapper > img {
     display: block;
     position: absolute;
     width: 30%;
-    top: 68%;
+    top: 1rem;
+    right: 1rem;
+}
+
+div#intro_wrapper ul {
+    display: block;
+    position: absolute;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    bottom: 1rem;
     left: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
+    list-style: none;
+    overflow: auto;
+}
+
+div#intro_wrapper ul img {
+    height: 1.3rem;
+}
+
+div#intro_wrapper ul a {
+    font-size: 0.9rem;
+}
+
+div#intro_wrapper li {
+    font-family: 'helvetica_neueregular', Helvetica, Arial, sans-serif;
+    float: left;
+    margin: 1rem;
 }
 
 section h1 {
@@ -687,6 +711,21 @@ h2.salmon {
     ul#worklist li {
         min-height: 19rem;
     }
+
+    div#intro_wrapper > img {
+        top: 2rem;
+        right: 2rem;
+    }
+
+    div#menu_symbol {
+        width: 2.5rem;
+        margin: 2rem auto auto 2rem;
+    }
+
+    div#intro_wrapper > img {
+        width: 20%;
+    }
+
 }
 
 @media screen and (max-width: 2000px) {
@@ -946,4 +985,7 @@ h2.salmon {
         column-gap: 0;
     }
 
+    div#intro_wrapper > img {
+        width: 60%;
+    }
 }
