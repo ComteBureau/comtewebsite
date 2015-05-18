@@ -521,6 +521,7 @@ ul#people li img {
     width: 50%;
     margin-bottom: 2rem;
     margin-top: 1rem;
+    padding: 0;
 }
 
 ul#people span {
