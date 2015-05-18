@@ -4,7 +4,11 @@
     {{imagestyle "workhead" "section" work.main_photo}}
     <section id="workhead">
 {{else}}
+    {{#if work.background_color}}
+    <section style="background-color: {{work.background_color}}; color: {{work.foreground_color}};">
+    {{else}}
     <section class="yellow">
+    {{/if}}
 {{/if}}
 </section>
 
