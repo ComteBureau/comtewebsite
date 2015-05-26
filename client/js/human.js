@@ -21,26 +21,34 @@ var human = {
     alive:          true,
     targets:        null,
     cur_target_i:   0,
+    gfx:            null,
 
-    init: function(gfx, options) {
+    change_x:       1,
+    change_y:       1,
+
+    init: function(_gfx, _options) {
+        this.gfx = _gfx;
+        this.options = _options;
+
         this.alive = true;
         this.targets = [];
         this.cur_target = {};
 
+        this.max_speed = 0;
         this.max_speed = Math.round(Math.random() * 15) + 100;
         this.max_force = 5;
 
-        this.position = vector.create(options.pos.x, options.pos.y);
+        this.position = vector.create(_options.pos.x, _options.pos.y);
 
         if (Math.random() > 0.5 ? true : false) {
             this.targets.push({
-                x: options.pos.x,
+                x: _options.pos.x,
                 y: this.target.y
             });
         } else {
             this.targets.push({
                 x: this.target.x,
-                y: options.pos.y
+                y: _options.pos.y
             });
         }
 
@@ -51,13 +59,7 @@ var human = {
         this.velocity = vector.create();
         this.acceleration = vector.create();
 
-        this.sprite = new PIXI.Sprite(gfx.generateTexture());
-        this.sprite.anchor.x = 0.5;
-        this.sprite.anchor.y = 0.5;
-        this.sprite.alpha = 1;
-        this.sprite.tint = options.tint;
-
-        renderer.stage().addChild(this.sprite);
+        this.addSprite();
     },
 
     update: function() {
@@ -104,10 +106,6 @@ var human = {
 
         this.desired.multiply(this.speed);
 
-        // this.steer = vector
-        //     .subtract(this.desired, this.velocity)
-        //     .limit(this.max_force);
-
         this.acceleration.add(this.desired);
     },
 
@@ -115,16 +113,14 @@ var human = {
         this.cur_target = this.targets[index];
     },
 
-    offset: function(change) {
-        this.position.x *= change;
-        this.position.y *= change;
+    offset: function(change_x, change_y) {
+        this.position.x = this.position.x * change_x;
+        this.position.y = this.position.y * change_y;
 
         this.targets.forEach(function(t) {
-            t.x *= change;
-            t.y *= change;
+            t.x = t.x * change_x;
+            t.y = t.y * change_y;
         });
-
-        // this.max_speed *= change;
     },
 
     exit: function() {
@@ -142,6 +138,21 @@ var human = {
         this.desired = null;
         this.desired_mag = null;
         this.steer = null;
+    },
+
+    addSprite: function(scale_x, scale_y) {
+        scale_x = scale_x || 1;
+        scale_y = scale_y || 1;
+
+        this.sprite = new PIXI.Sprite(this.gfx);
+        this.sprite.anchor.x = 0.5;
+        this.sprite.anchor.y = 0.5;
+        this.sprite.alpha = 1;
+        this.sprite.tint = this.options.tint;
+        this.sprite.scale.x = scale_x;
+        this.sprite.scale.y = scale_y;
+
+        renderer.stage().addChild(this.sprite);
     }
 };
 
@@ -154,10 +165,6 @@ module.exports.create = function create(gfx, options) {
         target: {
             value:      options.target,
             writable:   true
-        },
-        blocks: {
-            value:      options.blocks,
-            writable:   false
         }
     });
 

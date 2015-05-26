@@ -1,17 +1,17 @@
 'use strict';
 
-var colors = [
-    'ed4141',
-    'd9a86e',
-    '8bd1ca',
-    '5f99b3',
-    'f5c9eb'
+var palette = [
+    '#333333',
+    '#666666',
+    '#999999',
+    '#bbbbbb',
+    '#eeeeee'
 ];
 
-var color_funcs = {
+var color = {
     palette: function(i) {
-        i = i || Math.floor(Math.random() * colors.length);
-        return '0x' + colors[i];
+        i = i || Math.floor(Math.random() * palette.length);
+        return '0x' + palette[i].substring(1);
     },
 
     random: function() {
@@ -19,4 +19,10 @@ var color_funcs = {
     },
 };
 
-module.exports = color_funcs;
+module.exports = color;
+
+if (window.comte) {
+    if (window.comte.palette) {
+        palette = window.comte.palette;
+    }
+}

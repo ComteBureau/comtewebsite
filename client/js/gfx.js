@@ -19,3 +19,20 @@ module.exports.circle = function(options) {
 
     return circle_gfx;
 }
+
+module.exports.square = function(options) {
+    options = options || {};
+    options.color = options.color || 0x000000;
+    options.alpha = options.alpha || 1;
+    options.width = options.width || 5;
+    options.height = options.height || 5;
+
+    var gfx = new PIXI.Graphics();
+    gfx.beginFill(options.color, options.alpha);
+    gfx.drawRect(0, 0,
+                 options.width * pixelratio.ratio(),
+                 options.height * pixelratio.ratio());
+    gfx.endFill();
+
+    return gfx;
+}

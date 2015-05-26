@@ -11,6 +11,9 @@ var renderer        = require('renderer');
 var stop = false;
 var experiment;
 var canvas;
+var scaled = false;
+var change_x = 1;
+var change_y = 1;
 
 module.exports = function dots(canvas_supported) {
 
@@ -35,14 +38,18 @@ module.exports = function dots(canvas_supported) {
 
     tab.visibility(function(is_visible) {
         experiment[is_visible ? 'play' : 'pause']();
-        document.title = is_visible ? 'Active' : 'Paused';
     });
 
     viewport.visibility(canvas, function(is_visible) {
         experiment[is_visible ? 'play' : 'pause']();
     });
 
-    resize.init();
+    resize.listen(function(scale) {
+        change_x = scale.change_x;
+        change_y = scale.change_y;
+        experiment.scale(change_x, change_y);
+    });
+
     run();
 }
 
@@ -55,15 +62,8 @@ function update() {
         return;
     }
 
-    if (!resize.is_resizing) {
-        if (resize.has_resized) {
-            experiment.scale(resize.scale.change);
-            resize.has_resized = false;
-        } else {
-            if (!experiment.update()) {
-                stop = true;
-            }
-        }
+    if (!experiment.update()) {
+        stop = true;
     }
 
     run();

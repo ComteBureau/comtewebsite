@@ -131,7 +131,6 @@ var experiment = {
         }
 
         if (particles.length === 0) {
-            console.log('game over');
             paused = true;
         }
 

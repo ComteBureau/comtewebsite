@@ -47,6 +47,8 @@ module.exports.create = function(options) {
         }
     });
 
+    // document.documentElement.appendChild(main_canvas);
+
     pixels = main_ctx.getImageData(0, 0, main_canvas.width, main_canvas.height);
 
     for (var i = 0; i < pixels.data.length; i += 4) {
@@ -55,8 +57,8 @@ module.exports.create = function(options) {
             pixels.data[i+2] < threshold) {
 
             blacks.push({
-                x: (i / 4) % main_canvas.width,
-                y: Math.floor((i / 4) / main_canvas.width)
+                x: ((i / 4) % main_canvas.width) - main_canvas.width * 0.5,
+                y: Math.floor((i / 4) / main_canvas.width) - main_canvas.height * 0.5
             });
         }
     }

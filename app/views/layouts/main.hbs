@@ -40,7 +40,14 @@
 
     <script type="text/javascript">
         window.comte = {
-            text: '{{home.company.tagline}}'
+            text: '{{home.company.tagline}}',
+            palette: [
+                '{{#if home.colors.about_bg}}{{home.colors.about_bg}}{{else}}#333333{{/if}}',
+                '{{#if home.colors.process_bg}}{{home.colors.process_bg}}{{else}}#666666{{/if}}',
+                '{{#if home.colors.clients_bg}}{{home.colors.clients_bg}}{{else}}#999999{{/if}}',
+                '{{#if home.colors.partners_bg}}{{home.colors.partners_bg}}{{else}}#bbbbbb{{/if}}',
+                '{{#if home.colors.calltoaction_bg}}{{home.colors.calltoaction_bg}}{{else}}#eeeeee{{/if}}'
+            ]
         };
     </script>
     <script type="text/javascript" src="/public/js/comte.js"></script>
