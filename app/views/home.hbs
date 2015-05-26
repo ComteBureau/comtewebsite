@@ -1,17 +1,8 @@
 {{> menu}}
 
 <div id="intro_wrapper">
-    <img src="/public/images/logo.svg">
-    <ul>
-        <li>
-            <img src="/public/images/twitter.svg" height="20">
-            <a href="https://twitter.com/comtebureau">@comtebureau</a>
-        </li>
-        <li>
-            <img src="/public/images/facebook.svg" height="20">
-            <a href="https://www.facebook.com/ComteA">Comte Facebook</a>
-        </li>
-    </ul>
+    <img src="/public/images/logo.svg" id="logomain" width="200">
+    <img src="/public/images/vertical_arrow.svg" id="arrow" width="50">
 </div>
 
 {{#if home.colors.about_bg}}
@@ -163,5 +154,7 @@
         <p>{{email home.contact.email}}</p>
         <p>{{home.contact.telephone}}</p>
         {{ashtml home.contact.visiting_address}}
+        <p><a href="https://twitter.com/comtebureau">@comtebureau</a></p>
+        <p><a href="https://www.facebook.com/ComteA">Comte Facebook</a></p>
     </div>
 </section>

@@ -236,40 +236,26 @@ div#menu li a:active {
     color: #FC5B5D;
 }
 
-div#intro_wrapper > img {
+div#intro_wrapper #logomain {
     display: block;
     position: absolute;
-    width: 30%;
+    width: 60%;
     top: 1rem;
     right: 1rem;
 }
 
-div#intro_wrapper ul {
+div#intro_wrapper #arrow {
     display: block;
     position: absolute;
+    width: 5%;
+    max-width: 2rem;
+    bottom: 1rem;
+    left: 50%;
     transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     -o-transform: translateX(-50%);
-    bottom: 1rem;
-    left: 50%;
-    list-style: none;
-    overflow: auto;
-}
-
-div#intro_wrapper ul img {
-    height: 1.3rem;
-}
-
-div#intro_wrapper ul a {
-    font-size: 0.9rem;
-}
-
-div#intro_wrapper li {
-    font-family: 'helvetica_neueregular', Helvetica, Arial, sans-serif;
-    float: left;
-    margin: 1rem;
 }
 
 section h1 {
@@ -705,7 +691,6 @@ h2.salmon {
 
     section p {
         line-height: 1.6rem;
-        /*padding-bottom: 4rem;*/
     }
 
     section#people p {
@@ -717,18 +702,15 @@ h2.salmon {
         min-height: 19rem;
     }
 
-    div#intro_wrapper > img {
+    div#intro_wrapper #logomain {
         top: 2rem;
         right: 2rem;
+        width: 10%;
     }
 
     div#menu_symbol {
         width: 2.5rem;
         margin: 2rem auto auto 2rem;
-    }
-
-    div#intro_wrapper > img {
-        width: 20%;
     }
 
 }
@@ -757,7 +739,6 @@ h2.salmon {
 
     section p {
         line-height: 1.6rem;
-        /*padding-bottom: 4rem;*/
     }
 
     section#people p {
@@ -767,6 +748,10 @@ h2.salmon {
 
     ul#worklist li {
         min-height: 17rem;
+    }
+
+    div#intro_wrapper #logomain {
+        width: 12%;
     }
 }
 
@@ -795,6 +780,10 @@ h2.salmon {
     ul#worklist li {
         min-height: 15rem;
     }
+
+    div#intro_wrapper #logomain {
+        width: 13%;
+    }
 }
 
 @media screen and (max-width: 1500px) {
@@ -813,6 +802,10 @@ h2.salmon {
         -ms-flex: 0 0 10rem;
         flex: 0 0 10rem;
     }
+
+    div#intro_wrapper #logomain {
+        width: 14%;
+    }
 }
 
 @media screen and (max-width: 1320px) {
@@ -826,6 +819,10 @@ h2.salmon {
 
     ul#worklist li {
         min-height: 16rem;
+    }
+
+    div#intro_wrapper #logomain {
+        width: 17%;
     }
 }
 
@@ -850,6 +847,10 @@ h2.salmon {
         margin-left: 5rem;
         margin-right: 5rem;
     }
+
+    div#intro_wrapper #logomain {
+        width: 20%;
+    }
 }
 
 @media screen and (max-width: 960px) {
@@ -863,6 +864,10 @@ h2.salmon {
 
     ul#worklist li {
         min-height: 18rem;
+    }
+
+    div#intro_wrapper #logomain {
+        width: 23%;
     }
 }
 
@@ -914,7 +919,11 @@ h2.salmon {
 
         margin-top: 5%;
         margin-bottom: 5%;
-}
+    }
+
+    div#intro_wrapper #logomain {
+        width: 25%;
+    }
 }
 
 @media screen and (max-width: 650px) {
@@ -934,6 +943,10 @@ h2.salmon {
         -webkit-flex: 1 1 60%;
         -ms-flex: 1 1 60%;
         flex: 1 1 60%;
+    }
+
+    div#intro_wrapper #logomain {
+        width: 30%;
     }
 }
 
@@ -990,7 +1003,8 @@ h2.salmon {
         column-gap: 0;
     }
 
-    div#intro_wrapper > img {
-        width: 60%;
+    div#intro_wrapper #logomain {
+        width: 30%;
     }
 }
+
