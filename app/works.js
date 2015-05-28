@@ -8,23 +8,24 @@ module.exports.latest = function latest_works(app, res, options) {
     res.content.works = [];
     res.content.clients = [];
 
-    options = options || {};
-    options.type = ['work', 'client'];
-
-    // Change according to the number of tiles in the work list grid
-    options.limit = 9;
-    options.sort = 'work.published desc';
-
-    return query(app, res.locals.ctx, options)
-        .then(function (results) {
-
-            res.content.works = get_works(results, app);
-            res.content.clients = get_clients(results, app);
-            return res.content;
-
-        }, function() {
-            return false;
-        });
+    return Promise.all([
+        query(app, res.locals.ctx, {
+            type:   'work',
+            // Change according to the number of tiles in the work list grid
+            limit:  9,
+            sort:   'work.published desc'
+        }),
+        query(app, res.locals.ctx, {
+            type: 'client'
+        })
+    ])
+    .then(function (results) {
+        res.content.works = get_works(results[0], app);
+        res.content.clients = get_clients(results[1], app);
+        return res.content;
+    }, function() {
+        return false;
+    });
 }
 
 module.exports.single = function single_work(app, id, res, options) {

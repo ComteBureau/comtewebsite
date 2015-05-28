@@ -285,13 +285,8 @@ div.headline {
 }
 
 section.work_description p {
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    column-count: 2;
-    -webkit-column-gap: 4rem;
-    -moz-column-gap: 4rem;
-    column-gap: 4rem;
     text-align: left;
+    padding-bottom: 2rem;
 }
 
 section {
@@ -632,11 +627,11 @@ ul#logos li {
     height: 8rem;
 
     /* grow shrink basis */
-    -webkit-box-flex: 0 0 8rem;
-    -moz-box-flex: 0 0 8rem;
-    -webkit-flex: 0 0 8rem;
-    -ms-flex: 0 0 8rem;
-    flex: 0 0 8rem;
+    -webkit-box-flex: 0 0 5rem;
+    -moz-box-flex: 0 0 5rem;
+    -webkit-flex: 0 0 5rem;
+    -ms-flex: 0 0 5rem;
+    flex: 0 0 5rem;
 
     margin: auto 2%;
 }
@@ -792,15 +787,7 @@ h2.salmon {
     }
 
     section > div {
-        padding: 4rem 18%;
-    }
-
-    ul#logos li {
-        -webkit-box-flex: 0 0 10rem;
-        -moz-box-flex: 0 0 10rem;
-        -webkit-flex: 0 0 10rem;
-        -ms-flex: 0 0 10rem;
-        flex: 0 0 10rem;
+        padding: 4rem 22%;
     }
 
     div#intro_wrapper #logomain {
@@ -814,7 +801,7 @@ h2.salmon {
     }
 
     section > div {
-        padding: 4rem 20%;
+        padding: 4rem 22%;
     }
 
     ul#worklist li {
@@ -832,7 +819,7 @@ h2.salmon {
     }
 
     section > div {
-        padding: 4rem 17%;
+        padding: 4rem 22%;
     }
 
     div.work_content h2 {
@@ -855,7 +842,7 @@ h2.salmon {
 
 @media screen and (max-width: 960px) {
     section > div {
-        padding: 4rem 17%;
+        padding: 4rem 22%;
     }
 
     ul#worklist li.fourth {
@@ -877,7 +864,7 @@ h2.salmon {
     }
 
     section > div {
-        padding: 4rem 15%;
+        padding: 4rem 18%;
     }
 
     section.wide > div {
@@ -992,15 +979,6 @@ h2.salmon {
         padding-right: 0;
         margin-left: 1rem;
         margin-right: 1rem;
-    }
-
-    section.work_description p {
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        column-count: 1;
-        -webkit-column-gap: 0;
-        -moz-column-gap: 0;
-        column-gap: 0;
     }
 
     div#intro_wrapper #logomain {

@@ -335,6 +335,41 @@
       "config" : {
         "placeholder" : "#FFFFFF"
       }
+    },
+    "color_dot_a" : {
+      "fieldset" : "Dot color A",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
+      }
+    },
+    "color_dot_b" : {
+      "fieldset" : "Dot color B",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
+      }
+    },
+    "color_dot_c" : {
+      "fieldset" : "Dot color C",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
+      }
+    },
+    "color_dot_d" : {
+      "fieldset" : "Dot color D",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
+      }
+    },
+    "color_dot_e" : {
+      "fieldset" : "Dot color E",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "#000000"
+      }
     }
   },
 

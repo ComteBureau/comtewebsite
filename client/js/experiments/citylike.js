@@ -91,8 +91,8 @@ var experiment = {
             return false;
         }
 
-        // if (humans.length < 40 && textres.coords.length > 0) {
-        if (humans.length < 80 && textres.coords.length > max) {
+        if (humans.length < 40 && textres.coords.length > 0) {
+        // if (humans.length < 80 && textres.coords.length > max) {
             humans.push(human.create(circle_gfx, {
                 target: get_target_coord(),
                 pos:    {

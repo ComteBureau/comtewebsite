@@ -152,7 +152,12 @@ function colors(app, content) {
         partners_bg:        common.parseColor(content.get('about.color_partners_bg')),
         partners_fg:        common.parseColor(content.get('about.color_partners_fg')),
         calltoaction_bg:    common.parseColor(content.get('about.color_calltoaction_bg')),
-        calltoaction_fg:    common.parseColor(content.get('about.color_calltoaction_fg'))
+        calltoaction_fg:    common.parseColor(content.get('about.color_calltoaction_fg')),
+        dot_a:              common.parseColor(content.get('about.color_dot_a')),
+        dot_b:              common.parseColor(content.get('about.color_dot_b')),
+        dot_c:              common.parseColor(content.get('about.color_dot_c')),
+        dot_d:              common.parseColor(content.get('about.color_dot_d')),
+        dot_e:              common.parseColor(content.get('about.color_dot_e'))
     };
 }
 
