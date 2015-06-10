@@ -1,7 +1,6 @@
 {{> menu}}
 
 <div id="intro_wrapper">
-    <img src="/public/images/logo.svg" id="logomain" width="200">
     <img src="/public/images/vertical_arrow.svg" id="arrow" width="50">
 </div>
 
@@ -14,7 +13,7 @@
         <h1>{{home.about.title}}</h1>
         <h2 class="salmon">{{home.about.subtitle}}</h2>
         {{ashtml home.about.description}}
-        <a href="#process" class="button" id="btn_process">{{home.about.more_link}}</a>
+        <a href="#process" class="button salmon" id="btn_process">{{home.about.more_link}}</a>
     </div>
 </section>
 
@@ -40,7 +39,13 @@
                 <img src="/public/images/symbol_01.svg">
                 {{ashtml home.about.description_design}}
             </li>
+            <li>
+                <h2>{{home.about.title_last}}</h2>
+                <img src="/public/images/symbol_04.svg">
+                {{ashtml home.about.description_last}}
+            </li>
         </ul>
+        <a href="" class="button white" id="btn_process_close">Go back</a>
     </div>
 </section>
 
@@ -62,10 +67,8 @@
             {{/if}}
 
                 <a href="{{link}}" class="shade">
-                    <div>
-                        <h2>{{title}}</h2>
-                        <h3>{{subtitle}}</h3>
-                    </div>
+                    <h2>{{title}}</h2>
+                    <h3>{{subtitle}}</h3>
                 </a>
             </li>
         {{/each}}
@@ -110,8 +113,9 @@
 
         <h1>{{home.people.title}}</h1>
         {{ashtml home.people.description}}
+        <p>{{email home.contact.email}}</p>
 
-        <a href="#partners" class="button" id="btn_partners">{{home.people.more_link}}</a>
+        <a href="#partners" class="yellow button" id="btn_partners">{{home.people.more_link}}</a>
 
     </div>
 </section>
@@ -124,7 +128,7 @@
     <div class="collapsible">
 
         {{#if home.people.list}}
-        <ul id="people">
+        <ul id="peoplelist">
             {{#each home.people.list}}
             <li>
                 <h3>{{name}}</h3>
@@ -138,6 +142,7 @@
         </ul>
         {{/if}}
 
+        <a href="" class="button black" id="btn_partners_close">Go back</a>
     </div>
 </section>
 
@@ -150,11 +155,16 @@
         {{email
             home.contact.email
             home.company.call_to_action
-            class="button"}}
-        <p>{{email home.contact.email}}</p>
+            class="grey button"}}
         <p>{{home.contact.telephone}}</p>
         {{ashtml home.contact.visiting_address}}
-        <p><a href="https://twitter.com/comtebureau">@comtebureau</a></p>
-        <p><a href="https://www.facebook.com/ComteA">Comte Facebook</a></p>
+
+        <ul id="socialmedia">
+            <li><a href="https://twitter.com/comtebureau"><img src="/public/images/icon_twitter.svg"></a></li>
+            <li><a href="https://www.facebook.com/ComteA"><img src="/public/images/icon_facebook.svg"></a></li>
+            <li><a href="https://www.linkedin.com/company/comte-analysebyr-"><img src="/public/images/icon_linkedin.svg"></a></li>
+        </ul>
+
+        <p class="finale">{{home.company.the_final}}</p>
     </div>
 </section>

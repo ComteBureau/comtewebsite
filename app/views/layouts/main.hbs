@@ -4,10 +4,11 @@
 <!--[if !(IE)]><!--> <html lang="en" itemscope itemtype="http://schema.org/LocalBusiness"> <!--<![endif]-->
 
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-
 
     <meta property="og:title" content="{{home.company.name}} : {{page.name}}" />
 
@@ -33,8 +34,6 @@
     <link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png">
     <link rel="apple-touch-icon-precomposed" href="/public/images/apple-touch-icon-precomposed.png">
 
-
-    <!-- inline reset -->
     <link rel="stylesheet" type="text/css" href="/public/css/reset.css">
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">
 
@@ -63,7 +62,11 @@
 
 </head>
 
-<body>
+{{#isHome page.name}}
+    <body id="homepage">
+{{else}}
+    <body>
+{{/isHome}}
 
     {{{body}}}
 

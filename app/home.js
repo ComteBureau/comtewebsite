@@ -59,7 +59,8 @@ function company(app, content) {
     return {
         name:               content.getText('about.company_name'),
         tagline:            content.getText('about.company_tagline'),
-        call_to_action:     content.getText('about.company_call_to_action')
+        call_to_action:     content.getText('about.company_call_to_action'),
+        the_final:          content.getText('about.company_final')
     };
 }
 
@@ -90,7 +91,9 @@ function about(app, content) {
         title_strategy:         content.getText('about.about_strategy_title'),
         description_strategy:   content.getStructuredText('about.about_strategy_description'),
         title_design:           content.getText('about.about_design_title'),
-        description_design:     content.getStructuredText('about.about_design_description')
+        description_design:     content.getStructuredText('about.about_design_description'),
+        title_last:             content.getText('about.about_last_title'),
+        description_last:       content.getStructuredText('about.about_last_description')
     };
 }
 

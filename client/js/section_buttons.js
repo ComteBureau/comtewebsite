@@ -20,13 +20,9 @@ var section_buttons = {
         window.setTimeout(function() {
             classList(btn.el_wrap).add('expanded');
             classList(btn.el_wrap).remove('contracted');
-            // btn.el_wrap.classList.add('expanded');
-            // btn.el_wrap.classList.remove('contracted');
         }, 100);
         classList(btn.el_section).add('show');
         classList(btn.el_section).remove('hide');
-        // btn.el_section.classList.add('show');
-        // btn.el_section.classList.remove('hide');
     },
 
     contract: function(btn) {
@@ -34,14 +30,14 @@ var section_buttons = {
         classList(btn.el_wrap).remove('expanded');
         classList(btn.el_section).add('hide');
         classList(btn.el_section).remove('show');
-        // btn.el_wrap.classList.add('contracted');
-        // btn.el_wrap.classList.remove('expanded');
-        // btn.el_section.classList.add('hide');
-        // btn.el_section.classList.remove('show');
     },
 
     states: function(name) {
         return typeof name === 'undefined' ? __btn_states : __btn_states[name];
+    },
+
+    get: function(section) {
+        return __btn_states[section];
     }
 };
 
@@ -83,9 +79,3 @@ function btn(btn_name) {
 
     }.bind(btn_name), false);
 }
-
-// Object.defineProperty(section_buttons, 'states', {
-//     get: function() {
-//         return __btn_states;
-//     }
-// });

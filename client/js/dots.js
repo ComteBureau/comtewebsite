@@ -1,6 +1,5 @@
 "use strict";
 
-var raf             = require('raf');
 var dom             = require('dom');
 var viewport        = require('viewport');
 var tab             = require('tab');
@@ -21,8 +20,6 @@ module.exports = function dots(canvas_supported) {
         return;
     }
 
-    raf();
-
     var wrapper = dom.id('intro_wrapper');
     if (!wrapper) {
         return;
@@ -36,18 +33,18 @@ module.exports = function dots(canvas_supported) {
     experiment = experiments.citylike;
     experiment.init();
 
+    resize.listen(function(scale) {
+        change_x = scale.change_x;
+        change_y = scale.change_y;
+        experiment.scale(change_x, change_y);
+    });
+
     tab.visibility(function(is_visible) {
         experiment[is_visible ? 'play' : 'pause']();
     });
 
     viewport.visibility(canvas, function(is_visible) {
         experiment[is_visible ? 'play' : 'pause']();
-    });
-
-    resize.listen(function(scale) {
-        change_x = scale.change_x;
-        change_y = scale.change_y;
-        experiment.scale(change_x, change_y);
     });
 
     run();

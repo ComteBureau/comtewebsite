@@ -17,6 +17,13 @@
       "config" : {
         "placeholder" : "Discuss your project with us"
       }
+    },
+    "company_final" : {
+      "fieldset" : "Final words",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Thank you for your time"
+      }
     }
   },
 
@@ -124,6 +131,21 @@
       "config" : {
         "multi": "paragraph, em, strong",
         "placeholder" : "Description of the design process step"
+      }
+    },
+    "about_last_title" : {
+      "fieldset" : "Last title",
+      "type" : "Text",
+      "config" : {
+        "placeholder" : "Title for the last step"
+      }
+    },
+    "about_last_description" : {
+      "fieldset" : "Last description",
+      "type" : "StructuredText",
+      "config" : {
+        "multi": "paragraph, em, strong",
+        "placeholder" : "Description of the last process step"
       }
     }
   },

@@ -8,8 +8,8 @@ var eventlistener       = require('eventlistener');
 var elements_list = [
     'menu',
     'menu_symbol',
-    'menu_symbol_shape',
-    'menu_symbol_cross'
+    'menu_symbol_shape'
+    // 'menu_symbol_cross'
 ];
 
 var elements = {
@@ -18,7 +18,6 @@ var elements = {
     init: function(list) {
         list.forEach(function(el_id) {
             this.els[el_id] = document.getElementById(el_id) || undefined;
-            // console.log(this.els[el_id]);
         }, this);
     },
 
@@ -36,10 +35,10 @@ var menu_symbol = {
 
     _shape:     undefined,
     _menu:      undefined,
-    _cross:     undefined,
+    // _cross:     undefined,
 
     init: function(elements, listener) {
-        this._cross = elements.get('menu_symbol_cross');
+        // this._cross = elements.get('menu_symbol_cross');
         this._menu = elements.get('menu');
         this._shape = elements.get('menu_symbol_shape');
 
@@ -64,31 +63,23 @@ var menu_symbol = {
         if (this.active) {
             if (!this.is_over) {
                 classList(this._shape).add('menu_symbol_active');
-                // this._shape.classList.add('menu_symbol_active');
                 this.out();
             } else {
                 this.over();
             }
             classList(this._shape).remove('menu_symbol_deactive');
             classList(this._menu).add('opened');
-            classList(this._cross).add('visible');
-            // this._shape.classList.remove('menu_symbol_deactive');
-            // this._menu.classList.add('opened');
-            // this._cross.classList.add('visible');
+            // classList(this._cross).add('visible');
         } else {
             classList(this._shape).remove('menu_symbol_active');
-            // this._shape.classList.remove('menu_symbol_active');
             if (!this.is_over) {
                 classList(this._shape).add('menu_symbol_deactive');
-                // this._shape.classList.add('menu_symbol_deactive');
                 this.out();
             } else {
                 this.over();
             }
             classList(this._menu).remove('opened');
             classList(this._shape).remove('visible');
-            // this._menu.classList.remove('opened');
-            // this._cross.classList.remove('visible');
         }
     },
 
@@ -97,9 +88,6 @@ var menu_symbol = {
         classList(this._shape).add('menu_symbol_'+(this.active ? 'active' : 'deactive')+'_hover');
         classList(this._shape).remove('menu_symbol_'+(!this.active ? 'active' : 'deactive')+'_hover');
         classList(this._shape).remove(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
-        // this._shape.classList.add('menu_symbol_'+(this.active ? 'active' : 'deactive')+'_hover');
-        // this._shape.classList.remove('menu_symbol_'+(!this.active ? 'active' : 'deactive')+'_hover');
-        // this._shape.classList.remove(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
     },
 
     out: function(event) {
@@ -107,9 +95,6 @@ var menu_symbol = {
         classList(this._shape).remove('menu_symbol_active_hover');
         classList(this._shape).remove('menu_symbol_deactive_hover');
         classList(this._shape).add(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
-        // this._shape.classList.remove('menu_symbol_active_hover');
-        // this._shape.classList.remove('menu_symbol_deactive_hover');
-        // this._shape.classList.add(this.active ? 'menu_symbol_active' : 'menu_symbol_deactive');
     }
 };
 
@@ -146,12 +131,20 @@ module.exports = function() {
     }
 
     section_buttons.init(['process', 'partners']);
+
+    close_buttons({
+        btn: 'btn_process_close',
+        section: 'process'
+    },{
+        btn: 'btn_partners_close',
+        section: 'partners'
+    });
+
     menu();
 }
 
 function menu() {
     classList(elements.get('menu_symbol')).remove('hidden');
-    // elements.get('menu_symbol').classList.remove('hidden');
 
     menu_symbol.init(elements, eventlistener);
 
@@ -162,4 +155,26 @@ function menu() {
     menu_options.init(elements.get('menu').children[0],
                       eventlistener,
                       section_buttons);
+}
+
+function close_buttons() {
+    var args = Array.prototype.slice.call(arguments);
+    if (args.length === 0) {
+        return;
+    }
+
+    // Messy stuff! Should rewrite the section buttons module
+    args.forEach(function(close) {
+        var close_btn = document.getElementById(close.btn);
+        if (close_btn) {
+            eventlistener.add(close_btn, 'click', function(event) {
+                event.preventDefault();
+                var btn = section_buttons.get(close.section);
+                btn.expanded = false;
+                var section = document.getElementById(close.section);
+                classList(section).remove('show');
+                classList(section).add('hide');
+            });
+        }
+    });
 }
