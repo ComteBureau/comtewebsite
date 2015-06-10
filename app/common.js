@@ -21,3 +21,11 @@ module.exports.parseColor = function(color) {
 
     return new_col.join('').slice(0,7);
 }
+
+module.exports.getDate = function(date) {
+    return !date ? new Date() : date;
+}
+
+module.exports.getText = function(txt) {
+    return !txt ? '' : txt;
+}

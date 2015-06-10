@@ -85,15 +85,24 @@ function get_works(list, app) {
             return obj.type === 'work';
         })
         .map(function(work, i) {
+
+            // Shit fix!
+            // Should run ALL prismic getters through a module that
+            // sets default values for any property that's not defined
+            var excerpt = work.getStructuredText('work.description');
+            if (excerpt) {
+                excerpt = excerpt.getFirstParagraph().text;
+            }
+
             return {
                 i:                  i,
                 id:                 work.id,
                 link:               app.linkresolver.document('work', work),
-                date:               work.getDate('work.published'),
-                title:              work.getText('work.title'),
-                subtitle:           work.getText('work.subtitle'),
-                description:        work.getStructuredText('work.description'),
-                excerpt:            work.getStructuredText('work.description').getFirstParagraph().text,
+                date:               common.getDate(work.getDate('work.published')),
+                title:              common.getText(work.getText('work.title')),
+                subtitle:           common.getText(work.getText('work.subtitle')),
+                description:        common.getText(work.getStructuredText('work.description')),
+                excerpt:            excerpt,
                 logo:               app.utils.getImage(work.get('work.logo')),
                 client_name:        work.getText('work.client_name'),
                 main_photo:         app.utils.getImage(work.get('work.main_photo')),
