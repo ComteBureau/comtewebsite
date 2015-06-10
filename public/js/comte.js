@@ -175,7 +175,6 @@ var canvas;
 var scaled = false;
 var change_x = 1;
 var change_y = 1;
-var update_count = 0;
 
 module.exports = function dots(canvas_supported) {
 
