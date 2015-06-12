@@ -88,9 +88,69 @@ module.exports.workslist = function(works, options) {
     return new Handlebars.SafeString(output);
 }
 
+module.exports.workgrid = function(works, options) {
+    var rows = [];
+    calculateCols(rows, works.length);
+    var output = '';
+
+    rows.forEach(function(cols) {
+        var items = works.splice(0, cols);
+        var data = Handlebars.createFrame(options.data || {});
+        data.width = 100 / items.length;
+        data.weight = 1 / cols;
+        data.description = items.length === 1 ? 'full' :
+                           items.length === 2 ? 'half' :
+                           items.length === 3 ? 'third' :
+                           items.length === 4 ? 'fourth' :
+                           'none';
+
+        output += options.fn({row: items}, {data: data});
+    });
+
+    return new Handlebars.SafeString(output);
+}
+
 module.exports.menu = function(label, default_label, options) {
     if (typeof label === 'undefined') {
         label = default_label;
     }
     return new Handlebars.SafeString(label);
+}
+
+function add(list, i, value) {
+    if (typeof list[i] === 'undefined') {
+        list.push(typeof value === 'undefined' ? 1 : value);
+    } else {
+        list[i] += typeof value === 'undefined' ? 1 : value;
+    }
+}
+
+function calculateCols(cols, length) {
+    var min = 2;
+    var max = 4;
+    var i = 0;
+    var v = 0;
+    var len = length;
+
+    if (len <= max) {
+        add(cols, 0, len);
+        return;
+    }
+
+    add(cols, i, max);
+    len -= max;
+    i++;
+
+    while (len > 0) {
+        add(cols, i);
+        if (len < min && cols[i] < max) {
+            cols[i-1] = cols[i-1] - 1;
+            add(cols, i);
+        }
+        len -= 1;
+
+        if (cols[i] === max) {
+            i++;
+        }
+    }
 }

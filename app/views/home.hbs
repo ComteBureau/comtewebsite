@@ -51,7 +51,7 @@
 
 {{#if works}}
 <section id="works">
-    {{#workslist works}}
+    {{#workgrid works}}
         <ul id="worklist">
         {{#each row}}
 
@@ -67,13 +67,15 @@
             {{/if}}
 
                 <a href="{{link}}" class="shade">
-                    <h2>{{title}}</h2>
-                    <h3>{{subtitle}}</h3>
+                    <div>
+                        <h2>{{title}}</h2>
+                        <h3>{{subtitle}}</h3>
+                    </div>
                 </a>
             </li>
         {{/each}}
         </ul>
-    {{/workslist}}
+    {{/workgrid}}
 </section>
 {{/if}}
 

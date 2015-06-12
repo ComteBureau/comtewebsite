@@ -16,7 +16,8 @@ module.exports.latest = function latest_works(app, res, options) {
             sort:   'work.published desc'
         }),
         query(app, res.locals.ctx, {
-            type: 'client'
+            type: 'client',
+            limit: 200
         })
     ])
     .then(function (results) {
@@ -99,6 +100,7 @@ function get_works(list, app) {
                 id:                 work.id,
                 link:               app.linkresolver.document('work', work),
                 date:               common.getDate(work.getDate('work.published')),
+                tags:               common.getText(work.getText('work.tags')),
                 title:              common.getText(work.getText('work.title')),
                 subtitle:           common.getText(work.getText('work.subtitle')),
                 description:        common.getText(work.getStructuredText('work.description')),
@@ -127,13 +129,10 @@ function get_clients(list, app) {
     var logo;
 
     list
-        .filter(function(obj) {
-            return obj.type === 'client';
-        })
-        .forEach(function(work) {
-            name = work.getText('client.name');
+        .forEach(function(client, i) {
+            name = client.getText('client.name');
             if (!exists(unique, name)) {
-                logo = app.utils.getImage(work.get('client.logo'));
+                logo = app.utils.getImage(client.get('client.logo'));
                 if (!logo) {
                     return;
                 }

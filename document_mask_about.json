@@ -77,7 +77,7 @@
       "fieldset" : "Description",
       "type" : "StructuredText",
       "config" : {
-        "multi": "paragraph, em, strong",
+        "multi": "paragraph, em, strong, hyperlink",
         "placeholder" : "Describe your company"
       }
     },
@@ -99,7 +99,7 @@
       "fieldset" : "Insight description",
       "type" : "StructuredText",
       "config" : {
-        "multi": "paragraph, em, strong",
+        "multi": "paragraph, em, strong, hyperlink",
         "placeholder" : "Description of the insight process step"
       }
     },
@@ -114,7 +114,7 @@
       "fieldset" : "Strategy description",
       "type" : "StructuredText",
       "config" : {
-        "multi": "paragraph, em, strong",
+        "multi": "paragraph, em, strong, hyperlink",
         "placeholder" : "Description of the strategy process step"
       }
     },
@@ -129,7 +129,7 @@
       "fieldset" : "Design description",
       "type" : "StructuredText",
       "config" : {
-        "multi": "paragraph, em, strong",
+        "multi": "paragraph, em, strong, hyperlink",
         "placeholder" : "Description of the design process step"
       }
     },
@@ -144,7 +144,7 @@
       "fieldset" : "Last description",
       "type" : "StructuredText",
       "config" : {
-        "multi": "paragraph, em, strong",
+        "multi": "paragraph, em, strong, hyperlink",
         "placeholder" : "Description of the last process step"
       }
     }
@@ -162,7 +162,7 @@
       "fieldset" : "Description",
       "type" : "StructuredText",
       "config" : {
-        "multi": "paragraph, em, strong",
+        "multi": "paragraph, em, strong, hyperlink",
         "placeholder" : "Introduction of the peeps behind the company"
       }
     },
@@ -233,7 +233,7 @@
             "fieldset" : "Describe the person",
             "type" : "StructuredText",
             "config" : {
-              "multi": "paragraph",
+              "multi": "paragraph, em, strong, hyperlink",
               "placeholder" : "Got anything nice to say about the person?"
             }
           },
@@ -277,7 +277,7 @@
       "fieldset" : "Description",
       "type" : "StructuredText",
       "config" : {
-        "multi": "paragraph, em, strong",
+        "multi": "paragraph, em, strong, hyperlink",
         "placeholder" : "A little about your clients"
       }
     }

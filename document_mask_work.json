@@ -18,8 +18,15 @@
       "fieldset" : "Description",
       "type" : "StructuredText",
       "config" : {
-        "multi": "paragraph, em, strong",
+        "multi": "paragraph, em, strong, hyperlink",
         "placeholder" : "Describe the project"
+      }
+    },
+    "tags" : {
+      "type" : "Text",
+      "fieldset" : "Tags",
+      "config" : {
+        "placeholder" : "Comma separated list of tags"
       }
     },
     "background_color" : {

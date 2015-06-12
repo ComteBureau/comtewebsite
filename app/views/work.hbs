@@ -20,6 +20,11 @@
 <section class="work_description">
     <div>
         {{ashtml work.description}}
+
+        {{#if work.tags}}
+            <p id="tags">Tags</p>
+            <p>{{work.tags}}</p>
+        {{/if}}
     </div>
 </section>
 
