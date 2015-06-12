@@ -12,7 +12,7 @@ module.exports.latest = function latest_works(app, res, options) {
         query(app, res.locals.ctx, {
             type:   'work',
             // Change according to the number of tiles in the work list grid
-            // limit:  9,
+            limit:  200,
             sort:   'work.published desc'
         }),
         query(app, res.locals.ctx, {
