@@ -12,7 +12,7 @@ module.exports.latest = function latest_works(app, res, options) {
         query(app, res.locals.ctx, {
             type:   'work',
             // Change according to the number of tiles in the work list grid
-            limit:  200,
+            limit:  50,
             sort:   'work.published desc'
         }),
         query(app, res.locals.ctx, {
@@ -103,7 +103,14 @@ function get_works(list, app) {
                 tags:               common.getText(work.getText('work.tags')),
                 title:              common.getText(work.getText('work.title')),
                 subtitle:           common.getText(work.getText('work.subtitle')),
-                description:        common.getText(work.getStructuredText('work.description')),
+                description:        common.getText(work.getStructuredText('work.description').asHtml({
+
+                    // Shoouldn't be like this. Linkresolver should be a part of
+                    // prismic-website and handled automatically
+                    linkResolver: function (ctx, doc, isBroken) {
+                        if (isBroken) return '#broken';
+                        return '/work/' + doc.slug + '/' + doc.id;
+                    }})),
                 excerpt:            excerpt,
                 logo:               app.utils.getImage(work.get('work.logo')),
                 client_name:        work.getText('work.client_name'),
