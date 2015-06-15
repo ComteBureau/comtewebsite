@@ -80,6 +80,27 @@ function get(app, ctx, options, cb) {
     });
 };
 
+// Shouldn't be like this. Linkresolver should be a part of
+// prismic-website and handled automatically
+function linkResolver(ctx, doc, isBroken) {
+    if (isBroken) return '#broken';
+    return '/work/' + doc.slug + '/' + doc.id;
+};
+
+function htmlSerializer(element, content) {
+    // Don't wrap images in a <p> tag
+    if (element.type == 'image') {
+        return '<img src="' + element.url + '" alt="' + element.alt + '">';
+    }
+
+    if (element.type == 'hyperlink') {
+        return '<a target="_blank" href="' + element.url + '">' + content + '</a>';
+    }
+
+    // Return null to stick with the default behavior
+    return null;
+};
+
 function get_works(list, app) {
     return list
         .filter(function(obj) {
@@ -103,14 +124,7 @@ function get_works(list, app) {
                 tags:               common.getText(work.getText('work.tags')),
                 title:              common.getText(work.getText('work.title')),
                 subtitle:           common.getText(work.getText('work.subtitle')),
-                description:        common.getText(work.getStructuredText('work.description').asHtml({
-
-                    // Shoouldn't be like this. Linkresolver should be a part of
-                    // prismic-website and handled automatically
-                    linkResolver: function (ctx, doc, isBroken) {
-                        if (isBroken) return '#broken';
-                        return '/work/' + doc.slug + '/' + doc.id;
-                    }})),
+                description:        common.getText(work.getStructuredText('work.description').asHtml(linkResolver, htmlSerializer)),
                 excerpt:            excerpt,
                 logo:               app.utils.getImage(work.get('work.logo')),
                 client_name:        work.getText('work.client_name'),
