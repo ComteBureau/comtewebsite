@@ -22,7 +22,7 @@
     display: block;
     overflow: auto;
     height: auto;
-    margin-top: 0px;
+    margin-top: 3rem;
     text-align: center;
     padding: 0.2rem;
 }
@@ -57,8 +57,7 @@
 
 .ie9 section#process li {
     display: table-cell;
-    width: 28%;
-    min-width: 20rem;
+    width: 25%;
     float: left;
 }
 

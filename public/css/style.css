@@ -594,18 +594,25 @@ ul#peoplelist p {
 
 ul#socialmedia {
     margin: 0.3rem 0 1rem 0;
+    text-align: center;
 }
 
 ul#socialmedia li {
     width: auto;
-    float: left;
+    display: inline;
     flex: none;
     margin: 0 0.5rem;
+}
+
+ul#socialmedia li a {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 ul#socialmedia img {
     margin: 0;
     width: 2rem;
+    height: 2rem;
 }
 
 section#about p:last-of-type {
