@@ -116,6 +116,8 @@ function get_works(list, app) {
                 excerpt = excerpt.getFirstParagraph().text;
             }
 
+            console.log(work.slug, work.id);
+
             return {
                 i:                  i,
                 id:                 work.id,
