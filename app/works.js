@@ -119,8 +119,8 @@ function get_works(list, app) {
             return {
                 i:                  i,
                 id:                 work.id,
-                link:               linkresolver('work', work),
-                // link:               app.linkresolver.document('work', work),
+                // link:               linkresolver('work', work),
+                link:               app.linkresolver.document('work', work),
                 date:               common.getDate(work.getDate('work.published')),
                 tags:               common.getText(work.getText('work.tags')),
                 title:              common.getText(work.getText('work.title')),
@@ -181,76 +181,76 @@ function exists(list, name) {
 
 
 
-function linkresolver(route_name, doc) {
-    var route = '/work/:slug/:id';
+// function linkresolver(route_name, doc) {
+//     var route = '/work/:slug/:id';
 
-    if (typeof route === 'undefined') {
-        return null;
-    }
+//     if (typeof route === 'undefined') {
+//         return null;
+//     }
 
-    var url = route.split('/').map(function(param) {
-        if (param.charAt(0) === ':') {
+//     var url = route.split('/').map(function(param) {
+//         if (param.charAt(0) === ':') {
 
-            if (param.charAt(param.length - 1) === '?') {
-                var optional;
+//             if (param.charAt(param.length - 1) === '?') {
+//                 var optional;
 
-                if (Object.prototype.toString.call(doc) === '[object Object]') {
-                    optional = doc[param.slice(1, param.length - 1)];
-                }
+//                 if (Object.prototype.toString.call(doc) === '[object Object]') {
+//                     optional = doc[param.slice(1, param.length - 1)];
+//                 }
 
-                return typeof optional !== 'undefined' ? optional : null;
+//                 return typeof optional !== 'undefined' ? optional : null;
 
-            } else {
-                var required;
+//             } else {
+//                 var required;
 
-                if (Object.prototype.toString.call(doc) === '[object Object]') {
-                    required = doc[param.slice(1)];
-                }
+//                 if (Object.prototype.toString.call(doc) === '[object Object]') {
+//                     required = doc[param.slice(1)];
+//                 }
 
-                return typeof required !== 'undefined' ? required : 'PARAM_ERROR';
-            }
-        }
+//                 return typeof required !== 'undefined' ? required : 'PARAM_ERROR';
+//             }
+//         }
 
-        return param;
-    });
+//         return param;
+//     });
 
-    console.log('configurl', configurl());
-    console.log('url', url, url.join('/'));
+//     console.log('configurl', configurl());
+//     console.log('url', url, url.join('/'));
 
-    var str = configurl() + url.join('/');
-    if (str.charAt(str.length - 1) !== '/') {
-        str += '/';
-    }
+//     var str = configurl() + url.join('/');
+//     if (str.charAt(str.length - 1) !== '/') {
+//         str += '/';
+//     }
 
-    console.log('linkesolver str', str);
+//     console.log('linkesolver str', str);
 
-    return str;
-}
+//     return str;
+// }
 
-var production = process.env.NODE_ENV === 'production';
-var development = process.env.NODE_ENV === 'development';
+// var production = process.env.NODE_ENV === 'production';
+// var development = process.env.NODE_ENV === 'development';
 
-function configurl() {
-    if (not(undef(process.env.LOCAL))) {
-        if (bool(process.env.LOCAL)) {
-            return 'http://localhost:5000';
-        }
-    }
+// function configurl() {
+//     if (not(undef(process.env.LOCAL))) {
+//         if (bool(process.env.LOCAL)) {
+//             return 'http://localhost:5000';
+//         }
+//     }
 
-    return production ?
-            'http://www.comte.no' :
-            'http://comte.herokuapp.com';
-}
+//     return production ?
+//             'http://www.comte.no' :
+//             'http://comte.herokuapp.com';
+// }
 
-function undef(value) {
-    return typeof value === 'undefined';
-}
+// function undef(value) {
+//     return typeof value === 'undefined';
+// }
 
-function not(value) {
-    return !value;
-}
+// function not(value) {
+//     return !value;
+// }
 
-function bool(str) {
-    if (str == void 0) return false;
-    return str.toLowerCase() === 'true';
-}
+// function bool(str) {
+//     if (str == void 0) return false;
+//     return str.toLowerCase() === 'true';
+// }
