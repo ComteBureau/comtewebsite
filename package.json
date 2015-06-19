@@ -20,7 +20,7 @@
     "dataset": "^0.3.1",
     "handlebars": "^2.0.0",
     "pixi.js": "^3.0.6",
-    "prismic-website": "^0.2.2",
+    "prismic-website": "^0.2.3",
     "promise": "^6.1.0"
   },
   "devDependencies": {
