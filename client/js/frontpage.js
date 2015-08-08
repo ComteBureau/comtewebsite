@@ -69,6 +69,7 @@ var menu_symbol = {
             }
             classList(this._shape).remove('menu_symbol_deactive');
             classList(this._menu).add('opened');
+            classList(document.body).add('noscroll');
             // classList(this._cross).add('visible');
         } else {
             classList(this._shape).remove('menu_symbol_active');
@@ -80,6 +81,7 @@ var menu_symbol = {
             }
             classList(this._menu).remove('opened');
             classList(this._shape).remove('visible');
+            classList(document.body).remove('noscroll');
         }
     },
 

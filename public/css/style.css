@@ -9,6 +9,10 @@ body {
     font-family: 'apercumono', Courier, sans-serif;
 }
 
+.noscroll {
+    overflow: hidden;
+}
+
 .button {
     display: inline-block;
     text-decoration: none;
@@ -327,7 +331,7 @@ div.headline {
 }
 
 section.work_description p {
-    font-family: 'helvetica_neuelight', Helvetica, Arial, sans-serif;
+    font-family: 'helvetica_neueregular', Helvetica, Arial, sans-serif;
     font-weight: 100;
     font-size: 1rem;
     text-align: left;
@@ -550,7 +554,7 @@ ul#worklist h2 {
 }
 
 ul#worklist h3 {
-    font-family: 'helvetica_neuelight', Helvetica, Arial, sans-serif;
+    font-family: 'helvetica_neueregular', Helvetica, Arial, sans-serif;
     color: white;
     display: block;
     font-size: 0.7rem;
