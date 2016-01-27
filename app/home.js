@@ -9,6 +9,8 @@ module.exports = function home(app, res) {
         app.bookmarks.get(res.locals.ctx)
             .then(function(bookmarks) {
 
+                console.log('[app/home.js] : Got bookmarks');
+
                 // Idea for future functionality. Interesting because I
                 // put this json object in a separate file and pass it via
                 // the contructor.
@@ -42,6 +44,8 @@ module.exports = function home(app, res) {
                     colors:     colors(app, bookmarks.about),
                     menu:       menu(app, bookmarks.about)
                 };
+
+                console.log('[app/home.js] : Home content OK');
 
                 resolve(res.content.home);
 

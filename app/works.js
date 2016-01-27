@@ -21,8 +21,16 @@ module.exports.latest = function latest_works(app, res, options) {
         })
     ])
     .then(function (results) {
+
+        console.log('[app/work.js] : Got works and clients');
+
         res.content.works = get_works(results[0], app);
+        console.log('[app/work.js] : Work content OK');
+
         res.content.clients = get_clients(results[1], app);
+        console.log('[app/work.js] : Client content OK');
+
+
         return res.content;
     }, function() {
         return false;
@@ -116,6 +124,29 @@ function get_works(list, app) {
                 excerpt = excerpt.getFirstParagraph().text;
             }
 
+            var description = work.getStructuredText('work.description');
+            if (description) {
+                description = description.asHtml(linkResolver, htmlSerializer);
+            } else {
+                description = '';
+            }
+
+            console.log('[app/work.js] work', i, '-----------------------------');
+            console.log('[app/work.js] id:', work.id);
+            console.log('[app/work.js] link:', app.linkresolver.document('work', work, true));
+            console.log('[app/work.js] data:', common.getDate(work.getDate('work.published')));
+            console.log('[app/work.js] tags:', common.getText(work.getText('work.tags')));
+            console.log('[app/work.js] title:', common.getText(work.getText('work.title')));
+            console.log('[app/work.js] subtitle:', common.getText(work.getText('work.subtitle')));
+            console.log('[app/work.js] description:', common.getText(description));
+            console.log('[app/work.js] excerpt:', excerpt);
+            console.log('[app/work.js] logo:', app.utils.getImage(work.get('work.logo')));
+            console.log('[app/work.js] client name:', work.getText('work.client_name'));
+            console.log('[app/work.js] main photo:', app.utils.getImage(work.get('work.main_photo')));
+            console.log('[app/work.js] backgroundColor:', common.parseColor(work.get('work.background_color')));
+            console.log('[app/work.js] foregroundColor:', common.parseColor(work.get('work.foreground_color')));
+            console.log('[app/work.js] publishedDate:', common.getDate(work.getDate('work.published')));
+
             return {
                 i:                  i,
                 id:                 work.id,
@@ -124,7 +155,7 @@ function get_works(list, app) {
                 tags:               common.getText(work.getText('work.tags')),
                 title:              common.getText(work.getText('work.title')),
                 subtitle:           common.getText(work.getText('work.subtitle')),
-                description:        common.getText(work.getStructuredText('work.description').asHtml(linkResolver, htmlSerializer)),
+                description:        common.getText(description),
                 excerpt:            excerpt,
                 logo:               app.utils.getImage(work.get('work.logo')),
                 client_name:        work.getText('work.client_name'),
@@ -136,6 +167,9 @@ function get_works(list, app) {
                     document:   work,
                     path:       'work.photos'
                 }, function(photo, i) {
+
+                    // console.log('[app/work.js] photo:', app.utils.getImage(photo.get('photo')));
+
                     return {
                         photo:      app.utils.getImage(photo.get('photo'))
                     }
@@ -152,6 +186,9 @@ function get_clients(list, app) {
     list
         .forEach(function(client, i) {
             name = client.getText('client.name');
+
+            console.log('[app/works.js] Client name', name);
+
             if (!exists(unique, name)) {
                 logo = app.utils.getImage(client.get('client.logo'));
                 if (!logo) {
